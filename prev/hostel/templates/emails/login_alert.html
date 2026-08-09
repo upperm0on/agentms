@@ -1,0 +1,67 @@
+{% extends "emails/base_email.html" %}
+
+{% block content %}
+<h2>🔒 Security Alert - New Login Detected</h2>
+
+<p>Dear {{ user.first_name|default:user.username }},</p>
+
+<p>We detected a new login to your {{ site_name }} account. If this was you, no action is needed. If you don't recognize this activity, please secure your account immediately.</p>
+
+<div class="info-box warning">
+    <h3>🔍 Login Details</h3>
+    <table class="details-table">
+        <tr>
+            <th>Login Time</th>
+            <td>{{ login_time|date:"F d, Y \a\t g:i A" }}</td>
+        </tr>
+        <tr>
+            <th>IP Address</th>
+            <td>{{ ip_address }}</td>
+        </tr>
+        <tr>
+            <th>Location</th>
+            <td>{{ location|default:"Unknown" }}</td>
+        </tr>
+        <tr>
+            <th>Device</th>
+            <td>{{ device|default:"Unknown" }}</td>
+        </tr>
+    </table>
+</div>
+
+<div class="urgent-notice">
+    <h3>🛡️ If This Wasn't You</h3>
+    <p>If you don't recognize this login activity, please take immediate action:</p>
+    <ul>
+        <li><strong>Change Your Password:</strong> Update your password immediately</li>
+        <li><strong>Review Account Activity:</strong> Check for any unauthorized changes</li>
+        <li><strong>Contact Support:</strong> Report suspicious activity to our security team</li>
+        <li><strong>Enable 2FA:</strong> Consider enabling two-factor authentication</li>
+    </ul>
+</div>
+
+<div class="info-box">
+    <h3>🔐 Security Tips</h3>
+    <ul>
+        <li>Use a strong, unique password</li>
+        <li>Never share your login credentials</li>
+        <li>Log out from shared or public computers</li>
+        <li>Enable two-factor authentication when available</li>
+    </ul>
+</div>
+
+<div class="info-box">
+    <h3>📞 Need Help?</h3>
+    <p>If you have any security concerns:</p>
+    <ul>
+        <li>📧 Email: {{ support_email }}</li>
+        <li>🌐 Visit: {{ site_url }}</li>
+        <li>📱 Contact our security team immediately</li>
+    </ul>
+</div>
+
+<p>Your account security is important to us. If you have any questions, please don't hesitate to contact us.</p>
+
+<p>Best regards,<br>
+The {{ site_name }} Security Team</p>
+{% endblock %}

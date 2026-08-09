@@ -1,0 +1,68 @@
+{
+  "name": "sitysns - Book Affordable Hostels in Ghana",
+  "short_name": "sitysns",
+  "description": "Find and book affordable hostels across Ghana. Trusted platform for students and travelers.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3b82f6",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["travel", "lifestyle", "utilities"],
+  "icons": [
+    {
+      "src": "/images/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/images/screenshot-mobile.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/images/screenshot-desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Search Hostels",
+      "short_name": "Search",
+      "description": "Find hostels near you",
+      "url": "/search/",
+      "icons": [
+        {
+          "src": "/images/search-icon.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "My Bookings",
+      "short_name": "Bookings",
+      "description": "View your hostel bookings",
+      "url": "/dashboard/",
+      "icons": [
+        {
+          "src": "/images/bookings-icon.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ]
+}

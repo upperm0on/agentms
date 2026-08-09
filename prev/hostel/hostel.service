@@ -1,0 +1,26 @@
+[Unit]
+Description=Hostel Django Application
+After=network.target postgresql.service redis.service
+
+[Service]
+Type=notify
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/home/ubuntu/hostel
+Environment="DJANGO_SETTINGS_MODULE=hostel.settings.prod"
+Environment="PATH=/home/ubuntu/hostel/venv/bin:/usr/local/bin:/usr/bin:/bin"
+ExecStart=/home/ubuntu/hostel/venv/bin/gunicorn --config gunicorn.conf.py hostel.wsgi:application
+ExecReload=/bin/kill -s HUP $MAINPID
+Restart=always
+RestartSec=10
+KillMode=mixed
+TimeoutStopSec=5
+PrivateTmp=true
+
+# Create logs directory on startup
+ExecStartPre=/bin/mkdir -p /home/ubuntu/hostel/logs
+ExecStartPre=/bin/chown ubuntu:ubuntu /home/ubuntu/hostel/logs
+
+[Install]
+WantedBy=multi-user.target
+

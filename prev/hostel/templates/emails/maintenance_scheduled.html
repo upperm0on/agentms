@@ -1,0 +1,52 @@
+{% extends "emails/base_email.html" %}
+
+{% block content %}
+<h2>🔧 Scheduled Maintenance Notice</h2>
+
+<p>Dear {{ user.first_name|default:user.username }},</p>
+
+<p>We want to inform you about upcoming maintenance work that may affect your stay.</p>
+
+<div class="info-box">
+    <h3>📅 Maintenance Details</h3>
+    <table class="details-table">
+        <tr>
+            <th>Scheduled Date</th>
+            <td>{{ scheduled_date|date:"F d, Y" }}</td>
+        </tr>
+        <tr>
+            <th>Duration</th>
+            <td>{{ duration }}</td>
+        </tr>
+        <tr>
+            <th>Description</th>
+            <td>{{ description }}</td>
+        </tr>
+    </table>
+</div>
+
+<div class="highlight">
+    <h3>📋 What to Expect</h3>
+    <ul>
+        <li><strong>Service Interruption:</strong> Some services may be temporarily unavailable</li>
+        <li><strong>Noise Levels:</strong> There may be increased noise during maintenance hours</li>
+        <li><strong>Access Restrictions:</strong> Certain areas may be temporarily restricted</li>
+        <li><strong>Duration:</strong> Maintenance is expected to last {{ duration }}</li>
+    </ul>
+</div>
+
+<div class="info-box">
+    <h3>📞 Contact Information</h3>
+    <p>If you have any concerns or questions about the maintenance work:</p>
+    <ul>
+        <li>📧 Email: {{ support_email }}</li>
+        <li>🌐 Visit: {{ site_url }}</li>
+        <li>📱 Contact our support team</li>
+    </ul>
+</div>
+
+<p>We apologize for any inconvenience and appreciate your understanding.</p>
+
+<p>Best regards,<br>
+The {{ site_name }} Team</p>
+{% endblock %}

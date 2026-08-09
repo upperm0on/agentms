@@ -1,0 +1,440 @@
+.hostel_card {
+    margin: 0 10px;
+    min-width: 300px;
+    max-width: 340px;
+    width: 100%;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 6px 18px rgba(16,24,40,0.06), 0 2px 6px rgba(16,24,40,0.04);
+    border: 1px solid rgba(15,23,42,0.04);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.18s cubic-bezier(.2,.9,.3,1), box-shadow 0.18s;
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Responsive hostel cards */
+@media (max-width: 768px) {
+    .hostel_card {
+        min-width: 240px;
+        max-width: 280px;
+        margin: 0 6px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hostel_card {
+        min-width: 100%;
+        max-width: 100%;
+        margin: 0 4px;
+    }
+}
+
+.hostel_card:hover {
+    transform: none;
+}
+
+/* Reduce hover effect on mobile */
+@media (max-width: 480px) {
+    .hostel_card:hover {
+        transform: none;
+    }
+}
+
+.hostel_card .card-img-container {
+    width: 100%;
+    height: 190px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hostel_card .card-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.28s cubic-bezier(.2,.9,.3,1), filter 0.2s ease;
+}
+
+.hostel_card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 28px rgba(16,24,40,0.12), 0 4px 10px rgba(16,24,40,0.06);
+}
+
+.hostel_card:hover .card-img-container img {
+    transform: scale(1.06);
+}
+
+.card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, rgba(6,11,48,0.0) 35%, rgba(6,11,48,0.28) 100%);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.18s ease;
+    padding: 14px;
+}
+
+.hostel_card:hover .card-overlay {
+    opacity: 1;
+}
+
+.hostel_card.not-available .card-overlay {
+    opacity: 1;
+    backdrop-filter: blur(2px);
+}
+
+.availability_badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: rgba(255,255,255,0.95);
+    padding: 6px 10px;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-weight: 700;
+    font-size: 0.78rem;
+    letter-spacing: 0.02em;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+    border: 1px solid rgba(0,0,0,0.08);
+}
+
+/* Not Available - Red */
+.availability_badge.not_available {
+    color: #b91c1c;
+    box-shadow: 0 6px 16px rgba(185,28,28,0.12);
+    border: 1px solid rgba(185,28,28,0.08);
+}
+
+.availability_badge.not_available .availability_icon {
+    color: #dc2626;
+}
+
+/* Service - Orange */
+.availability_badge.under_service {
+    color: #ea580c;
+    box-shadow: 0 6px 16px rgba(234,88,12,0.12);
+    border: 1px solid rgba(234,88,12,0.08);
+}
+
+.availability_badge.under_service .availability_icon {
+    color: #f97316;
+}
+
+/* No Rooms - Yellow */
+.availability_badge.no_rooms {
+    color: #ca8a04;
+    box-shadow: 0 6px 16px rgba(202,138,4,0.12);
+    border: 1px solid rgba(202,138,4,0.08);
+}
+
+.availability_badge.no_rooms .availability_icon {
+    color: #eab308;
+}
+
+/* Unknown - Gray */
+.availability_badge.unknown {
+    color: #6b7280;
+    box-shadow: 0 6px 16px rgba(107,114,128,0.12);
+    border: 1px solid rgba(107,114,128,0.08);
+}
+
+.availability_badge.unknown .availability_icon {
+    color: #9ca3af;
+}
+
+.availability_text {
+    text-transform: uppercase;
+}
+
+/* Icon-only badges */
+.availability_badge.icon-only {
+    padding: 8px;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+}
+
+.booking_disabled_badge.icon-only {
+    padding: 8px;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+}
+
+.hostel_card.not-available .card-img-container img {
+    filter: grayscale(0.35) brightness(0.9);
+}
+
+.view-details {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #0f172a; /* dark text */
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    background: rgba(255,255,255,0.95); /* neutral pill */
+    padding: 10px 16px;
+    border-radius: 999px;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+    border: 1px solid rgba(15,23,42,0.06);
+}
+
+.view-details:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(2,6,23,0.04);
+}
+
+.hostel_card .hostel_details {
+    padding: 14px 16px 18px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.hostel_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.hostel_actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.hostel_name {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0;
+    line-height: 1.2;
+    flex: 1;
+    letter-spacing: -0.02em;
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(247,250,255,0.8);
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #0f172a;
+    border: 1px solid rgba(15,23,42,0.04);
+}
+
+.star-icon {
+    color: #ffd700;
+}
+
+.reviews-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: #f8fafc;
+    color: #475569;
+    border: 1px solid #e2e8f0;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.reviews-btn:hover {
+    background: #e2e8f0;
+    color: #1e293b;
+    transform: translateY(-1px);
+}
+
+.reviews-btn:active {
+    transform: translateY(0);
+}
+
+.hostel_info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.info_item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: #475569;
+}
+
+.info_item:hover {
+    background: transparent;
+    transform: none;
+}
+
+/* Booking disabled badge */
+.booking_disabled_badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: rgba(220, 38, 38, 0.95);
+    color: white;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(220, 38, 38, 0.3);
+    z-index: 10;
+}
+
+.booking_disabled_icon {
+    flex-shrink: 0;
+}
+
+.booking_disabled_text {
+    white-space: nowrap;
+}
+
+.info-icon {
+    color: #3b82f6;
+}
+
+.room_details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 8px;
+}
+
+.room_item {
+    background: rgba(238,246,255,0.9);
+    color: #1e3a8a;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border: 1px solid rgba(219,234,254,0.6);
+    box-shadow: 0 4px 10px rgba(30,58,138,0.04);
+    transition: transform 0.12s ease;
+}
+
+.room_item:hover {
+    background: #dbeafe;
+    transform: none;
+    box-shadow: none;
+}
+
+
+.more_rooms {
+    background: #f8fafc;
+    color: #475569;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border: 1px solid rgba(15,23,42,0.04);
+    box-shadow: 0 4px 10px rgba(2,6,23,0.02);
+    transition: transform 0.12s ease;
+}
+
+.more_rooms:hover {
+    background: #e5e7eb;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Reserve button for hostels that don't accept bookings */
+.hostel_reserve_section {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(15,23,42,0.06);
+}
+
+.hostel_reserve_btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+    width: 100%;
+    justify-content: center;
+}
+
+.hostel_reserve_btn:hover {
+    background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(59, 130, 246, 0.35);
+}
+
+.hostel_reserve_btn:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+}
+
+.hostel_reserve_btn:disabled {
+    background: #94a3b8;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Responsive design for reviews button */
+@media (max-width: 768px) {
+    .hostel_actions {
+        flex-direction: column;
+        gap: 4px;
+    }
+    
+    .reviews-btn {
+        font-size: 0.7rem;
+        padding: 3px 6px;
+    }
+    
+    .hostel_reserve_btn {
+        font-size: 0.85rem;
+        padding: 8px 14px;
+    }
+}
+

@@ -1,0 +1,52 @@
+{% extends "emails/base_email.html" %}
+
+{% block content %}
+<h2>🚨 URGENT: Emergency Maintenance</h2>
+
+<p>Dear {{ user.first_name|default:user.username }},</p>
+
+<p>We need to inform you about an emergency maintenance situation that requires immediate attention.</p>
+
+<div class="urgent-notice">
+    <h3>⚠️ Emergency Details</h3>
+    <table class="details-table">
+        <tr>
+            <th>Urgency Level</th>
+            <td><span style="color: #e74c3c; font-weight: bold;">{{ urgency }}</span></td>
+        </tr>
+        <tr>
+            <th>Description</th>
+            <td>{{ description }}</td>
+        </tr>
+        <tr>
+            <th>Immediate Action</th>
+            <td>Please follow any safety instructions provided</td>
+        </tr>
+    </table>
+</div>
+
+<div class="urgent-notice">
+    <h3>🚨 Important Safety Information</h3>
+    <ul>
+        <li><strong>Safety First:</strong> Please follow all safety instructions from staff</li>
+        <li><strong>Stay Informed:</strong> We'll provide regular updates on the situation</li>
+        <li><strong>Alternative Arrangements:</strong> If needed, we'll assist with temporary accommodations</li>
+        <li><strong>Emergency Contacts:</strong> Keep your phone nearby for important updates</li>
+    </ul>
+</div>
+
+<div class="info-box">
+    <h3>📞 Emergency Contacts</h3>
+    <p>For immediate assistance or questions:</p>
+    <ul>
+        <li>📧 Email: {{ support_email }}</li>
+        <li>🌐 Visit: {{ site_url }}</li>
+        <li>📱 Contact our emergency support line</li>
+    </ul>
+</div>
+
+<p>We're working to resolve this situation as quickly as possible. Your safety and comfort are our top priorities.</p>
+
+<p>Best regards,<br>
+The {{ site_name }} Team</p>
+{% endblock %}

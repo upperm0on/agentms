@@ -1,0 +1,259 @@
+/* ChatAssistant.css */
+
+.chat-assistant-container {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 80px); /* Adjust for fixed header */
+  background: transparent;
+  color: var(--color-dark-text);
+  font-family: var(--font-body);
+  padding: 40px 20px;
+  position: relative;
+  width: 100%;
+}
+
+.chat-content-wrapper {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  align-items: center;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Empty vs Active state layout shifting */
+.chat-content-wrapper.empty-state {
+  margin-top: 10vh;
+}
+
+.chat-content-wrapper.active-state {
+  margin-top: 0;
+}
+
+/* Header Section */
+.chat-header-section {
+  text-align: center;
+  margin-bottom: 10px;
+  transition: all 0.3s ease;
+}
+
+.chat-header-section.minimized {
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+  max-width: 800px;
+  justify-content: space-between;
+}
+
+.chat-title {
+  font-family: var(--font-heading);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--color-dark-text);
+  margin-bottom: 10px;
+}
+
+.chat-subtitle {
+  font-size: 1.1rem;
+  color: var(--color-muted-text);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* Command Box / Chatbox */
+.chat-input-card {
+  width: 100%;
+  max-width: 800px;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.02);
+  border: 1px solid #e5e7eb;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.chat-input-card:focus-within {
+  border-color: var(--color-primary);
+  box-shadow: 0 12px 40px rgba(37, 99, 235, 0.12), 0 1px 3px rgba(0, 0, 0, 0.02);
+  transform: translateY(-1px);
+}
+
+.chat-search-icon {
+  color: var(--color-muted-text);
+  margin-left: 8px;
+  flex-shrink: 0;
+}
+
+.chat-input-textarea {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 14px 16px;
+  color: var(--color-dark-text);
+  font-size: 1.1rem;
+  outline: none;
+  font-family: inherit;
+  resize: none;
+  height: 48px;
+  line-height: 20px;
+}
+
+.chat-input-textarea::placeholder {
+  color: #9ca3af;
+}
+
+.chat-action-btn {
+  background: var(--color-primary);
+  color: #ffffff;
+  border: none;
+  border-radius: 14px;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.chat-action-btn:hover:not(:disabled) {
+  background: var(--color-secondary);
+  transform: scale(1.03);
+}
+
+.chat-action-btn:disabled {
+  background: #e5e7eb;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* Suggestion Chips */
+.quick-options-grid {
+  display: grid;
+  grid-template-cols: 1fr;
+  gap: 12px;
+  width: 100%;
+  max-width: 800px;
+  margin-top: 10px;
+}
+
+@media (min-width: 600px) {
+  .quick-options-grid {
+    grid-template-cols: 1fr 1fr;
+  }
+}
+
+.quick-option-button {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 16px 20px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--color-dark-text);
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+}
+
+.quick-option-button:hover {
+  background: rgba(37, 99, 235, 0.04);
+  border-color: rgba(37, 99, 235, 0.3);
+  color: var(--color-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(37, 99, 235, 0.06);
+}
+
+/* Output Label */
+.output-explanation-label {
+  width: 100%;
+  max-width: 1200px;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--color-dark-text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  animation: fadeIn 0.4s ease;
+  padding: 0 10px;
+  border-left: 4px solid var(--color-primary);
+}
+
+/* Dynamic Active Widget Container */
+.active-widget-viewport {
+  width: 100%;
+  max-width: 1200px;
+  animation: widgetSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  min-height: 400px;
+}
+
+/* Custom styling for embedded cards to fit well */
+.active-widget-viewport .hostel_card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  min-width: 0 !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  margin: 0 !important;
+}
+
+.active-widget-viewport .your-reservation-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.05);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Loader Animation */
+.assistant-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin: 40px auto;
+  color: var(--color-muted-text);
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(37, 99, 235, 0.1);
+  border-radius: 50%;
+  border-top-color: var(--color-primary);
+  animation: spin 0.8s linear infinite;
+}
+
+/* Keyframes */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes widgetSlideUp {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

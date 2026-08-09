@@ -1,0 +1,287 @@
+/* Main container for all hostels */
+.hostels_main_container {
+    padding: 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+    min-height: 100vh;
+}
+
+/* Main header */
+.hostels_header {
+    text-align: center;
+    margin-bottom: 48px;
+    padding: 32px 0;
+}
+
+.hostels_main_title {
+    font-size: 2.5rem;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    color: var(--color-dark-text);
+    margin: 0 0 16px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    letter-spacing: 0.025em;
+    line-height: 1.2;
+}
+
+.hostels_subtitle {
+    font-size: 1.125rem;
+    font-family: var(--font-body-two);
+    color: var(--color-muted-text);
+    margin: 0;
+    font-weight: 500;
+    opacity: 0.8;
+}
+
+/* Categories container */
+.categories_container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+/* Individual category section */
+.category_section {
+    margin: 0 0 40px 0;
+    width: 100%;
+    padding: 0;
+}
+
+.category_header {
+    margin-bottom: 24px;
+    padding: 0;
+}
+
+.category_title_section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.category_icon_container {
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: none;
+}
+
+.category_icon_container:hover {
+    background: transparent;
+    transform: none;
+}
+
+.category_icon {
+    color: #3b82f6;
+}
+
+.category_text {
+    flex: 1;
+}
+
+.category_name {
+    font-size: 1.6rem;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+}
+
+.category_description {
+    display: none;
+}
+
+.hostel_count {
+    display: none;
+}
+
+.category_container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0;
+}
+
+.nav_button {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    background: #ffffff;
+    color: #3b82f6;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+    border: 1px solid #dbeafe;
+    position: absolute;
+    z-index: 10;
+    flex-shrink: 0;
+}
+
+.nav_left {
+    left: 10px;
+}
+
+.nav_right {
+    right: 10px;
+}
+
+.nav_button:hover {
+    background: #3b82f6;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+}
+
+.nav_button:active {
+    transform: translateY(0);
+}
+
+/* Hide navigation buttons on mobile and tablet */
+@media (max-width: 1024px) {
+    .nav_button {
+        display: none;
+    }
+}
+
+.category_list {
+    display: flex;
+    flex-direction: row;
+    gap: 0;
+    padding: 0 60px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+    flex: 1;
+}
+
+.category_list::-webkit-scrollbar {
+    display: none; /* WebKit */
+}
+
+/* Adjust padding for mobile when arrows are hidden */
+@media (max-width: 1024px) {
+    .category_list {
+        padding: 0 20px;
+    }
+}
+
+/* No hostels message */
+.no_hostels_message {
+    text-align: center;
+    padding: 80px 20px;
+}
+
+.no_hostels_message svg {
+    color: var(--color-muted-text);
+    margin-bottom: 24px;
+    opacity: 0.6;
+}
+
+.no_hostels_message h3 {
+    font-size: 1.5rem;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    color: var(--color-dark-text);
+    margin: 0 0 12px 0;
+    letter-spacing: 0.025em;
+}
+
+.no_hostels_message p {
+    font-size: 1rem;
+    font-family: var(--font-body-two);
+    color: var(--color-muted-text);
+    margin: 0;
+    font-weight: 500;
+    opacity: 0.8;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .hostels_main_container {
+        padding: 20px 16px;
+    }
+    
+    .hostels_main_title {
+        font-size: 2rem;
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .category_section {
+        margin: 0 0 32px 0;
+    }
+    
+    .category_title_section {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 16px;
+    }
+    
+    .category_icon_container {
+        width: 48px;
+        height: 48px;
+    }
+    
+    .category_name {
+        font-size: 1.5rem;
+    }
+    
+    .category_list {
+        padding: 0 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hostels_main_container {
+        padding: 16px 12px;
+    }
+    
+    .hostels_header {
+        margin-bottom: 32px;
+        padding: 24px 0;
+    }
+    
+    .hostels_main_title {
+        font-size: 1.75rem;
+    }
+    
+    .hostels_subtitle {
+        font-size: 1rem;
+    }
+    
+    .categories_container {
+        gap: 32px;
+    }
+    
+    .category_section {
+        margin: 0 0 24px 0;
+    }
+    
+    .category_name {
+        font-size: 1.25rem;
+    }
+    
+    .category_description {
+        font-size: 0.875rem;
+    }
+    
+    .category_list {
+        padding: 0 12px;
+    }
+}

@@ -1,0 +1,91 @@
+{% extends "emails/base_email.html" %}
+
+{% block content %}
+<h2>🎉 Reservation Confirmed!</h2>
+
+<p>Dear <strong>{{ user.first_name|default:user.username }}</strong>,</p>
+
+<p>Fantastic news! Your reservation has been successfully confirmed and we're absolutely thrilled to have you join our community. Get ready for an amazing stay experience!</p>
+
+<div class="info-box success">
+    <h3>📋 Reservation Details</h3>
+    <table class="details-table">
+        <tr>
+            <th>🏨 Hostel</th>
+            <td><strong>{{ hostel.name }}</strong></td>
+        </tr>
+        <tr>
+            <th>📍 Location</th>
+            <td>{{ hostel.location }}</td>
+        </tr>
+        <tr>
+            <th>📅 Check-in Date</th>
+            <td>{{ check_in_date|date:"F d, Y" }}</td>
+        </tr>
+        <tr>
+            <th>⏰ Expiry Date</th>
+            <td>{{ expiry_date|date:"F d, Y" }}</td>
+        </tr>
+        <tr>
+            <th>💰 Amount</th>
+            <td><strong>₦{{ amount|floatformat:2 }}</strong></td>
+        </tr>
+        <tr>
+            <th>🔖 Reference</th>
+            <td><code>{{ reference }}</code></td>
+        </tr>
+        <tr>
+            <th>📊 Status</th>
+            <td><span class="status-badge status-pending">Payment Pending</span></td>
+        </tr>
+    </table>
+</div>
+
+<div class="highlight">
+    <h3>⏰ Important Next Steps</h3>
+    <ul>
+        <li><strong>💳 Payment Required:</strong> Complete your payment before the expiry date to secure your room</li>
+        <li><strong>🏠 Room Assignment:</strong> You'll receive your room details within 24 hours of payment confirmation</li>
+        <li><strong>📱 Check-in Instructions:</strong> We'll send you detailed check-in information closer to your arrival date</li>
+        <li><strong>📧 Welcome Package:</strong> Look out for your welcome email with important information about your stay</li>
+    </ul>
+</div>
+
+<div class="info-box">
+    <h3>🎯 What Makes Us Special</h3>
+    <ul>
+        <li><strong>🏆 Premium Facilities:</strong> Modern amenities and comfortable living spaces</li>
+        <li><strong>🔒 24/7 Security:</strong> Round-the-clock security for your peace of mind</li>
+        <li><strong>📶 High-Speed Internet:</strong> Reliable WiFi throughout the property</li>
+        <li><strong>🧹 Regular Cleaning:</strong> Professional cleaning services</li>
+        <li><strong>👥 Community Events:</strong> Regular social activities and networking opportunities</li>
+    </ul>
+</div>
+
+<div class="info-box">
+    <h3>📞 Need Help?</h3>
+    <p>Our dedicated support team is here to help you every step of the way:</p>
+    <ul>
+        <li>📧 Email: <a href="mailto:{{ support_email }}">{{ support_email }}</a></li>
+        <li>🌐 Website: <a href="{{ site_url }}">{{ site_url }}</a></li>
+        <li>💬 Live Chat: Available 24/7 on our website</li>
+        <li>📱 WhatsApp: +234 XXX XXX XXXX</li>
+    </ul>
+</div>
+
+<div class="urgent-notice">
+    <h3>⚠️ Important Reminder</h3>
+    <p><strong>Payment Deadline:</strong> Please complete your payment before <strong>{{ expiry_date|date:"F d, Y \a\t g:i A" }}</strong> to avoid cancellation of your reservation.</p>
+</div>
+
+<p>We're excited to welcome you to <strong>{{ hostel.name }}</strong> and make your stay memorable!</p>
+
+<p>Best regards,<br>
+<strong>The {{ site_name }} Team</strong><br>
+<em>Creating exceptional student living experiences</em></p>
+
+<div style="text-align: center; margin-top: 30px;">
+    <a href="{{ site_url }}" class="button">Visit Our Website</a>
+    <a href="mailto:{{ support_email }}" class="button">Contact Support</a>
+</div>
+{% endblock %}

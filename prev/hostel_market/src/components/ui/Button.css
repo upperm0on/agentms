@@ -1,0 +1,182 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-family: var(--font-body);
+  font-weight: 600;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  text-decoration: none;
+  box-shadow: var(--shadow-md);
+}
+
+.btn:disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.btn.is-loading {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.btn:focus-visible { box-shadow: var(--focus-ring); }
+
+.btn:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(210, 105, 30, 0.25);
+}
+
+/* Variants */
+.btn-default { background: #D2691E; color: white; }
+
+.btn-default:hover { background: #C85A1F; transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+
+.btn-destructive,
+.btn-danger {
+  background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+  color: white;
+}
+
+.btn-destructive:hover,
+.btn-danger:hover {
+  background: linear-gradient(135deg, #ff5252, #ff7979);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+}
+
+.btn-outline { border: 1px solid var(--color-marketplace-border); background: white; color: var(--color-dark-text); box-shadow: var(--shadow-sm); }
+
+.btn-outline:hover { background: rgba(248, 250, 252, 0.8); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
+.btn-secondary {
+  background: var(--color-accent-blue);
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: var(--color-accent-blue-dark);
+  transform: translateY(-2px);
+}
+
+.btn-ghost { background: transparent; color: var(--color-dark-text); box-shadow: none; }
+
+.btn-ghost:hover {
+  background: rgba(248, 250, 252, 0.8);
+  box-shadow: none;
+}
+
+.btn-link { background: transparent; color: var(--color-accent-blue); text-decoration: underline; text-underline-offset: 4px; padding: 0; box-shadow: none; }
+
+.btn-link:hover {
+  text-decoration: underline;
+  box-shadow: none;
+  transform: none;
+}
+
+.btn-success {
+  background: var(--color-success);
+  color: white;
+}
+
+.btn-success:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+/* Sizes */
+.btn-default { height: 40px; padding: var(--space-3) var(--space-4); }
+
+.btn-sm { height: 32px; padding: var(--space-2) var(--space-3); font-size: var(--text-xs); box-shadow: var(--shadow-sm); }
+
+.btn-sm:hover { box-shadow: var(--shadow-md); }
+
+.btn-lg { height: 48px; padding: var(--space-3) var(--space-6); font-size: var(--text-base); box-shadow: var(--shadow-lg); }
+
+.btn-lg:hover { box-shadow: var(--shadow-xl); }
+
+.btn-icon {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+}
+
+@media (max-width: 768px) {
+  .btn {
+    font-size: clamp(0.9rem, 3vw, 1rem); /* Prevent zoom on iOS */
+    padding: clamp(8px, 2vw, 10px) clamp(14px, 3.5vw, 18px);
+    line-height: 1.5;
+    gap: clamp(6px, 1.5vw, 8px);
+  }
+  
+  /* Ensure icons are visible on mobile */
+  .btn svg {
+    width: clamp(16px, 4vw, 20px);
+    height: clamp(16px, 4vw, 20px);
+    flex-shrink: 0;
+  }
+  
+  .btn-sm {
+    padding: clamp(6px, 1.5vw, 8px) clamp(10px, 2.5vw, 12px);
+    font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+    gap: clamp(4px, 1vw, 6px);
+  }
+  
+  .btn-sm svg {
+    width: clamp(14px, 3.5vw, 16px);
+    height: clamp(14px, 3.5vw, 16px);
+  }
+  
+  .btn-lg {
+    padding: clamp(10px, 2.5vw, 12px) clamp(18px, 4.5vw, 24px);
+    font-size: clamp(1rem, 3.5vw, 1.1rem);
+    gap: clamp(8px, 2vw, 10px);
+  }
+  
+  .btn-lg svg {
+    width: clamp(18px, 4.5vw, 22px);
+    height: clamp(18px, 4.5vw, 22px);
+  }
+}
+
+@media (max-width: 480px) {
+  .btn {
+    padding: clamp(8px, 3vw, 10px) clamp(12px, 4vw, 16px);
+    font-size: clamp(0.85rem, 3.5vw, 0.95rem);
+    gap: clamp(6px, 1.5vw, 8px);
+  }
+  
+  .btn svg {
+    width: clamp(16px, 4vw, 18px);
+    height: clamp(16px, 4vw, 18px);
+  }
+  
+  /* Show labels alongside icons on mobile - labels complement icons */
+  .btn .button-text {
+    display: inline;
+  }
+  
+  /* Ensure icons and labels work well together on mobile */
+  .btn[aria-label] {
+    padding: 10px 14px;
+    min-height: 44px;
+    gap: 8px;
+  }
+  
+  .btn[aria-label] svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+  
+  .btn .button-text {
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+}

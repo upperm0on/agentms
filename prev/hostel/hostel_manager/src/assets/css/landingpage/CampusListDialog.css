@@ -1,0 +1,23 @@
+.campus_list_dialog {
+    position: absolute;
+    z-index: 5;
+}
+
+.campus_list_dialog .campus_list {
+    list-style: none;
+}
+
+.campus_list_dialog .campus_list .campus_list_item {
+    padding: 10px 10px;
+    font-size: 1.15rem;
+    font-family: var(--font-body);
+    letter-spacing: 1px;
+    transition: 300ms ease;
+    background: white;
+}
+
+.campus_list_dialog .campus_list .campus_list_item:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}
+

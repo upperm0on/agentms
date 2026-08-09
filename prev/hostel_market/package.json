@@ -1,0 +1,57 @@
+{
+  "name": "hostel_market",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint .",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:ui": "vitest --ui",
+    "test:connection": "node test/connection-test.js",
+    "test:manual": "node test/manual-test.js",
+    "test:frontend": "node test/frontend-test.js",
+    "test:entrepreneur": "node test/entrepreneur-flow-test.js"
+  },
+  "dependencies": {
+    "@radix-ui/react-label": "^2.1.7",
+    "@radix-ui/react-select": "^2.2.6",
+    "@radix-ui/react-slot": "^1.2.3",
+    "@reduxjs/toolkit": "^2.9.2",
+    "axios": "^1.13.1",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.542.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "react-redux": "^9.2.0",
+    "react-router-dom": "^7.8.0",
+    "tailwind-merge": "^3.3.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.33.0",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.0",
+    "@types/react": "^19.1.10",
+    "@types/react-dom": "^19.1.7",
+    "@vitejs/plugin-react": "^5.0.0",
+    "eslint": "^9.33.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "form-data": "^4.0.4",
+    "globals": "^16.3.0",
+    "jsdom": "^27.1.0",
+    "msw": "^2.11.6",
+    "vite": "^7.1.2",
+    "vitest": "^4.0.7",
+    "zod": "^4.1.12"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
+  }
+}

@@ -1,0 +1,32 @@
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--color-marketplace-border);
+  background: #fff;
+  color: var(--color-dark-text);
+  font-size: var(--text-sm);
+}
+
+.chip-selected {
+  border-color: rgba(37, 99, 235, 0.35);
+  background: rgba(37, 99, 235, 0.06);
+}
+
+.chip-dismiss {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  padding: 2px;
+  border-radius: 6px;
+  color: var(--color-muted-text);
+  cursor: pointer;
+}
+
+.chip-dismiss:hover { background: var(--color-marketplace-bg); }
+
+

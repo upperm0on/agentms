@@ -1,0 +1,40 @@
+.seller-info-link {
+  text-decoration: none;
+  color: inherit;
+  display: inline-block;
+}
+
+.seller-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.seller-logo {
+  flex-shrink: 0;
+}
+
+.seller-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.seller-name {
+  font-weight: 600;
+  color: var(--color-text);
+  font-size: 0.95rem;
+}
+
+.seller-rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.85rem;
+  color: var(--color-muted-text);
+}
+
+.seller-info-link:hover .seller-name {
+  color: var(--color-primary);
+  text-decoration: underline;
+}

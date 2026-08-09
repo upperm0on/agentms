@@ -1,0 +1,110 @@
+.document_container {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+  background: #f9fafb; /* subtle background */
+}
+
+/* Responsive document container */
+@media (max-width: 768px) {
+  .document_container {
+    flex-direction: column;
+  }
+}
+
+/* Sidebar styling */
+.document_container .side_bar {
+  width: 20vw;
+  min-width: 240px;
+  max-width: 300px;
+  background: var(--color-bg-light);
+  border-right: 1px solid #e5e7eb;
+  padding: 1.5rem;
+  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin: 20px;
+}
+
+/* Responsive sidebar */
+@media (max-width: 768px) {
+  .document_container .side_bar {
+    width: 100%;
+    min-width: auto;
+    max-width: none;
+    border-right: none;
+    border-bottom: 1px solid #e5e7eb;
+    margin: 0;
+    padding: 1rem;
+  }
+}
+
+/* Headings inside sidebar */
+.side_bar h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--color-text-dark);
+  font-family: var(--font-heading);
+}
+
+.side_bar h3 {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin: 1rem 0 0.5rem;
+  color: #374151;
+}
+
+/* Labels */
+.side_bar label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+  color: #374151;
+  font-family: var(--font-body);
+}
+
+.side_bar label:hover {
+  background: #f3f4f6;
+}
+
+/* Inputs */
+.side_bar input[type="radio"],
+.side_bar input[type="checkbox"] {
+  accent-color: #2563eb; /* blue */
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+}
+
+/* Search results box */
+.search_results_box {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 1.5rem;
+  align-items: flex-start;
+  min-height: 200px;
+  gap: 1rem;
+}
+
+/* Responsive search results */
+@media (max-width: 768px) {
+  .search_results_box {
+    padding: 1rem;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .search_results_box {
+    padding: 0.5rem;
+    flex-direction: column;
+    align-items: center;
+  }
+}

@@ -1,0 +1,17 @@
+.main_container {
+    width: 100%;
+    min-height: 100vh;
+}
+
+/* Responsive main container */
+@media (max-width: 768px) {
+    .main_container {
+        padding: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .main_container {
+        padding: 0;
+    }
+}

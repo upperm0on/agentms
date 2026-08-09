@@ -1,0 +1,131 @@
+/* BookingInfo Component Styles */
+.status-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 8px 0;
+}
+
+.reserved-status {
+  position: relative;
+  display: inline-block;
+}
+
+.confirmed-status {
+  position: relative;
+  display: inline-block;
+}
+
+.status-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  box-shadow: 
+    0 4px 15px rgba(245, 158, 11, 0.4),
+    0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  z-index: 2;
+  animation: statusGlow 2s ease-in-out infinite alternate;
+}
+
+/* Confirmed status styling */
+.confirmed-status .status-badge {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  box-shadow: 
+    0 4px 15px rgba(16, 185, 129, 0.4),
+    0 2px 8px rgba(0, 0, 0, 0.1);
+  animation: confirmedGlow 2s ease-in-out infinite alternate;
+}
+
+.status-pulse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  border-radius: 20px;
+  opacity: 0.3;
+  animation: statusPulse 2s ease-in-out infinite;
+  z-index: 1;
+}
+
+@keyframes statusGlow {
+  0% {
+    box-shadow: 
+      0 4px 15px rgba(245, 158, 11, 0.4),
+      0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  100% {
+    box-shadow: 
+      0 6px 25px rgba(245, 158, 11, 0.6),
+      0 4px 15px rgba(0, 0, 0, 0.15);
+  }
+}
+
+@keyframes confirmedGlow {
+  0% {
+    box-shadow: 
+      0 4px 15px rgba(16, 185, 129, 0.4),
+      0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  100% {
+    box-shadow: 
+      0 6px 25px rgba(16, 185, 129, 0.6),
+      0 4px 15px rgba(0, 0, 0, 0.15);
+  }
+}
+
+@keyframes statusPulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.1);
+    opacity: 0.1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 0;
+  }
+}
+
+/* Hover effects */
+.reserved-status:hover .status-badge {
+  transform: scale(1.05);
+  animation: statusGlow 0.5s ease-in-out infinite alternate;
+}
+
+.reserved-status:hover .status-pulse {
+  animation: statusPulse 0.8s ease-in-out infinite;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .status-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .status-badge {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .status-badge {
+    font-size: 0.75rem;
+    padding: 5px 10px;
+  }
+}

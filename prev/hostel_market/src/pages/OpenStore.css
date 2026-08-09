@@ -1,0 +1,328 @@
+.open-store-page {
+  min-height: calc(100vh - 200px);
+  padding: var(--space-8) 0;
+  background: var(--color-bg-light);
+}
+
+.open-store-content {
+  max-width: 800px;
+  margin: 0 auto;
+  background: var(--color-bg-light);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8);
+}
+
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-muted-text);
+  background: none;
+  border: none;
+  padding: var(--space-2) 0;
+  margin-bottom: var(--space-6);
+  cursor: pointer;
+  font-size: var(--text-sm);
+  transition: color 0.2s;
+}
+
+.back-button:hover {
+  color: var(--color-primary);
+}
+
+.open-store-header {
+  text-align: center;
+  margin-bottom: var(--space-8);
+}
+
+.open-store-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-full);
+  background: var(--color-primary);
+  color: white;
+  margin-bottom: var(--space-4);
+}
+
+.open-store-title {
+  font-size: var(--heading-2);
+  font-weight: 600;
+  color: var(--color-dark-text);
+  margin-bottom: var(--space-2);
+}
+
+.open-store-subtitle {
+  font-size: var(--text-base);
+  color: var(--color-muted-text);
+  line-height: 1.6;
+}
+
+.open-store-form {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-md);
+}
+
+.form-section {
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-6);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.form-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.form-section-header {
+  margin-bottom: var(--space-4);
+}
+
+.form-section-title {
+  font-size: var(--heading-4);
+  font-weight: 600;
+  color: var(--color-dark-text);
+  margin-bottom: var(--space-2);
+}
+
+.form-section-description {
+  font-size: var(--text-sm);
+  color: var(--color-muted-text);
+  margin-bottom: var(--space-4);
+}
+
+.form-group {
+  margin-bottom: var(--space-4);
+}
+
+.form-label {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-dark-text);
+  margin-bottom: var(--space-2);
+}
+
+.form-label .required {
+  color: var(--color-danger-red);
+}
+
+.form-input,
+.form-textarea,
+.form-select {
+  width: 100%;
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: var(--text-base);
+  font-family: var(--font-body);
+  color: var(--color-dark-text);
+  transition: all 0.2s;
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-input:disabled,
+.form-textarea:disabled,
+.form-select:disabled {
+  background: var(--color-bg-light);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.form-hint {
+  font-size: var(--text-xs);
+  color: var(--color-muted-text);
+  margin-top: var(--space-1);
+}
+
+/* Commodity Section */
+.commodity-item {
+  background: var(--color-bg-light);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  margin-bottom: var(--space-4);
+  border: 1px solid var(--color-border);
+}
+
+.commodity-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-4);
+}
+
+.commodity-title {
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--color-dark-text);
+}
+
+.remove-commodity-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: var(--color-danger-red);
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.remove-commodity-btn:hover {
+  background: #dc2626;
+  transform: scale(1.05);
+}
+
+.remove-commodity-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.commodity-fields {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.add-commodity-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-primary);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 100%;
+  justify-content: center;
+}
+
+.add-commodity-btn:hover {
+  border-color: var(--color-primary);
+  background: rgba(59, 130, 246, 0.05);
+}
+
+.add-commodity-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.account-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--color-bg-light);
+  border-radius: var(--radius-md);
+}
+
+.info-item svg {
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.info-item div {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.info-item label {
+  font-size: var(--text-xs);
+  color: var(--color-muted-text);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.info-item span {
+  font-size: var(--text-base);
+  color: var(--color-dark-text);
+  font-weight: 500;
+}
+
+.form-actions {
+  display: flex;
+  gap: var(--space-3);
+  justify-content: flex-end;
+  margin-top: var(--space-6);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border);
+}
+
+.submit-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 768px) {
+  .open-store-content {
+    padding: var(--space-4);
+  }
+
+  .open-store-form {
+    padding: var(--space-4);
+  }
+
+  .form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .form-actions button {
+    width: 100%;
+  }
+
+  .commodity-fields {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+
+
+
+

@@ -1,0 +1,46 @@
+{% extends "base.html" %} {% load static %} {% block content %}
+<link rel="stylesheet" href='{% static "css/dashboard.css" %}' />
+<link rel="stylesheet" href='{% static "css/config.css" %}' />
+{% if not consumer %} {% if is_manager %}
+  {% include "manager/manager_dashboard.html" %}
+{% else %}
+  {% include "void_dashboard.html" %}
+{% endif %} {% else %}
+<div class="container">
+  {% include "consumer/consumer_dashboard.html" %}
+  {% endif %}
+
+  <script>
+    const roomDetailsContainer = document.querySelector('#roomDetailsContainer');
+
+    // Get room data (this is your room details JSON)
+    const room = {{ consumer.hostel.room_details|safe }};
+
+    // Loop through each room data and display it
+    room.forEach(r => {
+        console.log(r.number_in_room);  // Log the number_in_room for each room
+
+        // Match by room UUID instead of number_in_room
+        if (r.uuid == "{{ consumer.room_uuid }}") {
+            const roomCard = document.createElement('div');
+            roomCard.classList.add('mb-3');
+            roomCard.innerHTML = `
+                <div class="card-body">
+                    <div class="room-images">
+                        <img src="/media/room_images/{{ consumer.hostel.name }}/${r.uuid}/${r.room_image[0]}" alt="Room Image" class="img-fluid" />
+                    </div>
+                    <h4 class="section-title lobster-two-regular m-3">Room Type: ${r.number_in_room} in a room</h4>
+                    <p class="info-text"><strong>Price per Year:</strong> $${r.price}</p>
+                    <h5>Amenities:</h5>
+                    <ul class="list-unstyled">
+                        ${JSON.parse(r.amenities).map(amenity => `<li>${amenity}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+            roomDetailsContainer.appendChild(roomCard);
+        }
+    });
+  </script>
+
+  {% endblock content %}
+</div>

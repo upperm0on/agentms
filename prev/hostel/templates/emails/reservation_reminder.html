@@ -1,0 +1,67 @@
+{% extends "emails/base_email.html" %}
+
+{% block content %}
+<h2>⏰ Reservation Reminder</h2>
+
+<p>Dear {{ user.first_name|default:user.username }},</p>
+
+<p>This is a friendly reminder about your upcoming reservation at {{ hostel.name }}.</p>
+
+<div class="info-box warning">
+    <h3>📅 Important Dates</h3>
+    <table class="details-table">
+        <tr>
+            <th>Hostel</th>
+            <td>{{ hostel.name }}</td>
+        </tr>
+        <tr>
+            <th>Check-in Date</th>
+            <td>{{ reservation.reservee_date|date:"F d, Y" }}</td>
+        </tr>
+        <tr>
+            <th>Expiry Date</th>
+            <td>{{ expiry_date|date:"F d, Y" }}</td>
+        </tr>
+        <tr>
+            <th>Days Remaining</th>
+            <td><strong style="color: #e67e22;">{{ days_remaining }} day{{ days_remaining|pluralize }}</strong></td>
+        </tr>
+    </table>
+</div>
+
+{% if days_remaining <= 3 %}
+<div class="urgent-notice">
+    <h3>🚨 URGENT: Payment Required</h3>
+    <p>Your reservation expires in {{ days_remaining }} day{{ days_remaining|pluralize }}! Please complete your payment immediately to secure your room.</p>
+</div>
+{% else %}
+<div class="info-box">
+    <h3>💳 Payment Reminder</h3>
+    <p>Don't forget to complete your payment before the expiry date to secure your room.</p>
+</div>
+{% endif %}
+
+<div class="highlight">
+    <h3>📋 Next Steps</h3>
+    <ul>
+        <li><strong>Complete Payment:</strong> Log in to your account and complete your payment</li>
+        <li><strong>Contact Support:</strong> If you need assistance with payment, contact us immediately</li>
+        <li><strong>Room Assignment:</strong> Once payment is confirmed, you'll receive your room details</li>
+    </ul>
+</div>
+
+<div class="info-box">
+    <h3>🆘 Need Help?</h3>
+    <p>If you're having trouble with payment or have any questions:</p>
+    <ul>
+        <li>📧 Email: {{ support_email }}</li>
+        <li>🌐 Visit: {{ site_url }}</li>
+        <li>📱 Contact our support team for immediate assistance</li>
+    </ul>
+</div>
+
+<p>We look forward to welcoming you to {{ hostel.name }}!</p>
+
+<p>Best regards,<br>
+The {{ site_name }} Team</p>
+{% endblock %}

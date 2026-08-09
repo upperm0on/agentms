@@ -1,0 +1,140 @@
+.wallet-balance {
+  margin-bottom: 2rem;
+}
+
+.wallet-card {
+  background: #ffffff;
+  color: var(--color-dark-text);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 14px;
+  box-shadow: 0 8px 22px rgba(16, 24, 40, 0.07);
+}
+
+.wallet-card-content {
+  padding: 2rem;
+}
+
+.wallet-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.wallet-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(37, 99, 235, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wallet-title {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-dark-text);
+  margin: 0;
+}
+
+.wallet-balances {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.balance-item {
+  background: #ffffff;
+  padding: 1.25rem;
+  border-radius: 12px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.balance-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  font-size: 0.875rem;
+  color: var(--color-muted-text);
+}
+
+.trend-icon.up {
+  color: #10b981;
+}
+
+.lock-icon {
+  color: #f59e0b;
+}
+
+.balance-amount {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.balance-amount .currency {
+  font-size: 1rem;
+  color: var(--color-muted-text);
+}
+
+.balance-amount .amount {
+  font-size: 2rem;
+  font-weight: 700;
+  font-family: var(--font-heading);
+}
+
+.balance-amount.escrow .amount {
+  font-size: 1.75rem;
+  color: var(--color-warning);
+}
+
+.balance-amount.total .amount {
+  font-size: 2.5rem;
+}
+
+.balance-note {
+  font-size: 0.75rem;
+  color: var(--color-muted-text);
+  margin: 0;
+}
+
+.withdraw-button {
+  width: 100%;
+  padding: 0.75rem;
+  background: #0f172a;
+  color: #ffffff;
+  border: 1px solid #0f172a;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  margin-top: 0.75rem;
+}
+
+.withdraw-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(2, 6, 23, 0.16);
+}
+
+@media (max-width: 768px) {
+  .wallet-card-content {
+    padding: 1.5rem;
+  }
+  
+  .wallet-balances {
+    grid-template-columns: 1fr;
+  }
+  
+  .balance-amount .amount {
+    font-size: 1.75rem;
+  }
+  
+  .balance-amount.total .amount {
+    font-size: 2rem;
+  }
+}
+

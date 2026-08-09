@@ -1,0 +1,471 @@
+{% extends "base.html" %} {% load static %} {% block content %}
+<link rel="stylesheet" href="{% static 'css/hq/add_hostel.css' %}" />
+<form action="." method="POST" id="form" enctype="multipart/form-data">
+  {% csrf_token %}
+
+  <!-- Slideshow Container -->
+  <div class="slideshow-container">
+    <!-- Wrapper for slides -->
+    <div class="slides-wrapper">
+      <!-- Hostel Details Section -->
+      <div class="form-obj slide">
+        <h4 class="text-center mb-3">Hostel Details</h4>
+        {{ form.as_p }}
+      </div>
+      
+      <!-- Additional Info Section -->
+      <div class="form-obj slide">
+        <h4 class="text-center m-3">General Amenities</h4>
+        <div class="add_info_center">
+          <div class="add_info_item">
+            <script lang="javascript">
+              const additionalDetailsList = {{ model.additional_details|safe }};
+              const addInfoItem = document.querySelector('.add_info_item');
+
+              additionalDetailsList.forEach((item) => {
+                  const itemContainer = document.createElement('div');
+                  itemContainer.classList.add('add_info_item');
+
+                  const input = document.createElement('input');
+                  input.classList.add('add_info_item_here');
+                  input.type = 'text';
+                  input.value = item;
+
+                  const button = document.createElement('button');
+                  button.type = 'button';
+                  button.classList.add('remove_info_btn');
+                  button.textContent = 'x';
+
+                  // Add event listener to remove the item when the button is clicked
+                  button.addEventListener('click', () => {
+                      itemContainer.remove();
+                  });
+
+                  itemContainer.appendChild(input);
+                  itemContainer.appendChild(button);
+                  addInfoItem.appendChild(itemContainer);
+              });
+            </script>
+          </div>
+        </div>
+        <center>
+          <button type="button" class="add_info">Additional Info</button>
+        </center>
+      </div>
+
+      <!-- Room Details Section -->
+      <div class="form-obj slide">
+        <h4 class="text-center m-3">Room Details</h4>
+        <div class="add_room_details_center">
+          <script lang="javascript">
+            const roomDetailsList = {{ model.room_details|safe }};
+            const addRoomDetailsCenter = document.querySelector('.add_room_details_center');
+
+            roomDetailsList.forEach((room, index) => {
+          const roomDetailItem = document.createElement('div');
+          roomDetailItem.classList.add('add_info_item');
+
+          const roomNumberInput = document.createElement('input');
+          roomNumberInput.type = 'text';
+          roomNumberInput.classList.add('add_room_number');
+          roomNumberInput.name = `room_number_${index + 1}`;
+          roomNumberInput.value = room.number_in_room || '';
+
+          const quantityInput = document.createElement('input');
+          quantityInput.type = 'text';
+          quantityInput.classList.add('quantity');
+          quantityInput.name = `quantity_${index + 1}`;
+          quantityInput.value = room.number_of_rooms || '';
+
+          const priceInput = document.createElement('input');
+          priceInput.type = 'text';
+          priceInput.classList.add('price');
+          priceInput.name = `price_${index + 1}`;
+          priceInput.value = room.price || '';
+
+          const roomImageInput = document.createElement('input');
+          roomImageInput.type = 'file';
+          roomImageInput.classList.add('room_image');
+          roomImageInput.name = `room_image_${index + 1}`;
+
+          const existingImage = document.createElement('img');
+          let roomImages = room.room_image;
+          if (typeof roomImages === 'string') {
+              try {
+            roomImages = JSON.parse(roomImages);
+              } catch (e) {
+            roomImages = [];
+              }
+          }
+          let imageUrl;
+          if (roomImages && roomImages.length > 0) {
+              imageUrl = `/media/room_images/{{ model.name }}/${room.number_in_room}/${roomImages[0]}`;
+              existingImage.src = imageUrl;
+              existingImage.alt = 'Room Image';
+              existingImage.style.display = 'block';
+          } else {
+              imageUrl = '{% static "img/default_room.png" %}';
+              existingImage.src = imageUrl;
+              existingImage.alt = 'Default Room Image';
+              existingImage.style.display = 'block';
+          }
+
+          // Only update the image preview when a new file is chosen
+          roomImageInput.addEventListener('change', (event) => {
+              const file = event.target.files[0];
+              if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                existingImage.src = e.target.result;
+                existingImage.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+              }
+          });
+
+            // Gender select dropdown (initially hidden)
+            const genderSelect = document.createElement('select');
+            genderSelect.name = 'gender';
+            genderSelect.className = 'gender_select';
+            genderSelect.style.display = 'none';
+            const defaultOption = document.createElement('option');
+            defaultOption.textContent = ' -- Gender Select --';
+            genderSelect.appendChild(defaultOption);
+
+            const maleOption = document.createElement('option');
+            maleOption.value = 'males';
+            maleOption.textContent = 'Males';
+            genderSelect.appendChild(maleOption);
+
+            const femaleOption = document.createElement('option');
+            femaleOption.value = 'females';
+            femaleOption.textContent = 'Females';
+            genderSelect.appendChild(femaleOption);
+
+            const mixedOption = document.createElement('option');
+            mixedOption.value = 'mixed';
+            mixedOption.textContent = 'Mixed';
+            genderSelect.appendChild(mixedOption);
+
+            // Rooms justify div with male/female room inputs (initially hidden)
+            const roomsJustifyDiv = document.createElement('div');
+            roomsJustifyDiv.className = 'rooms_justify';
+
+            const maleRoomsInput = document.createElement('input');
+            maleRoomsInput.type = 'text';
+            maleRoomsInput.className = 'male_rooms';
+            maleRoomsInput.placeholder = 'Number of Male Rooms';
+            maleRoomsInput.style.display = 'none';
+
+            const femaleRoomsInput = document.createElement('input');
+            femaleRoomsInput.type = 'text';
+            femaleRoomsInput.className = 'female_rooms';
+            femaleRoomsInput.placeholder = 'Number of Female Rooms';
+            femaleRoomsInput.style.display = 'none';
+
+            roomsJustifyDiv.appendChild(maleRoomsInput);
+            roomsJustifyDiv.appendChild(femaleRoomsInput);
+
+            // Apply numeric validation to all number input fields
+            makeNumericInput(roomNumberInput);
+            makeNumericInput(quantityInput);
+            makeNumericInput(priceInput);
+            makeNumericInput(maleRoomsInput);
+            makeNumericInput(femaleRoomsInput);
+
+            // Append to the roomDetailItem
+            roomDetailItem.appendChild(genderSelect);
+            roomDetailItem.appendChild(roomsJustifyDiv);
+            // Show gender select when quantity has a value
+            function updateGenderSelectDisplay() {
+              if (quantityInput.value && parseInt(quantityInput.value) > 0) {
+              genderSelect.style.display = 'block';
+              } else {
+              genderSelect.style.display = 'none';
+              roomsJustifyDiv.style.display = 'none';
+              }
+            }
+
+            // If gender object exists and has two keys, preset to 'mixed' and set values
+            if (room.gender && typeof room.gender === 'object' && Object.keys(room.gender).length === 2) {
+              genderSelect.value = 'mixed';
+              roomsJustifyDiv.style.display = 'block';
+              maleRoomsInput.style.display = 'block';
+              femaleRoomsInput.style.display = 'block';
+              maleRoomsInput.value = room.gender.male || '';
+              femaleRoomsInput.value = room.gender.female || '';
+            }
+
+            // Initial check on load
+            updateGenderSelectDisplay();
+
+            quantityInput.addEventListener('input', function() {
+              updateGenderSelectDisplay();
+              // Update max for male/female inputs
+              let max = Math.max(1, parseInt(quantityInput.value) - 1 || 1);
+              maleRoomsInput.max = max;
+              femaleRoomsInput.max = max;
+              // If mixed, auto adjust values to sum up to quantity
+              if (genderSelect.value === 'mixed') {
+                let total = parseInt(quantityInput.value) || 0;
+                let maleVal = parseInt(maleRoomsInput.value) || 0;
+                let femaleVal = parseInt(femaleRoomsInput.value) || 0;
+                if (maleVal + femaleVal !== total) {
+                  // Distribute values evenly
+                  let half = Math.floor(total / 2);
+                  maleRoomsInput.value = half;
+                  femaleRoomsInput.value = total - half;
+                }
+              }
+            });
+
+            // Keep male/female values in sync to always sum to quantity
+            function syncGenderRooms(changedInput, otherInput) {
+              let total = parseInt(quantityInput.value) || 0;
+              let changedVal = parseInt(changedInput.value) || 0;
+              let max = Math.max(1, total - 1);
+              if (changedVal > max) changedVal = max;
+              changedInput.value = changedVal;
+              otherInput.value = total - changedVal;
+            }
+
+            maleRoomsInput.addEventListener('input', function() {
+              if (genderSelect.value === 'mixed') {
+                syncGenderRooms(maleRoomsInput, femaleRoomsInput);
+              }
+            });
+            femaleRoomsInput.addEventListener('input', function() {
+              if (genderSelect.value === 'mixed') {
+                syncGenderRooms(femaleRoomsInput, maleRoomsInput);
+              }
+            });
+
+            // Show male/female room inputs when gender is selected
+            genderSelect.addEventListener('change', function() {
+              if (genderSelect.value === 'males') {
+                roomsJustifyDiv.style.display = 'block';
+                maleRoomsInput.style.display = 'block';
+                femaleRoomsInput.style.display = 'none';
+              } else if (genderSelect.value === 'females') {
+                roomsJustifyDiv.style.display = 'block';
+                maleRoomsInput.style.display = 'none';
+                femaleRoomsInput.style.display = 'block';
+              } else if (genderSelect.value === 'mixed') {
+                roomsJustifyDiv.style.display = 'block';
+                maleRoomsInput.style.display = 'block';
+                femaleRoomsInput.style.display = 'block';
+                // On switching to mixed, auto distribute values
+                let total = parseInt(quantityInput.value) || 0;
+                let half = Math.floor(total / 2);
+                maleRoomsInput.value = half;
+                femaleRoomsInput.value = total - half;
+                maleRoomsInput.max = Math.max(1, total - 1);
+                femaleRoomsInput.max = Math.max(1, total - 1);
+              } else {
+                roomsJustifyDiv.style.display = 'none';
+                maleRoomsInput.style.display = 'none';
+                femaleRoomsInput.style.display = 'none';
+              }
+            });
+          
+
+          const notification = document.createElement('p');
+          notification.style.fontSize = '12px';
+          notification.style.color = '#555';
+          notification.style.marginTop = '5px';
+
+          roomDetailItem.appendChild(notification);
+          existingImage.style.maxWidth = '100px';
+          existingImage.style.maxHeight = '100px';
+          existingImage.style.display = room.room_image ? 'block' : 'none';
+
+          const roomAmenityButton = document.createElement('button');
+          roomAmenityButton.type = 'button';
+          roomAmenityButton.classList.add('room_amenity_btn');
+          roomAmenityButton.dataset.roomId = `room_${index + 1}`;
+          roomAmenityButton.innerHTML = '<i class="fas fa-plus-circle"></i> Add Amenities';
+
+          roomAmenityButton.addEventListener('click', () => {
+              const roomId = roomAmenityButton.getAttribute('data-room-id');
+              const dialog = document.createElement('div');
+              dialog.classList.add('amenity-dialog');
+              dialog.innerHTML = `
+            <h4 class='text-light text-center m-3'>Room Amenities</h4>
+            <div class='amenity-inputs'></div>
+            <button type='button' class='add_item_btn'>Add Item</button>
+            <button type='button' class='done_btn'>Done</button>
+              `;
+              document.body.appendChild(dialog);
+
+              const add_item_btn = dialog.querySelector('.add_item_btn');
+              const done_btn = dialog.querySelector('.done_btn');
+              const amenityInputsContainer = dialog.querySelector('.amenity-inputs');
+
+              amenities_list = JSON.parse(room.amenities);
+
+              function addAmenityInput(value = '') {
+            const inputWrapper = document.createElement('div');
+            inputWrapper.classList.add('amenity-input-wrapper');
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.classList.add('room_amenity_item');
+            input.placeholder = 'Enter Amenity';
+            input.value = value;
+            const deleteBtn = document.createElement('button');
+            deleteBtn.type = 'button';
+            deleteBtn.classList.add('delete_amenity_btn');
+            deleteBtn.innerHTML = 'x';
+            deleteBtn.addEventListener('click', () => {
+                amenityInputsContainer.removeChild(inputWrapper);
+            });
+            inputWrapper.appendChild(input);
+            inputWrapper.appendChild(deleteBtn);
+            amenityInputsContainer.appendChild(inputWrapper);
+              }
+
+              if (!dialog.dataset.initialized) {
+            const existingAmenities = getCookie(roomId);
+            if (existingAmenities) {
+                JSON.parse(existingAmenities).forEach(addAmenityInput);
+            } else {
+                addAmenityInput();
+            }
+            add_item_btn.addEventListener('click', () => addAmenityInput());
+            dialog.dataset.initialized = true;
+              } else {
+            amenityInputsContainer.innerHTML = '';
+            const existingAmenities = getCookie(roomId);
+            if (existingAmenities) {
+                JSON.parse(existingAmenities).forEach(addAmenityInput);
+            }
+              }
+              done_btn.addEventListener('click', () => {
+            const amenities = Array.from(amenityInputsContainer.querySelectorAll('.room_amenity_item'))
+                .map(input => input.value)
+                .filter(value => value);
+            setCookie(roomId, JSON.stringify(amenities), 1);
+            roomDetailItem.querySelector('.room_amenities_hidden').value = JSON.stringify(amenities);
+            document.body.removeChild(dialog);
+              });
+          });
+
+          const roomAmenitiesHidden = document.createElement('input');
+          roomAmenitiesHidden.type = 'hidden';
+          roomAmenitiesHidden.classList.add('room_amenities_hidden');
+          roomAmenitiesHidden.name = `room_amenities_${index + 1}`;
+          roomAmenitiesHidden.value = room.amenities || '';
+          roomAmenitiesHidden.dataset.roomId = `room_${index + 1}`;
+
+          roomDetailItem.appendChild(roomNumberInput);
+          roomDetailItem.appendChild(quantityInput);
+          roomDetailItem.appendChild(priceInput);
+          roomDetailItem.appendChild(existingImage);
+          roomDetailItem.appendChild(roomImageInput);
+          roomDetailItem.appendChild(roomAmenityButton);
+          roomDetailItem.appendChild(roomAmenitiesHidden);
+
+          addRoomDetailsCenter.appendChild(roomDetailItem);
+            });
+          </script>
+        </div>
+        <center>
+          <button type="button" class="add_room_detail">
+            Add Room Information
+          </button>
+        </center>
+      </div>
+
+      <!-- Submission Section -->
+      <div class="form-obj slide">
+        <input type="hidden" name="hidden_data" class="hidden_data" />
+        <input type="hidden" name="hidden_info_data" class="hidden_info_data" />
+        <center><button type="submit" class="submit">Submit</button></center>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation Buttons -->
+  <div class="navigation-buttons">
+    <button type="button" class="prev" onclick="changeSlide(-1)">
+      Previous
+    </button>
+    <button type="button" class="next" onclick="changeSlide(1)">Next</button>
+  </div>
+</form>
+
+<script>
+  let currentSlide = 0;
+  const slidesWrapper = document.querySelector(".slides-wrapper");
+  const slides = document.querySelectorAll(".slide");
+
+  function updateSlidePosition() {
+    const offset = -currentSlide * 100;
+    slidesWrapper.style.transform = `translateX(${offset}%)`;
+  }
+
+  function changeSlide(direction) {
+    currentSlide += direction;
+    if (currentSlide < 0) currentSlide = 0;
+    if (currentSlide >= slides.length) currentSlide = slides.length - 1;
+    updateSlidePosition();
+  }
+
+  // Initialize the first slide position
+  updateSlidePosition();
+</script>
+<style>
+  .slideshow-container {
+    overflow: hidden;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .slides-wrapper {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+  }
+  .slide {
+    flex: 0 0 100%;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background-color: #fff;
+  }
+  .navigation-buttons {
+    text-align: center;
+    margin-top: 30px;
+  }
+  .navigation-buttons button {
+    background-color: #4285f4;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    margin: 0 10px;
+    transition: background-color 0.3s ease;
+  }
+  .navigation-buttons button:hover {
+    background-color: #357ae8;
+  }
+  .navigation-buttons button:disabled {
+    background-color: #d3e3fd;
+    cursor: not-allowed;
+  }
+  h4 {
+    font-family: "Roboto", sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    color: #202124;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  form {
+    font-family: "Roboto", sans-serif;
+    color: #202124;
+  }
+</style>
+<script src="{% static 'js/hq/update_hostel.js' %}"></script>
+{% endblock content %}

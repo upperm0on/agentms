@@ -1,0 +1,95 @@
+{% extends "emails/base_email.html" %}
+
+{% block content %}
+<h2>✅ Payment Confirmed!</h2>
+
+<p>Dear <strong>{{ user.first_name|default:user.username }}</strong>,</p>
+
+<p>Excellent! Your payment has been successfully processed and we're thrilled to confirm your reservation. Welcome to the {{ site_name }} family!</p>
+
+<div class="info-box success">
+    <h3>💳 Payment Details</h3>
+    <table class="details-table">
+        <tr>
+            <th>💰 Amount Paid</th>
+            <td><strong>₦{{ amount|floatformat:2 }}</strong></td>
+        </tr>
+        <tr>
+            <th>🔖 Transaction Reference</th>
+            <td><code>{{ reference }}</code></td>
+        </tr>
+        <tr>
+            <th>📅 Payment Date</th>
+            <td>{{ payment_date|date:"F d, Y \a\t g:i A" }}</td>
+        </tr>
+        <tr>
+            <th>📊 Status</th>
+            <td><span class="status-badge status-confirmed">✅ Confirmed</span></td>
+        </tr>
+        <tr>
+            <th>🏦 Payment Method</th>
+            <td>Online Payment</td>
+        </tr>
+    </table>
+</div>
+
+<div class="highlight">
+    <h3>🎉 What Happens Next?</h3>
+    <ul>
+        <li><strong>🏠 Room Assignment:</strong> You'll receive your room details within 24 hours</li>
+        <li><strong>📱 Check-in Instructions:</strong> We'll send you detailed check-in information</li>
+        <li><strong>📧 Welcome Package:</strong> Look out for your welcome email with important information</li>
+        <li><strong>🔑 Key Collection:</strong> Instructions for key collection will be provided</li>
+        <li><strong>📋 House Rules:</strong> Important guidelines for your stay</li>
+    </ul>
+</div>
+
+<div class="info-box">
+    <h3>🏆 Welcome to Premium Living</h3>
+    <p>As a confirmed resident, you now have access to:</p>
+    <ul>
+        <li><strong>🏠 Your Assigned Room:</strong> Comfortable and well-equipped</li>
+        <li><strong>📶 High-Speed Internet:</strong> Unlimited WiFi access</li>
+        <li><strong>🧹 Cleaning Services:</strong> Regular room and common area cleaning</li>
+        <li><strong>🔒 24/7 Security:</strong> Round-the-clock security monitoring</li>
+        <li><strong>🏋️ Common Facilities:</strong> Study areas, recreation rooms, and more</li>
+        <li><strong>👥 Community Events:</strong> Regular social activities and networking</li>
+    </ul>
+</div>
+
+<div class="info-box">
+    <h3>📱 Keep Your Receipt</h3>
+    <p>Please save this email as your official payment receipt. You may need it for:</p>
+    <ul>
+        <li>🏠 Check-in verification</li>
+        <li>💰 Refund requests (if applicable)</li>
+        <li>📊 Tax purposes</li>
+        <li>📋 Insurance claims</li>
+        <li>🏦 Bank records</li>
+    </ul>
+</div>
+
+<div class="urgent-notice">
+    <h3>📞 Important Contact Information</h3>
+    <p>Save these contacts for your stay:</p>
+    <ul>
+        <li><strong>🏠 Property Manager:</strong> +234 XXX XXX XXXX</li>
+        <li><strong>🔒 Security:</strong> +234 XXX XXX XXXX</li>
+        <li><strong>📧 Support:</strong> <a href="mailto:{{ support_email }}">{{ support_email }}</a></li>
+        <li><strong>🚨 Emergency:</strong> +234 XXX XXX XXXX</li>
+    </ul>
+</div>
+
+<p>If you have any questions about your payment or need assistance with your upcoming stay, please don't hesitate to contact our support team.</p>
+
+<p>Thank you for choosing {{ site_name }}! We're excited to provide you with an exceptional living experience.</p>
+
+<p>Best regards,<br>
+<strong>The {{ site_name }} Team</strong><br>
+<em>Your trusted partner in student accommodation</em></p>
+
+<div style="text-align: center; margin-top: 30px;">
+    <a href="{{ site_url }}" class="button">Visit Our Website</a>
+    <a href="mailto:{{ support_email }}" class="button">Contact Support</a>
+</div>
+{% endblock %}

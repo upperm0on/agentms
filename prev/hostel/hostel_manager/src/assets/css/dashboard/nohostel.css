@@ -1,0 +1,83 @@
+.information_container {
+    justify-self: center;
+    margin: 80px;
+    margin-top: 30px;
+    padding: 20px;
+}
+
+/* Responsive information container */
+@media (max-width: 768px) {
+    .information_container {
+        margin: 40px;
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .information_container {
+        margin: 20px;
+        padding: 10px;
+    }
+}
+
+.information_container .information .message {
+    font-size: 3rem;
+    font-family: var(--font-body-two);
+    text-transform: capitalize;
+    font-weight: 800;
+    color: var(--color-muted-text);
+}
+
+/* Responsive message text */
+@media (max-width: 768px) {
+    .information_container .information .message {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .information_container .information .message {
+        font-size: 2rem;
+    }
+}
+
+.information_container .information {
+    display: flex;
+    justify-content: center;
+}
+
+.information_container .information img {
+    width: 100%;
+    height: 500px;
+    max-width: 400px;
+}
+
+/* Responsive image */
+@media (max-width: 768px) {
+    .information_container .information img {
+        height: 400px;
+    }
+}
+
+@media (max-width: 480px) {
+    .information_container .information img {
+        height: 300px;
+    }
+}
+
+.information_container .information .suggestion {
+    font-size: 1rem;
+    font-family: var(--font-body);
+    font-weight: 400;
+    letter-spacing: 1px;
+    margin: 10px;
+}
+
+.information_container .information .suggestion .suggestion_link {
+    margin-left: 5px;
+    text-decoration: none;
+    font-family: var(--font-body-one);
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: var(--color-primary);
+}

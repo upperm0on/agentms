@@ -1,0 +1,90 @@
+{% extends "emails/base_email.html" %}
+
+{% block content %}
+<h2>📊 Daily Summary</h2>
+
+<p>Dear <strong>{{ user.first_name|default:user.username }}</strong>,</p>
+
+<p>Here's your daily activity summary for <strong>{{ date }}</strong>. We believe in complete transparency, so you'll always know what's happening with your account.</p>
+
+<div class="info-box success">
+    <h3>📈 Today's Activity</h3>
+    <table class="details-table">
+        <tr>
+            <th>🔍 Searches Performed</th>
+            <td>{{ summary_data.searches|default:"0" }}</td>
+        </tr>
+        <tr>
+            <th>🏠 Hostels Viewed</th>
+            <td>{{ summary_data.hostels_viewed|default:"0" }}</td>
+        </tr>
+        <tr>
+            <th>📱 Page Visits</th>
+            <td>{{ summary_data.page_visits|default:"0" }}</td>
+        </tr>
+        <tr>
+            <th>⏱️ Time Spent</th>
+            <td>{{ summary_data.time_spent|default:"0 minutes" }}</td>
+        </tr>
+        <tr>
+            <th>📧 Emails Received</th>
+            <td>{{ summary_data.emails_received|default:"0" }}</td>
+        </tr>
+    </table>
+</div>
+
+{% if summary_data.bookings %}
+<div class="info-box">
+    <h3>🏨 Booking Activity</h3>
+    <ul>
+        {% for booking in summary_data.bookings %}
+        <li><strong>{{ booking.hostel_name }}</strong> - {{ booking.status }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+{% if summary_data.payments %}
+<div class="info-box">
+    <h3>💳 Payment Activity</h3>
+    <ul>
+        {% for payment in summary_data.payments %}
+        <li><strong>₦{{ payment.amount }}</strong> - {{ payment.status }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+<div class="highlight">
+    <h3>🎯 Why We Send These Summaries</h3>
+    <p>We believe in complete transparency and want you to:</p>
+    <ul>
+        <li><strong>📊 Track Your Usage:</strong> See how you're using our platform</li>
+        <li><strong>🔒 Monitor Security:</strong> Ensure all activity is legitimate</li>
+        <li><strong>📱 Stay Informed:</strong> Know what's happening with your account</li>
+        <li><strong>🎯 Optimize Experience:</strong> Understand your usage patterns</li>
+    </ul>
+</div>
+
+<div class="info-box">
+    <h3>🔮 Tomorrow's Preview</h3>
+    <p>Here's what you can expect tomorrow:</p>
+    <ul>
+        <li><strong>📧 Email Notifications:</strong> Real-time updates on your bookings</li>
+        <li><strong>🔔 Activity Alerts:</strong> Instant notifications for important events</li>
+        <li><strong>📊 Usage Tracking:</strong> Continued monitoring of your account activity</li>
+        <li><strong>🎯 Personalized Recommendations:</strong> Based on your usage patterns</li>
+    </ul>
+</div>
+
+<p>Thank you for choosing {{ site_name }}! We're committed to keeping you informed every step of the way.</p>
+
+<p>Best regards,<br>
+<strong>The {{ site_name }} Team</strong><br>
+<em>Your transparent accommodation partner</em></p>
+
+<div style="text-align: center; margin-top: 30px;">
+    <a href="{{ site_url }}" class="button">View Full Dashboard</a>
+    <a href="mailto:{{ support_email }}" class="button">Contact Support</a>
+</div>
+{% endblock %}

@@ -1,0 +1,219 @@
+.recent-activity {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+}
+
+.recent-activity-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.recent-activity-title {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+}
+
+.view-all-btn, .refresh-btn {
+  background: none;
+  border: none;
+  color: #3b82f6;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.view-all-btn:hover, .refresh-btn:hover {
+  color: #2563eb;
+  background: #f1f5f9;
+}
+
+.refresh-btn {
+  color: #64748b;
+}
+
+.refresh-btn:hover {
+  color: #3b82f6;
+}
+
+.recent-activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.activity-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.activity-item:last-child {
+  border-bottom: none;
+}
+
+.activity-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  flex-shrink: 0;
+}
+
+.activity-blue {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+}
+
+.activity-green {
+  background: linear-gradient(135deg, #10b981, #059669);
+}
+
+.activity-purple {
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+}
+
+.activity-orange {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+.activity-red {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+.activity-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.activity-message {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #1e293b;
+  margin: 0 0 4px 0;
+  line-height: 1.4;
+}
+
+.activity-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.activity-user {
+  font-weight: 500;
+}
+
+.activity-time {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .recent-activity {
+    padding: 20px;
+  }
+  
+  .activity-item {
+    gap: 10px;
+  }
+  
+  .activity-icon {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .activity-message {
+    font-size: 0.85rem;
+  }
+  
+  .activity-meta {
+    font-size: 0.75rem;
+  }
+}
+
+/* Loading and Error States */
+.recent-activity-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  color: #64748b;
+}
+
+.recent-activity-loading .loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #e2e8f0;
+  border-top: 3px solid #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 12px;
+}
+
+.recent-activity-loading p {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.recent-activity-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  color: #dc2626;
+  text-align: center;
+}
+
+.recent-activity-error p {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.no-activities {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  color: #64748b;
+  text-align: center;
+}
+
+.no-activities p {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

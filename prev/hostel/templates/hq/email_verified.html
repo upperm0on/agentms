@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Email Verification - HostTels{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg border-0">
+                <div class="card-body p-5 text-center">
+                    <!-- Success Icon -->
+                    {% if alert_type == 'success' %}
+                        <div class="mb-4">
+                            <i class="fas fa-check-circle text-success" style="font-size: 4rem;"></i>
+                        </div>
+                    {% elif alert_type == 'info' %}
+                        <div class="mb-4">
+                            <i class="fas fa-info-circle text-info" style="font-size: 4rem;"></i>
+                        </div>
+                    {% else %}
+                        <div class="mb-4">
+                            <i class="fas fa-exclamation-triangle text-danger" style="font-size: 4rem;"></i>
+                        </div>
+                    {% endif %}
+
+                    <!-- Title -->
+                    <h2 class="card-title mb-3 {% if alert_type == 'success' %}text-success{% elif alert_type == 'info' %}text-info{% else %}text-danger{% endif %}">
+                        {{ title }}
+                    </h2>
+
+                    <!-- Message -->
+                    <p class="card-text mb-4 text-muted">
+                        {{ message }}
+                    </p>
+
+                    <!-- User Info (if available) -->
+                    {% if email %}
+                        <div class="alert alert-light border mb-4">
+                            <small class="text-muted">
+                                <strong>Email:</strong> {{ email }}<br>
+                                {% if username %}
+                                    <strong>Username:</strong> {{ username }}
+                                {% endif %}
+                            </small>
+                        </div>
+                    {% endif %}
+
+                    <!-- Action Buttons -->
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                        {% if show_login %}
+                            <a href="{% url 'user_login' %}" class="btn btn-primary btn-lg px-4">
+                                <i class="fas fa-sign-in-alt me-2"></i>
+                                Login to Your Account
+                            </a>
+                        {% endif %}
+                        
+                        <a href="{% url 'landing_page' %}" class="btn btn-outline-secondary btn-lg px-4">
+                            <i class="fas fa-home me-2"></i>
+                            Go to Homepage
+                        </a>
+                    </div>
+
+                    <!-- Additional Help -->
+                    {% if status == 'invalid_token' %}
+                        <div class="mt-4">
+                            <small class="text-muted">
+                                Need help? <a href="{% url 'user_signup' %}">Create a new account</a> or 
+                                <a href="mailto:support@hosttels.com">contact support</a>.
+                            </small>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Additional Information -->
+            <div class="text-center mt-4">
+                <small class="text-muted">
+                    <i class="fas fa-shield-alt me-1"></i>
+                    Your account security is our priority
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.card {
+    border-radius: 15px;
+}
+
+.btn {
+    border-radius: 10px;
+    font-weight: 500;
+}
+
+.alert {
+    border-radius: 10px;
+}
+
+.container {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+}
+
+.card-body {
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+}
+</style>
+{% endblock %}

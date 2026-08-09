@@ -1,0 +1,26 @@
+[Unit]
+Description=StayPal Django Application
+After=network.target postgresql.service redis.service
+Wants=celery-worker.service celery-beat.service
+
+[Service]
+Type=notify
+User=admin
+Group=admin
+WorkingDirectory=/home/admin/hostel
+Environment="DJANGO_SETTINGS_MODULE=hostel.settings.prod"
+Environment="PATH=/home/admin/hostel/space/bin:/usr/local/bin:/usr/bin:/bin"
+ExecStart=/home/admin/hostel/space/bin/gunicorn --config gunicorn.conf.py hostel.wsgi:application
+ExecReload=/bin/kill -s HUP $MAINPID
+Restart=always
+RestartSec=10
+KillMode=mixed
+TimeoutStopSec=5
+PrivateTmp=true
+
+# Create logs directory on startup
+ExecStartPre=/bin/mkdir -p /home/admin/hostel/logs
+ExecStartPre=/bin/chown admin:admin /home/admin/hostel/logs
+
+[Install]
+WantedBy=multi-user.target

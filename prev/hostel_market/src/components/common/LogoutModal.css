@@ -1,0 +1,178 @@
+/* Logout Modal Styles */
+.logout-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-modal);
+  backdrop-filter: blur(4px);
+}
+
+.logout-modal {
+  background: var(--color-bg-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  max-width: 400px;
+  width: 90%;
+  max-height: 90vh;
+  overflow: hidden;
+  border: 1px solid var(--color-marketplace-border);
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.logout-modal-header {
+  display: flex;
+  align-items: center;
+  padding: var(--space-6) var(--space-6) var(--space-4);
+  border-bottom: 1px solid var(--color-marketplace-border);
+  position: relative;
+}
+
+.logout-modal-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  margin-right: var(--space-4);
+  flex-shrink: 0;
+}
+
+.logout-modal-title {
+  font-size: var(--heading-5);
+  font-weight: 600;
+  color: var(--color-dark-text);
+  margin: 0;
+  flex: 1;
+  font-family: var(--font-heading);
+}
+
+.logout-modal-close {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: transparent;
+  color: var(--color-muted-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.logout-modal-close:hover {
+  background: rgba(15, 23, 42, 0.06);
+  color: var(--color-dark-text);
+}
+
+.logout-modal-body {
+  padding: var(--space-5) var(--space-6);
+}
+
+.logout-modal-message {
+  color: var(--color-muted-text);
+  line-height: 1.6;
+  margin: 0;
+  font-size: var(--text-base);
+  font-family: var(--font-body);
+}
+
+.logout-modal-footer {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-6) var(--space-6);
+  justify-content: flex-end;
+}
+
+.logout-modal-footer .btn {
+  min-width: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.logout-modal-footer .btn-danger {
+  background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+  color: white;
+}
+
+.logout-modal-footer .btn-danger:hover {
+  background: linear-gradient(135deg, #ff5252, #ff7979);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+}
+
+.logout-modal-footer .btn-outline {
+  background: transparent;
+  border: 1px solid var(--color-marketplace-border);
+  color: var(--color-dark-text);
+}
+
+.logout-modal-footer .btn-outline:hover {
+  background: rgba(15, 23, 42, 0.06);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .logout-modal {
+    margin: var(--space-5);
+    width: calc(100% - 40px);
+  }
+  
+  .logout-modal-header {
+    padding: var(--space-5) var(--space-5) var(--space-3);
+  }
+  
+  .logout-modal-body {
+    padding: var(--space-4) var(--space-5);
+  }
+  
+  .logout-modal-footer {
+    padding: var(--space-3) var(--space-5) var(--space-5);
+    flex-direction: column;
+  }
+  
+  .logout-modal-footer .btn {
+    width: 100%;
+  }
+}
+
+
+
+
+
+

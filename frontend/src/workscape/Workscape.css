@@ -1,0 +1,177 @@
+:root {
+  --ws-ink: #17211f;
+  --ws-muted: #68746f;
+  --ws-canvas: #eef1eb;
+  --ws-paper: #f9faf6;
+  --ws-line: #d5dbd3;
+  --ws-stage: #17211f;
+  --ws-orange: #ec7f32;
+  --ws-blue: #4f8cc9;
+  --ws-green: #1d8b69;
+  --ws-coral: #d06b50;
+  --ws-violet: #8b69b1;
+  --ws-ease: cubic-bezier(.22, 1, .36, 1);
+  --ws-fast: 180ms;
+  --ws-medium: 480ms;
+}
+
+.workscape { min-height: 100vh; color: var(--ws-ink); background: var(--ws-canvas); }
+.workscape button { font: inherit; }
+.workscape-header { min-height: 72px; display: grid; grid-template-columns: minmax(250px, 1fr) auto minmax(400px, 1fr); align-items: center; gap: 24px; padding: 10px clamp(18px, 4vw, 64px); background: var(--ws-paper); border-bottom: 1px solid var(--ws-line); position: sticky; top: 0; z-index: 50; }
+.workscape-brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.workscape-brand > div:last-child { display: grid; gap: 2px; }
+.workscape-brand strong { font-size: 15px; }
+.workscape-brand span { color: var(--ws-muted); font-size: 11px; }
+.workscape-mark { width: 36px; height: 36px; display: grid !important; place-items: center; flex: 0 0 auto; background: var(--ws-ink); color: #fff; }
+.workscape-mark span { color: #fff; font-weight: 850; }
+.workscape-header > code { color: #58635f; font-size: 11px; text-align: center; }
+.workscape-actions { display: flex; align-items: center; justify-content: flex-end; gap: 9px; }
+.workscape-button, .workscape-icon-button { border: 0; background: transparent; }
+.workscape-button { min-height: 38px; display: inline-flex; align-items: center; justify-content: center; gap: 7px; padding: 0 12px; color: #fff; background: var(--ws-ink); font-size: 12px; font-weight: 780; }
+.workscape-button svg { width: 16px; }
+.workscape-icon-button { width: 36px; height: 36px; display: inline-grid; place-items: center; flex: 0 0 auto; color: var(--ws-muted); }
+.workscape-icon-button:hover { color: var(--ws-ink); background: #e4e8e1; }
+.workscape-icon-button svg { width: 18px; }
+.workscape-icon-button.light { color: #c5cfcb; }
+.workscape-icon-button.light:hover { color: #fff; background: #2a3733; }
+.workscape-segmented { display: inline-flex; padding: 3px; background: #e5e9e2; }
+.workscape-segmented button { min-height: 32px; display: inline-flex; align-items: center; gap: 5px; padding: 0 10px; border: 0; color: var(--ws-muted); background: transparent; font-size: 11px; font-weight: 750; }
+.workscape-segmented button.active { color: var(--ws-ink); background: #fff; box-shadow: 0 2px 8px rgba(23,33,31,.1); }
+.workscape-segmented svg { width: 14px; }
+
+.workscape-stage-band { padding: 38px clamp(18px, 4vw, 64px) 28px; background: #f4f5f0; }
+.workscape-stage-heading { display: grid; grid-template-columns: minmax(280px, .8fr) minmax(380px, 1fr); align-items: end; gap: 40px; max-width: 1480px; margin: 0 auto 22px; }
+.workscape-stage-heading h1 { margin: 5px 0 0; font-size: 29px; line-height: 1.1; }
+.workscape-stage-heading p { max-width: 700px; margin: 0; color: var(--ws-muted); font-size: 14px; line-height: 1.55; }
+.workscape-eyebrow { color: var(--ws-green); font-size: 10px; font-weight: 850; text-transform: uppercase; letter-spacing: .08em; }
+.workscape-stage-layout { width: min(1480px, 100%); display: grid; grid-template-columns: minmax(0, 1fr) 300px; margin: 0 auto; background: var(--ws-stage); }
+.workscape-map-frame { min-width: 0; position: relative; overflow: hidden; }
+.workscape-map { width: 100%; aspect-ratio: 1600 / 820; display: block; background: var(--ws-stage); }
+.map-background { fill: var(--ws-stage); }
+.map-kicker, .map-stamp, .map-footer text { fill: #91a09b; font-size: 14px; font-weight: 700; letter-spacing: 0; }
+.map-connection { fill: none; stroke: #70817c; stroke-width: 2; stroke-dasharray: 13 9; stroke-dashoffset: 150; opacity: 0; transition: opacity var(--ws-medium) ease, stroke-dashoffset 900ms var(--ws-ease); transition-delay: var(--connection-delay); }
+.map-connection.revealed { opacity: .72; stroke-dashoffset: 0; }
+.map-node { opacity: 0; transform-box: fill-box; transform-origin: center; transition: opacity var(--ws-medium) ease, filter var(--ws-medium) ease; transition-delay: var(--node-delay); }
+.map-node.revealed { opacity: 1; }
+.map-node.current { filter: drop-shadow(0 0 17px color-mix(in srgb, var(--node-accent) 52%, transparent)); }
+.node-shadow { fill: #0b1210; opacity: .48; }
+.node-body { fill: #f7f8f4; stroke: var(--node-accent); stroke-width: 1.5; }
+.node-accent, .node-signal { fill: var(--node-accent); }
+.map-node.current .node-signal { animation: workscape-pulse 1.2s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+.node-label { fill: #17211f; font-size: 20px; font-weight: 800; letter-spacing: 0; }
+.node-detail { fill: #66746f; font-size: 14px; letter-spacing: 0; }
+.node-index { fill: var(--node-accent); font-size: 12px; font-weight: 800; letter-spacing: 0; }
+.workscape-playback { min-height: 54px; display: grid; grid-template-columns: 36px 36px minmax(120px, 1fr) 54px; align-items: center; gap: 4px; padding: 7px 17px; color: #aab7b2; background: #111a18; border-top: 1px solid #2b3935; }
+.workscape-progress { height: 3px; margin: 0 12px; overflow: hidden; background: #35423e; }
+.workscape-progress i { height: 100%; display: block; background: var(--ws-orange); transition: width 650ms var(--ws-ease); }
+.workscape-playback > span { font-size: 10px; font-variant-numeric: tabular-nums; }
+
+.workscape-focus { min-width: 0; padding: 28px 24px; color: #f4f6f2; background: #202b28; border-left: 1px solid #34413e; position: relative; overflow: hidden; }
+.workscape-focus::after { content: ''; width: 5px; position: absolute; inset: 0 0 0 auto; background: var(--event-accent); }
+.workscape-event-number { position: absolute; top: 18px; right: 22px; color: #70807b; font-size: 42px; font-weight: 850; }
+.workscape-focus-icon { width: 48px; height: 48px; display: grid; place-items: center; margin-bottom: 48px; color: var(--event-accent); background: #151e1c; border: 1px solid #34423e; }
+.workscape-focus-icon svg { width: 21px; }
+.workscape-focus .workscape-eyebrow { color: var(--event-accent); }
+.workscape-focus h2 { margin: 7px 0 12px; font-size: 22px; }
+.workscape-focus p { margin: 0 0 17px; color: #aebbb6; font-size: 12px; line-height: 1.55; }
+.workscape-focus > strong { color: #fff; font-size: 12px; }
+.workscape-file-list { display: grid; gap: 8px; margin-top: 24px; }
+.workscape-file-list span { min-width: 0; display: grid; grid-template-columns: 15px minmax(0, 1fr); gap: 6px; align-items: start; color: #899892; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 9px; line-height: 1.45; overflow-wrap: anywhere; }
+.workscape-file-list svg { width: 13px; color: var(--event-accent); }
+
+.workscape-timeline { width: min(1480px, calc(100% - clamp(36px, 8vw, 128px))); display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); margin: 0 auto; border: 1px solid var(--ws-line); border-top: 0; }
+.workscape-timeline button { min-height: 108px; display: grid; grid-template-columns: 31px minmax(0, 1fr); grid-template-rows: auto auto; align-content: center; column-gap: 9px; padding: 15px; border: 0; border-right: 1px solid var(--ws-line); color: var(--ws-muted); background: var(--ws-paper); text-align: left; transition: background var(--ws-fast) ease, color var(--ws-fast) ease; }
+.workscape-timeline button:last-child { border-right: 0; }
+.workscape-timeline button > span { width: 30px; height: 30px; display: grid; grid-row: 1 / span 2; place-items: center; color: #7d8985; background: #e5e9e2; }
+.workscape-timeline button svg { width: 15px; }
+.workscape-timeline button small { color: #98a29e; font-size: 9px; }
+.workscape-timeline button strong { align-self: start; font-size: 11px; line-height: 1.3; }
+.workscape-timeline button.active { color: var(--ws-ink); background: #fff; box-shadow: inset 0 -4px var(--event-accent); }
+.workscape-timeline button.active > span, .workscape-timeline button.passed > span { color: #fff; background: var(--event-accent); }
+
+.workscape-metrics-band { margin-top: 42px; padding: 38px clamp(18px, 4vw, 64px) 42px; background: #dfe4dc; border-block: 1px solid #d1d7cf; }
+.workscape-section-heading { margin-bottom: 20px; }
+.workscape-section-heading h2 { margin: 5px 0 0; font-size: 21px; }
+.workscape-metrics-band > .workscape-section-heading, .workscape-metrics { width: min(1480px, 100%); margin-left: auto; margin-right: auto; }
+.workscape-metrics { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid #cbd2c9; }
+.workscape-metrics > div { min-height: 132px; display: grid; align-content: center; gap: 4px; padding: 22px; background: #f6f7f3; border-right: 1px solid #cbd2c9; }
+.workscape-metrics > div:last-child { border-right: 0; }
+.workscape-metrics span { color: var(--ws-muted); font-size: 10px; font-weight: 800; text-transform: uppercase; }
+.workscape-metrics strong { font-size: 33px; line-height: 1; font-variant-numeric: tabular-nums; }
+.workscape-metrics small { color: var(--ws-muted); font-size: 10px; }
+
+.workscape-detail-grid { width: min(1480px, calc(100% - clamp(36px, 8vw, 128px))); display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(34px, 6vw, 88px); margin: 0 auto; padding: 52px 0 80px; }
+.artifact-bars { display: grid; gap: 13px; }
+.artifact-bars > div { display: grid; grid-template-columns: 55px minmax(0, 1fr) 58px 54px; align-items: center; gap: 10px; }
+.artifact-bars span { color: var(--ws-muted); font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 11px; }
+.artifact-bars > div > div { height: 12px; overflow: hidden; background: #dce1d9; }
+.artifact-bars i { display: block; height: 100%; background: var(--ws-blue); transform-origin: left; animation: workscape-bar 700ms var(--ws-ease) both; }
+.artifact-bars > div:nth-child(2n) i { background: var(--ws-green); }
+.artifact-bars > div:nth-child(3n) i { background: var(--ws-coral); }
+.artifact-bars strong { font-size: 11px; text-align: right; font-variant-numeric: tabular-nums; }
+.artifact-bars small { color: var(--ws-muted); font-size: 9px; }
+.stack-table { border: 1px solid var(--ws-line); }
+.stack-row { min-height: 43px; display: grid; grid-template-columns: 1.1fr .9fr .75fr; align-items: center; gap: 9px; padding: 0 13px; background: var(--ws-paper); border-bottom: 1px solid var(--ws-line); font-size: 11px; }
+.stack-row:last-child { border-bottom: 0; }
+.stack-row code { color: var(--ws-muted); font-size: 10px; }
+.stack-head { min-height: 32px; color: var(--ws-muted); background: #e3e7df; font-size: 9px; font-weight: 800; text-transform: uppercase; }
+.workscape-source-note { display: grid; grid-template-columns: 18px 1fr; gap: 8px; margin: 16px 0 7px; padding: 12px; color: #74511f; background: #f6e8c9; font-size: 10px; line-height: 1.45; }
+.workscape-source-note svg { width: 15px; }
+.workscape-generated { color: var(--ws-muted); font-size: 9px; }
+.workscape-state { min-height: 100vh; display: grid; place-content: center; justify-items: center; gap: 10px; padding: 30px; color: var(--ws-muted); background: var(--ws-canvas); text-align: center; }
+.workscape-state h1 { margin: 4px 0 0; color: var(--ws-ink); font-size: 24px; }
+.workscape-state p { max-width: 480px; font-size: 12px; }
+.workscape-state button { min-height: 38px; padding: 0 12px; border: 0; color: #fff; background: var(--ws-ink); }
+.workscape-loader { width: 28px; height: 28px; border: 3px solid #cad1c8; border-top-color: var(--ws-orange); border-radius: 50%; animation: workscape-spin .8s linear infinite; }
+
+@keyframes workscape-pulse { 50% { transform: scale(1.75); opacity: .45; } }
+@keyframes workscape-bar { from { transform: scaleX(0); } }
+@keyframes workscape-spin { to { transform: rotate(360deg); } }
+
+@media (max-width: 1120px) {
+  .workscape-header { grid-template-columns: 1fr auto; }
+  .workscape-header > code { display: none; }
+  .workscape-stage-layout { grid-template-columns: 1fr; }
+  .workscape-focus { min-height: 260px; display: grid; grid-template-columns: 58px minmax(0, 1fr); grid-template-rows: repeat(5, auto); column-gap: 16px; border-left: 0; border-top: 1px solid #34413e; }
+  .workscape-focus-icon { grid-row: 1 / span 5; margin: 0; }
+  .workscape-focus .workscape-eyebrow, .workscape-focus h2, .workscape-focus p, .workscape-focus > strong, .workscape-file-list { grid-column: 2; }
+  .workscape-focus h2 { margin-bottom: 7px; }
+  .workscape-file-list { margin-top: 13px; }
+  .workscape-detail-grid { gap: 40px; }
+}
+
+@media (max-width: 760px) {
+  .workscape-header { min-height: 62px; padding: 8px 14px; }
+  .workscape-mark, .workscape-brand > div:last-child { display: none !important; }
+  .workscape-button { width: 36px; padding: 0; }
+  .workscape-button span { display: none; }
+  .workscape-actions { gap: 4px; }
+  .workscape-segmented button { padding: 0 8px; }
+  .workscape-stage-band { padding: 25px 14px 18px; }
+  .workscape-stage-heading { grid-template-columns: 1fr; gap: 8px; margin-bottom: 17px; }
+  .workscape-stage-heading h1 { font-size: 24px; }
+  .workscape-stage-heading p { font-size: 12px; }
+  .workscape-map { min-width: 820px; }
+  .workscape-map-frame { overflow-x: auto; }
+  .workscape-playback { position: sticky; left: 0; width: calc(100vw - 28px); }
+  .workscape-focus { min-height: auto; grid-template-columns: 42px minmax(0, 1fr); padding: 21px 18px; }
+  .workscape-focus-icon { width: 40px; height: 40px; }
+  .workscape-event-number { font-size: 30px; }
+  .workscape-focus h2 { padding-right: 46px; }
+  .workscape-timeline { width: calc(100% - 28px); grid-template-columns: repeat(6, minmax(126px, 1fr)); overflow-x: auto; }
+  .workscape-timeline button { min-height: 88px; }
+  .workscape-metrics-band { margin-top: 28px; padding: 30px 14px; }
+  .workscape-metrics { grid-template-columns: 1fr 1fr; }
+  .workscape-metrics > div { min-height: 108px; padding: 16px; border-bottom: 1px solid #cbd2c9; }
+  .workscape-metrics > div:nth-child(2) { border-right: 0; }
+  .workscape-metrics > div:nth-child(n+3) { border-bottom: 0; }
+  .workscape-metrics strong { font-size: 28px; }
+  .workscape-detail-grid { width: calc(100% - 28px); grid-template-columns: 1fr; gap: 46px; padding: 40px 0 60px; }
+  .artifact-bars > div { grid-template-columns: 45px minmax(0,1fr) 50px; }
+  .artifact-bars small { display: none; }
+  .stack-row { grid-template-columns: 1fr .8fr .7fr; padding: 0 9px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .workscape *, .workscape *::before, .workscape *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}

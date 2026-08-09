@@ -1,0 +1,31 @@
+Manager Action Notification
+===========================
+
+Dear {{ manager.first_name|default:manager.username }},
+
+This email confirms an action you performed in the manager dashboard.
+
+Action Details:
+---------------
+Date & Time: {{ timestamp|date:"F d, Y \a\t g:i A" }}
+Action Type: {{ notification_type|title|replace:"_":" " }}
+Status: Completed
+
+Action Information:
+-------------------
+{% for key, value in data.items %}
+{{ key|title|replace:"_":" " }}: {{ value }}
+{% endfor %}
+
+Security Note:
+--------------
+This notification is sent for your records. All manager actions are logged for security and audit purposes.
+
+If you didn't perform this action, please contact our support team immediately.
+
+Best regards,
+The {{ site_name }} Team
+
+Visit Manager Dashboard: {{ site_url }}
+Contact Support: {{ support_email }}
+

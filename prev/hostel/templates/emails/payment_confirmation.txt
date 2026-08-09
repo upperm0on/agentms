@@ -1,0 +1,35 @@
+Payment Confirmation - Transaction Successful
+
+Dear {{ user.first_name|default:user.username }},
+
+Your payment has been successfully processed. Thank you for choosing {{ site_name }}!
+
+PAYMENT DETAILS:
+- Amount Paid: ₦{{ amount|floatformat:2 }}
+- Transaction Reference: {{ reference }}
+- Payment Date: {{ payment_date|date:"F d, Y \a\t g:i A" }}
+- Status: ✅ Confirmed
+
+WHAT HAPPENS NEXT?
+- Room Assignment: You'll receive your room details within 24 hours
+- Check-in Instructions: We'll send you detailed check-in information
+- Welcome Package: Look out for your welcome email with important information
+
+KEEP YOUR RECEIPT:
+Please save this email as your payment receipt. You may need it for:
+- Check-in verification
+- Refund requests (if applicable)
+- Tax purposes
+
+If you have any questions about your payment or need assistance, please contact our support team.
+
+Thank you for your business!
+
+Best regards,
+The {{ site_name }} Team
+
+---
+{{ site_name }} - Your Gateway to Quality Student Accommodation
+📧 Email: {{ support_email }}
+🌐 Website: {{ site_url }}
+© {{ current_year }} {{ site_name }}. All rights reserved.

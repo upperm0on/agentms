@@ -1,0 +1,145 @@
+.how_it_works_section {
+    padding: 80px 30px;
+    background: rgba(248, 250, 252, 0.5);
+    backdrop-filter: blur(10px);
+}
+
+.how_it_works_container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.how_it_works_header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.how_it_works_title {
+    font-size: 2.5rem;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: var(--color-dark-text);
+    margin-bottom: 20px;
+}
+
+.how_it_works_subtitle {
+    font-size: 1.2rem;
+    font-family: var(--font-body);
+    color: var(--color-muted-text);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.steps_container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 40px;
+    margin-top: 60px;
+}
+
+.step_item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+}
+
+.step_number {
+    width: 80px;
+    height: 80px;
+    background: rgba(37, 99, 235, 0.8);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-family: var(--font-heading);
+    font-weight: 800;
+    margin-bottom: 25px;
+    box-shadow: 0 8px 32px rgba(37, 99, 235, 0.2);
+}
+
+.step_content {
+    max-width: 300px;
+}
+
+.step_title {
+    font-size: 1.4rem;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    color: var(--color-dark-text);
+    margin-bottom: 15px;
+}
+
+.step_description {
+    font-size: 1rem;
+    font-family: var(--font-body);
+    color: var(--color-muted-text);
+    line-height: 1.6;
+}
+
+/* Connect steps with lines on desktop */
+.step_item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 40px;
+    right: -20px;
+    width: 40px;
+    height: 2px;
+    background: rgba(37, 99, 235, 0.3);
+    backdrop-filter: blur(5px);
+    z-index: -1;
+}
+
+/* Responsive how it works section */
+@media (max-width: 768px) {
+    .how_it_works_section {
+        padding: 60px 20px;
+    }
+    
+    .how_it_works_title {
+        font-size: 2rem;
+    }
+    
+    .how_it_works_subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .steps_container {
+        grid-template-columns: 1fr;
+        gap: 50px;
+    }
+    
+    .step_item:not(:last-child)::after {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .how_it_works_section {
+        padding: 40px 15px;
+    }
+    
+    .how_it_works_title {
+        font-size: 1.8rem;
+    }
+    
+    .how_it_works_subtitle {
+        font-size: 1rem;
+    }
+    
+    .step_number {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+    
+    .step_title {
+        font-size: 1.2rem;
+    }
+}

@@ -1,0 +1,41 @@
+User-agent: *
+Allow: /
+Allow: /hostels/
+Allow: /search/
+Allow: /student-resources/
+Allow: /campus-guide/
+Allow: /safety-tips/
+Allow: /help-center/
+Allow: /about/
+Allow: /contact/
+Allow: /privacy-policy/
+Allow: /terms-of-service/
+
+# Disallow admin and private areas
+Disallow: /admin/
+Disallow: /manager/
+Disallow: /dashboard/
+Disallow: /api/
+Disallow: /static/admin/
+Disallow: /media/private/
+
+# Disallow login and signup pages from indexing
+Disallow: /login/
+Disallow: /signup/
+Disallow: /email-verification/
+
+# Allow important static files
+Allow: /static/css/
+Allow: /static/js/
+Allow: /static/images/
+Allow: /images/
+Allow: /css/
+Allow: /js/
+
+# Sitemap locations
+Sitemap: https://hosttelz.com/sitemap.xml
+Sitemap: https://hosttelz.com/sitemap-hostels.xml
+Sitemap: https://hosttelz.com/sitemap-images.xml
+
+# Crawl delay (optional)
+Crawl-delay: 1

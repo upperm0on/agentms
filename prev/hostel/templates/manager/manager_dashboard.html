@@ -1,0 +1,269 @@
+{% load static %}
+
+<div class="container my-5">
+  <!-- Navigation Tabs -->
+  <ul class="nav nav-tabs" id="dashboardTabs" role="tablist">
+    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#dashboard" role="tab">Dashboard</a></li>
+    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#bookings" role="tab">Recent Bookings</a></li>
+    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#earnings" role="tab">Earnings & Financials</a></li>
+    <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#profile" role="tab">Profile</a></li>
+  </ul>
+
+  <div class="tab-content mt-3">
+    <!-- Other Tabs Content -->
+    <div class="tab-pane fade" id="dashboard" role="tabpanel">
+      <!-- Hostel Manager Details -->
+       <div class="row">
+      <div class="col-md-6 manager-details">
+      <div class="card mb-3">
+        <div class="card-body d-grid manager-card-body">
+        <div>
+          {% if request.user.profile_picture %}
+          <img src="{{ request.user.profile_picture.url }}" alt="Profile Picture" class="img-thumbnail profile-picture">
+          {% else %}
+          <div class="default-profile-picture">
+            {{ request.user.email|slice:":1"|upper }}
+          </div>
+          {% endif %}
+        </div>
+        <div>
+          <h5 class="card-title">User Details</h5>
+          <p><strong>Name:</strong> {{ request.user.first_name|default:request.user.email }}</p>
+          <p><strong>Email:</strong> {{ request.user.email }}</p>
+          <p><strong>Role:</strong> Hostel Manager</p>
+        </div>
+        </div>
+      </div>
+      </div>
+
+    <!-- Hostel Details -->
+    <div class="col-md-6">
+      <div class="card mb-3">
+      <div class="card-body d-grid hostel-card-body">
+        {% if hostel %}
+        <div>
+        {% if hostel.image %}
+        <img src="{{ hostel.image.url }}" alt="Hostel Image" class="img-thumbnail hostel-image">
+        {% else %}
+        {% endif %}
+        </div>
+        <div>
+        <h5 class="card-title">Hostel Details</h5>
+        <p><strong>Hostel Name:</strong> {{ hostel.name }}</p>
+        <p><strong>Campus:</strong> {{ hostel.campus }}</p>
+        <p><strong>Total Rooms:</strong> {{ total_rooms }}</p>
+        <p><strong>Rating:</strong> {{ ratings|default:"No Ratings Yet" }}</p>
+        <p><strong>Checkout Date:</strong> {{ hostel.checkout|date:"F j, Y" }}</p>
+      </div>
+      <p><a href='{% url "update_hostel" hostel.id %}' class="btn btn-primary">Update Info</a></p>
+        {% else %}
+        <div>
+        <h5 class="card-title">No Hostel Found</h5>
+        <p>You currently do not have a hostel property listed. Add your property to start managing it effectively.</p>
+        <a href="{% url 'add_hostel' %}" class="btn btn-primary">Add Property</a>
+        </div>
+        {% endif %}
+      </div>
+      </div>
+    </div>
+    {% if hostel %}
+    <div class='room-details-section mt-5'>
+      <h5 class='room-details-title'>Room Details</h5>
+      <div class='room-section'></div>
+      <script type='text/javascript'> 
+      const room_details = {{ hostel.room_details|safe }};
+      let filtered_users = {{ filtered_consumers_dict|safe }};
+      room_details.forEach(room => {
+        document.querySelector('.room-section').innerHTML += `
+        <div class='room-details' style='background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 70%, rgba(0, 0, 0, 0.9) 100%), url("{{ media_url }}room_images/{{ hostel.name }}/${room.number_in_room}/${room.room_image}") no-repeat center center/cover'>
+          <ul class="room-details-list">
+          <li> <h4 style="font-weight: bold; font-family: var(--font2); text-transform: capitalize; "> ${room.number_in_room} in a room <h4> </li>
+          <li><strong>Number of Rooms:</strong> ${room.number_of_rooms}</li>
+          <li><strong>Price:</strong> ${room.price}</li>
+            <ul class="inner-list-inline" style="list-style: none;">
+            <h5 style="font-weight: bold; font-family: var(--font2); text-transform: capitalize; color: white;" class="text-white">Occupancy Details</h5>
+            <li><strong>Total Occupancy:</strong> <span style="font-weight: bold; color: white;">${room.number_in_room * room.number_of_rooms}</span></li>
+            <li><strong>Current Occupants:</strong> <span style="font-weight: bold; color: white;">${filtered_users[room.number_in_room]}</span></li>
+            <li><strong>Available spaces:</strong> <span style="font-weight: bold; color: white;">${(room.number_in_room * room.number_of_rooms) - filtered_users[room.number_in_room]}</span></li>
+            </ul>
+          </ul>
+        </div>
+        `
+      });
+      </script>
+    </div>
+    {% endif %}
+</div>
+
+  <!-- Room Availability -->
+</div>
+  <div class='tab-pane fade' id='bookings' role='tabpanel'>
+    <style>
+      .recent-bookings-table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+      }
+
+      .recent-bookings-table th, .recent-bookings-table td {
+      padding: 15px;
+      text-align: left;
+      border: 1px solid #ddd;
+      }
+
+      .recent-bookings-table th {
+      background-color: #f8f9fa;
+      font-weight: bold;
+      }
+
+      .recent-bookings-table tbody tr:nth-child(even) {
+      background-color: #f2f2f2;
+      }
+
+      .recent-bookings-table tbody tr:hover {
+      background-color: #e9ecef;
+      }
+
+      .recent-bookings-container {
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .recent-bookings-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+      }
+    </style>
+
+    <div class="recent-bookings-container">
+      <h3 class="recent-bookings-title">Recent Bookings</h3>
+      <table class="recent-bookings-table table table-striped">
+      <thead>
+        <tr>
+        <th>Name</th>
+        <th>Room</th>
+        <th>Booking Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for booking in consumers %}
+        <tr>
+          <td>{{ booking.user.username|capfirst }}</td>
+          <td><strong>{{ booking.room_uuid }} </strong></td>
+          <td>{{ booking.date_created }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      </table>
+    </div>
+  </div>
+
+    <div class="tab-pane fade show" id="earnings" role="tabpanel">
+      <div class="container mt-4">
+      <h3 class="mb-4 text-center"><i class="fas fa-wallet text-primary"></i> Earnings & Financials</h3>
+      <div class="row">
+        <!-- Current Month Earnings -->
+        <div class="col-md-6">
+        <div class="card mb-3 shadow-sm">
+          <div class="card-body text-center">
+          <i class="fas fa-calendar-alt fa-3x text-primary mb-3"></i>
+          <h5 class="card-title">Current Month Earnings</h5>
+          <p><strong>Month:</strong> {{ current_month }}</p>
+          <p><strong>Total Earnings:</strong> <span class="text-success">${{ current_month_earnings }}</span></p>
+          <p><strong>Last Updated:</strong> {{ last_updated|date:"F j, Y, g:i a" }}</p>
+          </div>
+        </div>
+        </div>
+
+        <!-- Previous Month Earnings -->
+        <div class="col-md-6">
+        <div class="card mb-3 shadow-sm">
+          <div class="card-body text-center">
+          <i class="fas fa-history fa-3x text-warning mb-3"></i>
+          <h5 class="card-title">Previous Month Earnings</h5>
+          <p><strong>Month:</strong> {{ previous_month }}</p>
+          <p><strong>Total Earnings:</strong> <span class="text-success">${{ previous_month_earnings }}</span></p>
+          </div>
+        </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <!-- Year-to-Date Earnings -->
+        <div class="col-md-6">
+        <div class="card mb-3 shadow-sm">
+          <div class="card-body text-center">
+          <i class="fas fa-chart-line fa-3x text-success mb-3"></i>
+          <h5 class="card-title">Year-to-Date Earnings</h5>
+          <p><strong>Total Earnings:</strong> <span class="text-success">${{ year_to_date_earnings }}</span></p>
+          <p><strong>Number of Transactions:</strong> {{ total_transactions }}</p>
+          </div>
+        </div>
+        </div>
+
+        <!-- Financial Insights -->
+        <div class="col-md-6">
+        <div class="card mb-3 shadow-sm">
+          <div class="card-body text-center">
+          <i class="fas fa-lightbulb fa-3x text-info mb-3"></i>
+          <h5 class="card-title" >Financial Insights</h5>
+          <p><strong>Growth Rate (Month-over-Month):</strong> <span class="text-success">{{ growth_rate }}%</span></p>
+          <p><strong>Highest Earning Month:</strong> {{ highest_earning_month }} (<span class="text-success">${{ highest_earning_amount }}</span>)</p>
+          <p><strong>Lowest Earning Month:</strong> {{ lowest_earning_month }} (<span class="text-danger">${{ lowest_earning_amount }}</span>)</p>
+          </div>
+        </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <!-- Total Balance -->
+        <div class="col-md-6">
+        <div class="card mb-3 shadow-sm">
+          <div class="card-body text-center">
+          <i class="fas fa-balance-scale fa-3x text-secondary mb-3"></i>
+          <h5 class="card-title">Total Balance</h5>
+          <p><strong>Current Balance:</strong> <span class="text-primary">${{ total_balance }}</span></p>
+          </div>
+        </div>
+        </div>
+        <!-- All Time Earnings -->
+        <div class="col-md-6">
+        <div class="card mb-3 shadow-sm">
+          <div class="card-body text-center">
+          <i class="fas fa-infinity fa-3x text-success mb-3"></i>
+          <h5 class="card-title">All Time Earnings</h5>
+          <p><strong>Total Earnings:</strong> <span class="text-success">${{ all_time_earnings }}</span></p>
+          </div>
+        </div>
+        </div>
+      </div>
+      </div>
+    </div>
+
+    <!-- Add FontAwesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <!-- Profile -->
+    <div class="tab-pane fade show active" id="profile" role="tabpanel">
+      <center><h3 style='font-family: var(--font2); font-size: 1.5rem; margin: 20px;'> Profile Information</h3></center>
+      <div class="row">
+        <!-- Profile Information -->
+        <div class="col-md">
+          <div class="card mb-3 shadow-sm">
+            <div class="card-body" style="padding: 20px; font-size: 1.2rem;">
+              <p style="margin-bottom: 15px;"><i class="fas fa-user text-secondary"></i> <strong>Name:</strong> {{ request.user.first_name|default:request.user.email|capfirst }}</p>
+              <p style="margin-bottom: 15px;"><i class="fas fa-envelope text-secondary"></i> <strong>Email:</strong> {{ request.user.email }}</p>
+              <p style="margin-bottom: 15px;"><i class="fas fa-user-tag text-secondary"></i> <strong>Role:</strong> Hostel Manager</p>
+              <p style="margin-bottom: 15px;"><i class="fas fa-calendar-alt text-secondary"></i> <strong>Date joined:</strong> {{ request.user.date_joined }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Include Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

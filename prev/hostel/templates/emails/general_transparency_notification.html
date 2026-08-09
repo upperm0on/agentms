@@ -1,0 +1,70 @@
+{% extends "emails/base_email.html" %}
+
+{% block content %}
+<h2>🔍 Transparency Update</h2>
+
+<p>Dear <strong>{{ user.first_name|default:user.username }}</strong>,</p>
+
+<p>We're committed to complete transparency in everything we do. Here's an important update about our system:</p>
+
+<div class="info-box">
+    <h3>📋 Update Details</h3>
+    <table class="details-table">
+        <tr>
+            <th>🔍 Update Type</th>
+            <td><span class="status-badge status-confirmed">{{ notification_type|title }}</span></td>
+        </tr>
+        <tr>
+            <th>📅 Date & Time</th>
+            <td>{{ timestamp|date:"F d, Y \a\t g:i A" }}</td>
+        </tr>
+        <tr>
+            <th>📊 Status</th>
+            <td><span class="status-badge status-confirmed">Completed</span></td>
+        </tr>
+    </table>
+</div>
+
+<div class="highlight">
+    <h3>📋 What This Means for You</h3>
+    <ul>
+        {% for key, value in data.items %}
+        <li><strong>{{ key|title }}:</strong> {{ value }}</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="info-box">
+    <h3>🎯 Our Transparency Commitment</h3>
+    <p>We believe in keeping you informed about:</p>
+    <ul>
+        <li><strong>🔒 Security Updates:</strong> All security measures and improvements</li>
+        <li><strong>📊 System Maintenance:</strong> Scheduled maintenance and updates</li>
+        <li><strong>🔄 Policy Changes:</strong> Any changes to our terms or policies</li>
+        <li><strong>🚀 Feature Updates:</strong> New features and improvements</li>
+        <li><strong>📈 Performance Reports:</strong> System performance and reliability</li>
+        <li><strong>💾 Data Management:</strong> How we handle and protect your data</li>
+    </ul>
+</div>
+
+<div class="urgent-notice">
+    <h3>📞 Questions or Concerns?</h3>
+    <p>If you have any questions about this update or need clarification, please don't hesitate to contact us:</p>
+    <ul>
+        <li>📧 Email: <a href="mailto:{{ support_email }}">{{ support_email }}</a></li>
+        <li>🌐 Website: <a href="{{ site_url }}">{{ site_url }}</a></li>
+        <li>💬 Live Chat: Available 24/7 on our website</li>
+    </ul>
+</div>
+
+<p>Thank you for trusting us with your accommodation needs. We're committed to maintaining the highest standards of transparency and service.</p>
+
+<p>Best regards,<br>
+<strong>The {{ site_name }} Team</strong><br>
+<em>Your transparent accommodation partner</em></p>
+
+<div style="text-align: center; margin-top: 30px;">
+    <a href="{{ site_url }}" class="button">Learn More</a>
+    <a href="mailto:{{ support_email }}" class="button">Contact Support</a>
+</div>
+{% endblock %}

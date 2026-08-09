@@ -1,0 +1,193 @@
+.hostel-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.hostel-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.hostel-card-image {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.hostel-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hostel-card-overlay {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+
+.hostel-status {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #059669;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.hostel-card-content {
+  padding: 20px;
+}
+
+.hostel-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.hostel-name {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+  line-height: 1.3;
+  flex: 1;
+}
+
+.hostel-actions {
+  position: relative;
+}
+
+.actions-btn {
+  background: none;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.actions-btn:hover {
+  background: #f1f5f9;
+  color: #1e293b;
+}
+
+.actions-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  min-width: 120px;
+  z-index: 10;
+}
+
+.action-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 12px;
+  background: none;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 0.85rem;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+.action-item:hover {
+  background: #f8fafc;
+  color: #1e293b;
+}
+
+.action-item.delete {
+  color: #ef4444;
+}
+
+.action-item.delete:hover {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.hostel-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
+.info-item svg {
+  color: #3b82f6;
+  flex-shrink: 0;
+}
+
+.hostel-stats {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 16px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.stat-label {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.stat-value {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .hostel-card-content {
+    padding: 16px;
+  }
+  
+  .hostel-name {
+    font-size: 1rem;
+  }
+  
+  .hostel-info {
+    gap: 6px;
+  }
+  
+  .info-item {
+    font-size: 0.85rem;
+  }
+}

@@ -1,0 +1,41 @@
+Reservation Reminder - {{ days_remaining }} days remaining
+
+Dear {{ user.first_name|default:user.username }},
+
+This is a friendly reminder about your upcoming reservation at {{ hostel.name }}.
+
+IMPORTANT DATES:
+- Hostel: {{ hostel.name }}
+- Check-in Date: {{ reservation.reservee_date|date:"F d, Y" }}
+- Expiry Date: {{ expiry_date|date:"F d, Y" }}
+- Days Remaining: {{ days_remaining }} day{{ days_remaining|pluralize }}
+
+{% if days_remaining <= 3 %}
+🚨 URGENT: Payment Required
+Your reservation expires in {{ days_remaining }} day{{ days_remaining|pluralize }}! Please complete your payment immediately to secure your room.
+{% else %}
+💳 Payment Reminder
+Don't forget to complete your payment before the expiry date to secure your room.
+{% endif %}
+
+NEXT STEPS:
+- Complete Payment: Log in to your account and complete your payment
+- Contact Support: If you need assistance with payment, contact us immediately
+- Room Assignment: Once payment is confirmed, you'll receive your room details
+
+🆘 NEED HELP?
+If you're having trouble with payment or have any questions:
+- Email: {{ support_email }}
+- Website: {{ site_url }}
+- Contact our support team for immediate assistance
+
+We look forward to welcoming you to {{ hostel.name }}!
+
+Best regards,
+The {{ site_name }} Team
+
+---
+{{ site_name }} - Your Gateway to Quality Student Accommodation
+📧 Email: {{ support_email }}
+🌐 Website: {{ site_url }}
+© {{ current_year }} {{ site_name }}. All rights reserved.

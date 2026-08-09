@@ -1,0 +1,38 @@
+# Quick Setup Commands for Production Server
+
+# 1. First, update the service files with your actual paths
+# Check your current user and project path
+whoami
+pwd
+
+# 2. Update service files if needed (replace ubuntu with your user, update paths)
+# Edit the service files to match your setup
+
+# 3. Copy service files to systemd
+sudo cp /home/admin/hostel/hostel.service /etc/systemd/system/
+sudo cp /home/admin/hostel/celery-worker.service /etc/systemd/system/
+sudo cp /home/admin/hostel/celery-beat.service /etc/systemd/system/
+
+# 4. Reload systemd
+sudo systemctl daemon-reload
+
+# 5. Enable services to start on boot
+sudo systemctl enable hostel.service
+sudo systemctl enable celery-worker.service
+sudo systemctl enable celery-beat.service
+
+# 6. Start services
+sudo systemctl start hostel.service
+sudo systemctl start celery-worker.service
+sudo systemctl start celery-beat.service
+
+# 7. Check status (NO ./ prefix needed!)
+sudo systemctl status hostel.service
+sudo systemctl status celery-worker.service
+sudo systemctl status celery-beat.service
+
+# 8. View logs
+tail -f /home/admin/hostel/logs/celery_worker.log
+tail -f /home/admin/hostel/logs/celery_beat.log
+sudo journalctl -u hostel.service -f
+

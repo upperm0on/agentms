@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+{% block active_hostel %} activated {% endblock active_hostel %} 
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/hq/read_hostels.css' %}">
+<link rel="stylesheet" href="{% static 'css/mobile/hq/read_hostels.css' %}" />
+    <form action="{% url 'manual_search' %}" method="get" class='search_form'>
+        <div class="search-container">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" name="search" placeholder="Search for a Campus ..." class="search-input" autocomplete="off" required>
+        </div>
+        <div class='campus_list_dialogue'>
+            <script type='application/json' id='campus_list_json'>
+                {{ campus_list|safe }}
+            </script>
+        </div>
+    </form> 
+    {% if request.user.is_authenticated %}
+    {% if not gender %}
+    <form action='.' method='POST' class='gender_form'>
+            {% csrf_token %}
+            <div class='option_container'>
+                <label for="gender">Select your gender:</label>
+            <select name="gender" id="gender" required>
+                <option value="" disabled selected>Select gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+            <button type="submit" name="gender_select">Submit</button>
+        </div> 
+    </form>
+    {% endif %}
+    {% endif %}
+            {% include "./hostel_template.html" %}
+    <script src="{% static 'js/hq/read_hostel.js' %}"></script>
+{% endblock content %}

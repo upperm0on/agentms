@@ -1,0 +1,1602 @@
+[
+    {
+        "model": "hq.hostel",
+        "pk": 1,
+        "fields": {
+            "name": "Wonder Direction Hostel",
+            "campus": 24,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Study room\", \"24/7 water supply\", \"Laundry area\", \"WiFi\"]",
+            "room_details": "[{\"number_in_room\": \"5\", \"price\": \"1565\", \"number_of_rooms\": \"19\", \"room_image\": [], \"amenities\": \"[\\\"Study desk\\\", \\\"Wardrobe\\\", \\\"Ceiling light\\\", \\\"Curtains\\\"]\", \"gender\": {\"female\": \"19\"}}, {\"number_in_room\": \"1\", \"price\": \"1530\", \"number_of_rooms\": \"19\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Curtains\\\", \\\"Fan\\\", \\\"Private bath\\\"]\", \"gender\": {\"male\": \"9\", \"female\": \"10\"}}]",
+            "manager": 1,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 2,
+        "fields": {
+            "name": "Hear Quite Hostel",
+            "campus": 7,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Laundry area\", \"Security post\"]",
+            "room_details": "[{\"number_in_room\": \"4\", \"price\": \"1117\", \"number_of_rooms\": \"20\", \"room_image\": [], \"amenities\": \"[\\\"Fan\\\", \\\"Tiled floor\\\", \\\"Study desk\\\"]\", \"gender\": {\"female\": \"20\"}}, {\"number_in_room\": \"2\", \"price\": \"1185\", \"number_of_rooms\": \"15\", \"room_image\": [], \"amenities\": \"[\\\"Curtains\\\", \\\"Ceiling light\\\", \\\"Reading lamp\\\", \\\"Tiled floor\\\", \\\"Window netting\\\"]\", \"gender\": {\"male\": \"15\"}}]",
+            "manager": 2,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 3,
+        "fields": {
+            "name": "Kind Myself Hostel",
+            "campus": 15,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Security post\", \"Study room\", \"Parking space\"]",
+            "room_details": "[{\"number_in_room\": \"3\", \"price\": \"856\", \"number_of_rooms\": \"19\", \"room_image\": [], \"amenities\": \"[\\\"Power socket\\\", \\\"Wardrobe\\\"]\", \"gender\": {\"male\": \"9\", \"female\": \"10\"}}, {\"number_in_room\": \"1\", \"price\": \"1149\", \"number_of_rooms\": \"17\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Power socket\\\", \\\"Wardrobe\\\"]\", \"gender\": {\"female\": \"17\"}}]",
+            "manager": 3,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 4,
+        "fields": {
+            "name": "Available Science Hostel",
+            "campus": 22,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"TV room\", \"WiFi\", \"Generator\"]",
+            "room_details": "[{\"number_in_room\": \"1\", \"price\": \"1031\", \"number_of_rooms\": \"18\", \"room_image\": [], \"amenities\": \"[\\\"Study desk\\\", \\\"Curtains\\\"]\", \"gender\": {\"female\": \"18\"}}, {\"number_in_room\": \"4\", \"price\": \"904\", \"number_of_rooms\": \"6\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Study desk\\\", \\\"Tiled floor\\\", \\\"Window netting\\\", \\\"Reading lamp\\\"]\", \"gender\": {\"female\": \"6\"}}, {\"number_in_room\": \"2\", \"price\": \"994\", \"number_of_rooms\": \"6\", \"room_image\": [], \"amenities\": \"[\\\"Power socket\\\", \\\"Wardrobe\\\", \\\"Fan\\\", \\\"Curtains\\\", \\\"Study desk\\\"]\", \"gender\": {\"male\": \"6\"}}, {\"number_in_room\": \"5\", \"price\": \"1122\", \"number_of_rooms\": \"17\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Power socket\\\"]\", \"gender\": {\"male\": \"8\", \"female\": \"9\"}}]",
+            "manager": 4,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 5,
+        "fields": {
+            "name": "Second Development Hostel",
+            "campus": 24,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"TV room\", \"24/7 water supply\"]",
+            "room_details": "[{\"number_in_room\": \"4\", \"price\": \"1077\", \"number_of_rooms\": \"10\", \"room_image\": [], \"amenities\": \"[\\\"Study desk\\\", \\\"Tiled floor\\\", \\\"Private bath\\\", \\\"Window netting\\\", \\\"Fan\\\"]\", \"gender\": {\"male\": \"10\"}}, {\"number_in_room\": \"3\", \"price\": \"1910\", \"number_of_rooms\": \"8\", \"room_image\": [], \"amenities\": \"[\\\"Study desk\\\", \\\"Ceiling light\\\", \\\"Fan\\\", \\\"Private bath\\\", \\\"Power socket\\\"]\", \"gender\": {\"male\": \"8\"}}, {\"number_in_room\": \"1\", \"price\": \"1214\", \"number_of_rooms\": \"16\", \"room_image\": [], \"amenities\": \"[\\\"Private bath\\\", \\\"Study desk\\\", \\\"Tiled floor\\\"]\", \"gender\": {\"male\": \"16\"}}, {\"number_in_room\": \"2\", \"price\": \"1823\", \"number_of_rooms\": \"20\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Reading lamp\\\", \\\"Fan\\\", \\\"Private bath\\\"]\", \"gender\": {\"female\": \"20\"}}]",
+            "manager": 5,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 6,
+        "fields": {
+            "name": "See Parent Hostel",
+            "campus": 5,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Security post\", \"WiFi\", \"Parking space\", \"Generator\"]",
+            "room_details": "[{\"number_in_room\": \"2\", \"price\": \"945\", \"number_of_rooms\": \"9\", \"room_image\": [], \"amenities\": \"[\\\"Curtains\\\", \\\"Wardrobe\\\"]\", \"gender\": {\"male\": \"9\"}}, {\"number_in_room\": \"4\", \"price\": \"1401\", \"number_of_rooms\": \"16\", \"room_image\": [], \"amenities\": \"[\\\"Tiled floor\\\", \\\"Curtains\\\", \\\"Reading lamp\\\", \\\"Study desk\\\", \\\"Window netting\\\"]\", \"gender\": {\"female\": \"16\"}}, {\"number_in_room\": \"5\", \"price\": \"1280\", \"number_of_rooms\": \"17\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Wardrobe\\\"]\", \"gender\": {\"male\": \"8\", \"female\": \"9\"}}]",
+            "manager": 6,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 7,
+        "fields": {
+            "name": "Ability Cell Hostel",
+            "campus": 25,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Parking space\", \"CCTV\", \"Study room\"]",
+            "room_details": "[{\"number_in_room\": \"5\", \"price\": \"1283\", \"number_of_rooms\": \"18\", \"room_image\": [], \"amenities\": \"[\\\"Curtains\\\", \\\"Private bath\\\", \\\"Power socket\\\"]\", \"gender\": {\"male\": \"9\", \"female\": \"9\"}}, {\"number_in_room\": \"3\", \"price\": \"1542\", \"number_of_rooms\": \"11\", \"room_image\": [], \"amenities\": \"[\\\"Wardrobe\\\", \\\"Curtains\\\"]\", \"gender\": {\"female\": \"11\"}}, {\"number_in_room\": \"4\", \"price\": \"1375\", \"number_of_rooms\": \"5\", \"room_image\": [], \"amenities\": \"[\\\"Study desk\\\", \\\"Power socket\\\"]\", \"gender\": {\"female\": \"5\"}}, {\"number_in_room\": \"2\", \"price\": \"1891\", \"number_of_rooms\": \"19\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Study desk\\\"]\", \"gender\": {\"male\": \"19\"}}]",
+            "manager": 7,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 8,
+        "fields": {
+            "name": "Part Moment Hostel",
+            "campus": 21,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Security post\", \"Laundry area\"]",
+            "room_details": "[{\"number_in_room\": \"3\", \"price\": \"1033\", \"number_of_rooms\": \"14\", \"room_image\": [], \"amenities\": \"[\\\"Private bath\\\", \\\"Tiled floor\\\", \\\"Fan\\\"]\", \"gender\": {\"female\": \"14\"}}, {\"number_in_room\": \"1\", \"price\": \"1570\", \"number_of_rooms\": \"16\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Fan\\\", \\\"Tiled floor\\\", \\\"Window netting\\\"]\", \"gender\": {\"female\": \"16\"}}]",
+            "manager": 8,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 9,
+        "fields": {
+            "name": "Enough International Hostel",
+            "campus": 20,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Security post\", \"Ironing bay\", \"Parking space\"]",
+            "room_details": "[{\"number_in_room\": \"1\", \"price\": \"1907\", \"number_of_rooms\": \"19\", \"room_image\": [], \"amenities\": \"[\\\"Curtains\\\", \\\"Wardrobe\\\"]\", \"gender\": {\"male\": \"9\", \"female\": \"10\"}}, {\"number_in_room\": \"5\", \"price\": \"1128\", \"number_of_rooms\": \"6\", \"room_image\": [], \"amenities\": \"[\\\"Power socket\\\", \\\"Curtains\\\", \\\"Fan\\\", \\\"Private bath\\\"]\", \"gender\": {\"male\": \"3\", \"female\": \"3\"}}, {\"number_in_room\": \"3\", \"price\": \"1972\", \"number_of_rooms\": \"11\", \"room_image\": [], \"amenities\": \"[\\\"Curtains\\\", \\\"Wardrobe\\\"]\", \"gender\": {\"male\": \"11\"}}, {\"number_in_room\": \"2\", \"price\": \"1974\", \"number_of_rooms\": \"13\", \"room_image\": [], \"amenities\": \"[\\\"Private bath\\\", \\\"Power socket\\\", \\\"Fan\\\"]\", \"gender\": {\"male\": \"13\"}}]",
+            "manager": 9,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 10,
+        "fields": {
+            "name": "Green Same Hostel",
+            "campus": 9,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"WiFi\", \"Study room\", \"Generator\", \"CCTV\", \"Ironing bay\"]",
+            "room_details": "[{\"number_in_room\": \"2\", \"price\": \"1394\", \"number_of_rooms\": \"18\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Private bath\\\", \\\"Tiled floor\\\", \\\"Power socket\\\"]\", \"gender\": {\"female\": \"18\"}}, {\"number_in_room\": \"4\", \"price\": \"1413\", \"number_of_rooms\": \"16\", \"room_image\": [], \"amenities\": \"[\\\"Fan\\\", \\\"Tiled floor\\\", \\\"Ceiling light\\\", \\\"Wardrobe\\\", \\\"Private bath\\\"]\", \"gender\": {\"female\": \"16\"}}]",
+            "manager": 10,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 11,
+        "fields": {
+            "name": "Doctor Ahead Hostel",
+            "campus": 5,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Parking space\", \"24/7 water supply\"]",
+            "room_details": "[{\"number_in_room\": \"4\", \"price\": \"1435\", \"number_of_rooms\": \"5\", \"room_image\": [], \"amenities\": \"[\\\"Fan\\\", \\\"Study desk\\\", \\\"Window netting\\\", \\\"Reading lamp\\\"]\", \"gender\": {\"female\": \"5\"}}, {\"number_in_room\": \"1\", \"price\": \"1617\", \"number_of_rooms\": \"16\", \"room_image\": [], \"amenities\": \"[\\\"Power socket\\\", \\\"Fan\\\", \\\"Tiled floor\\\", \\\"Curtains\\\"]\", \"gender\": {\"male\": \"8\", \"female\": \"8\"}}, {\"number_in_room\": \"3\", \"price\": \"1005\", \"number_of_rooms\": \"7\", \"room_image\": [], \"amenities\": \"[\\\"Study desk\\\", \\\"Ceiling light\\\", \\\"Fan\\\", \\\"Reading lamp\\\"]\", \"gender\": {\"male\": \"7\"}}]",
+            "manager": 11,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 12,
+        "fields": {
+            "name": "Rather Else Hostel",
+            "campus": 11,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Security post\", \"24/7 water supply\", \"Parking space\", \"Generator\", \"Laundry area\"]",
+            "room_details": "[{\"number_in_room\": \"2\", \"price\": \"1727\", \"number_of_rooms\": \"7\", \"room_image\": [], \"amenities\": \"[\\\"Fan\\\", \\\"Tiled floor\\\"]\", \"gender\": {\"male\": \"7\"}}, {\"number_in_room\": \"1\", \"price\": \"1606\", \"number_of_rooms\": \"18\", \"room_image\": [], \"amenities\": \"[\\\"Window netting\\\", \\\"Ceiling light\\\"]\", \"gender\": {\"male\": \"18\"}}, {\"number_in_room\": \"5\", \"price\": \"1754\", \"number_of_rooms\": \"11\", \"room_image\": [], \"amenities\": \"[\\\"Study desk\\\", \\\"Tiled floor\\\", \\\"Private bath\\\", \\\"Ceiling light\\\", \\\"Reading lamp\\\"]\", \"gender\": {\"female\": \"11\"}}, {\"number_in_room\": \"4\", \"price\": \"927\", \"number_of_rooms\": \"16\", \"room_image\": [], \"amenities\": \"[\\\"Window netting\\\", \\\"Tiled floor\\\", \\\"Wardrobe\\\", \\\"Ceiling light\\\", \\\"Fan\\\"]\", \"gender\": {\"male\": \"8\", \"female\": \"8\"}}]",
+            "manager": 12,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 13,
+        "fields": {
+            "name": "Where One Hostel",
+            "campus": 24,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"WiFi\", \"Security post\", \"Laundry area\"]",
+            "room_details": "[{\"number_in_room\": \"1\", \"price\": \"833\", \"number_of_rooms\": \"14\", \"room_image\": [], \"amenities\": \"[\\\"Reading lamp\\\", \\\"Power socket\\\", \\\"Fan\\\", \\\"Tiled floor\\\"]\", \"gender\": {\"male\": \"14\"}}, {\"number_in_room\": \"2\", \"price\": \"1213\", \"number_of_rooms\": \"11\", \"room_image\": [], \"amenities\": \"[\\\"Private bath\\\", \\\"Tiled floor\\\", \\\"Fan\\\", \\\"Reading lamp\\\", \\\"Power socket\\\"]\", \"gender\": {\"female\": \"11\"}}, {\"number_in_room\": \"3\", \"price\": \"1288\", \"number_of_rooms\": \"9\", \"room_image\": [], \"amenities\": \"[\\\"Curtains\\\", \\\"Tiled floor\\\", \\\"Private bath\\\", \\\"Ceiling light\\\"]\", \"gender\": {\"male\": \"9\"}}, {\"number_in_room\": \"4\", \"price\": \"1884\", \"number_of_rooms\": \"14\", \"room_image\": [], \"amenities\": \"[\\\"Fan\\\", \\\"Wardrobe\\\"]\", \"gender\": {\"male\": \"14\"}}]",
+            "manager": 13,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 14,
+        "fields": {
+            "name": "Money Issue Hostel",
+            "campus": 12,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Parking space\", \"Generator\", \"Security post\", \"Study room\"]",
+            "room_details": "[{\"number_in_room\": \"1\", \"price\": \"1022\", \"number_of_rooms\": \"13\", \"room_image\": [], \"amenities\": \"[\\\"Study desk\\\", \\\"Fan\\\", \\\"Power socket\\\", \\\"Wardrobe\\\", \\\"Curtains\\\"]\", \"gender\": {\"male\": \"6\", \"female\": \"7\"}}, {\"number_in_room\": \"4\", \"price\": \"1929\", \"number_of_rooms\": \"20\", \"room_image\": [], \"amenities\": \"[\\\"Reading lamp\\\", \\\"Private bath\\\", \\\"Wardrobe\\\"]\", \"gender\": {\"male\": \"20\"}}]",
+            "manager": 14,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 15,
+        "fields": {
+            "name": "Amount Catch Hostel",
+            "campus": 14,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"24/7 water supply\", \"CCTV\"]",
+            "room_details": "[{\"number_in_room\": \"1\", \"price\": \"1344\", \"number_of_rooms\": \"5\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Reading lamp\\\", \\\"Window netting\\\", \\\"Study desk\\\", \\\"Wardrobe\\\"]\", \"gender\": {\"male\": \"2\", \"female\": \"3\"}}, {\"number_in_room\": \"2\", \"price\": \"1796\", \"number_of_rooms\": \"18\", \"room_image\": [], \"amenities\": \"[\\\"Fan\\\", \\\"Tiled floor\\\", \\\"Window netting\\\", \\\"Reading lamp\\\", \\\"Power socket\\\"]\", \"gender\": {\"female\": \"18\"}}, {\"number_in_room\": \"4\", \"price\": \"1130\", \"number_of_rooms\": \"13\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Window netting\\\", \\\"Curtains\\\", \\\"Tiled floor\\\", \\\"Study desk\\\"]\", \"gender\": {\"male\": \"13\"}}, {\"number_in_room\": \"3\", \"price\": \"1214\", \"number_of_rooms\": \"14\", \"room_image\": [], \"amenities\": \"[\\\"Curtains\\\", \\\"Window netting\\\", \\\"Wardrobe\\\"]\", \"gender\": {\"male\": \"7\", \"female\": \"7\"}}]",
+            "manager": 15,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 16,
+        "fields": {
+            "name": "Hand Become Hostel",
+            "campus": 13,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"CCTV\", \"Study room\", \"Security post\", \"WiFi\", \"Generator\"]",
+            "room_details": "[{\"number_in_room\": \"1\", \"price\": \"1811\", \"number_of_rooms\": \"10\", \"room_image\": [], \"amenities\": \"[\\\"Tiled floor\\\", \\\"Ceiling light\\\", \\\"Reading lamp\\\"]\", \"gender\": {\"male\": \"10\"}}, {\"number_in_room\": \"3\", \"price\": \"1405\", \"number_of_rooms\": \"14\", \"room_image\": [], \"amenities\": \"[\\\"Private bath\\\", \\\"Curtains\\\", \\\"Ceiling light\\\"]\", \"gender\": {\"male\": \"7\", \"female\": \"7\"}}, {\"number_in_room\": \"5\", \"price\": \"1584\", \"number_of_rooms\": \"6\", \"room_image\": [], \"amenities\": \"[\\\"Fan\\\", \\\"Ceiling light\\\", \\\"Reading lamp\\\", \\\"Private bath\\\", \\\"Tiled floor\\\"]\", \"gender\": {\"female\": \"6\"}}]",
+            "manager": 16,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 17,
+        "fields": {
+            "name": "Show Table Hostel",
+            "campus": 21,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Study room\", \"Laundry area\", \"24/7 water supply\"]",
+            "room_details": "[{\"number_in_room\": \"5\", \"price\": \"1073\", \"number_of_rooms\": \"11\", \"room_image\": [], \"amenities\": \"[\\\"Window netting\\\", \\\"Private bath\\\"]\", \"gender\": {\"female\": \"11\"}}, {\"number_in_room\": \"2\", \"price\": \"1944\", \"number_of_rooms\": \"17\", \"room_image\": [], \"amenities\": \"[\\\"Reading lamp\\\", \\\"Window netting\\\", \\\"Private bath\\\"]\", \"gender\": {\"male\": \"8\", \"female\": \"9\"}}]",
+            "manager": 17,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 18,
+        "fields": {
+            "name": "Stuff Less Hostel",
+            "campus": 6,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"WiFi\", \"Laundry area\", \"24/7 water supply\", \"Ironing bay\", \"Parking space\"]",
+            "room_details": "[{\"number_in_room\": \"1\", \"price\": \"1798\", \"number_of_rooms\": \"16\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Window netting\\\", \\\"Fan\\\", \\\"Tiled floor\\\"]\", \"gender\": {\"female\": \"16\"}}, {\"number_in_room\": \"3\", \"price\": \"829\", \"number_of_rooms\": \"7\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Study desk\\\", \\\"Curtains\\\", \\\"Window netting\\\"]\", \"gender\": {\"male\": \"3\", \"female\": \"4\"}}]",
+            "manager": 18,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 19,
+        "fields": {
+            "name": "Pay Enter Hostel",
+            "campus": 13,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Study room\", \"WiFi\"]",
+            "room_details": "[{\"number_in_room\": \"3\", \"price\": \"1341\", \"number_of_rooms\": \"12\", \"room_image\": [], \"amenities\": \"[\\\"Power socket\\\", \\\"Fan\\\", \\\"Wardrobe\\\", \\\"Curtains\\\", \\\"Tiled floor\\\"]\", \"gender\": {\"female\": \"12\"}}, {\"number_in_room\": \"2\", \"price\": \"1575\", \"number_of_rooms\": \"20\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Private bath\\\"]\", \"gender\": {\"female\": \"20\"}}, {\"number_in_room\": \"4\", \"price\": \"1813\", \"number_of_rooms\": \"19\", \"room_image\": [], \"amenities\": \"[\\\"Fan\\\", \\\"Power socket\\\", \\\"Private bath\\\", \\\"Study desk\\\"]\", \"gender\": {\"female\": \"19\"}}, {\"number_in_room\": \"5\", \"price\": \"995\", \"number_of_rooms\": \"9\", \"room_image\": [], \"amenities\": \"[\\\"Fan\\\", \\\"Reading lamp\\\", \\\"Window netting\\\"]\", \"gender\": {\"male\": \"4\", \"female\": \"5\"}}]",
+            "manager": 19,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 20,
+        "fields": {
+            "name": "Red Responsibility Hostel",
+            "campus": 25,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Ironing bay\", \"Generator\", \"WiFi\", \"CCTV\", \"Parking space\"]",
+            "room_details": "[{\"number_in_room\": \"1\", \"price\": \"1878\", \"number_of_rooms\": \"7\", \"room_image\": [], \"amenities\": \"[\\\"Tiled floor\\\", \\\"Reading lamp\\\", \\\"Power socket\\\", \\\"Wardrobe\\\"]\", \"gender\": {\"female\": \"7\"}}, {\"number_in_room\": \"4\", \"price\": \"1468\", \"number_of_rooms\": \"10\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Wardrobe\\\"]\", \"gender\": {\"male\": \"10\"}}, {\"number_in_room\": \"2\", \"price\": \"1512\", \"number_of_rooms\": \"14\", \"room_image\": [], \"amenities\": \"[\\\"Tiled floor\\\", \\\"Private bath\\\"]\", \"gender\": {\"female\": \"14\"}}, {\"number_in_room\": \"3\", \"price\": \"1681\", \"number_of_rooms\": \"14\", \"room_image\": [], \"amenities\": \"[\\\"Window netting\\\", \\\"Power socket\\\", \\\"Wardrobe\\\"]\", \"gender\": {\"male\": \"7\", \"female\": \"7\"}}]",
+            "manager": 20,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 21,
+        "fields": {
+            "name": "Experience Institution Hostel",
+            "campus": 23,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"TV room\", \"Security post\"]",
+            "room_details": "[{\"number_in_room\": \"4\", \"price\": \"1852\", \"number_of_rooms\": \"8\", \"room_image\": [], \"amenities\": \"[\\\"Private bath\\\", \\\"Study desk\\\"]\", \"gender\": {\"male\": \"4\", \"female\": \"4\"}}, {\"number_in_room\": \"3\", \"price\": \"1328\", \"number_of_rooms\": \"7\", \"room_image\": [], \"amenities\": \"[\\\"Wardrobe\\\", \\\"Window netting\\\", \\\"Ceiling light\\\"]\", \"gender\": {\"male\": \"7\"}}, {\"number_in_room\": \"2\", \"price\": \"1390\", \"number_of_rooms\": \"7\", \"room_image\": [], \"amenities\": \"[\\\"Power socket\\\", \\\"Wardrobe\\\", \\\"Curtains\\\", \\\"Reading lamp\\\"]\", \"gender\": {\"female\": \"7\"}}]",
+            "manager": 21,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 22,
+        "fields": {
+            "name": "Standard Soon Hostel",
+            "campus": 24,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Parking space\", \"WiFi\", \"Study room\"]",
+            "room_details": "[{\"number_in_room\": \"5\", \"price\": \"1706\", \"number_of_rooms\": \"9\", \"room_image\": [], \"amenities\": \"[\\\"Tiled floor\\\", \\\"Ceiling light\\\", \\\"Study desk\\\", \\\"Curtains\\\", \\\"Window netting\\\"]\", \"gender\": {\"male\": \"9\"}}, {\"number_in_room\": \"3\", \"price\": \"1186\", \"number_of_rooms\": \"7\", \"room_image\": [], \"amenities\": \"[\\\"Wardrobe\\\", \\\"Window netting\\\", \\\"Power socket\\\"]\", \"gender\": {\"female\": \"7\"}}, {\"number_in_room\": \"4\", \"price\": \"1943\", \"number_of_rooms\": \"14\", \"room_image\": [], \"amenities\": \"[\\\"Curtains\\\", \\\"Ceiling light\\\", \\\"Private bath\\\", \\\"Study desk\\\", \\\"Window netting\\\"]\", \"gender\": {\"female\": \"14\"}}]",
+            "manager": 22,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 23,
+        "fields": {
+            "name": "Inside Free Hostel",
+            "campus": 13,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Security post\", \"24/7 water supply\", \"TV room\", \"WiFi\", \"Ironing bay\"]",
+            "room_details": "[{\"number_in_room\": \"5\", \"price\": \"1702\", \"number_of_rooms\": \"17\", \"room_image\": [], \"amenities\": \"[\\\"Fan\\\", \\\"Curtains\\\"]\", \"gender\": {\"male\": \"17\"}}, {\"number_in_room\": \"3\", \"price\": \"1020\", \"number_of_rooms\": \"17\", \"room_image\": [], \"amenities\": \"[\\\"Study desk\\\", \\\"Power socket\\\", \\\"Ceiling light\\\", \\\"Private bath\\\", \\\"Window netting\\\"]\", \"gender\": {\"female\": \"17\"}}, {\"number_in_room\": \"1\", \"price\": \"1649\", \"number_of_rooms\": \"8\", \"room_image\": [], \"amenities\": \"[\\\"Reading lamp\\\", \\\"Power socket\\\", \\\"Window netting\\\", \\\"Tiled floor\\\", \\\"Private bath\\\"]\", \"gender\": {\"male\": \"8\"}}, {\"number_in_room\": \"4\", \"price\": \"1686\", \"number_of_rooms\": \"13\", \"room_image\": [], \"amenities\": \"[\\\"Wardrobe\\\", \\\"Window netting\\\", \\\"Ceiling light\\\", \\\"Study desk\\\"]\", \"gender\": {\"male\": \"13\"}}]",
+            "manager": 23,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 24,
+        "fields": {
+            "name": "Budget Finally Hostel",
+            "campus": 21,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Parking space\", \"TV room\", \"Laundry area\", \"24/7 water supply\"]",
+            "room_details": "[{\"number_in_room\": \"5\", \"price\": \"1335\", \"number_of_rooms\": \"13\", \"room_image\": [], \"amenities\": \"[\\\"Curtains\\\", \\\"Private bath\\\", \\\"Study desk\\\", \\\"Wardrobe\\\"]\", \"gender\": {\"female\": \"13\"}}, {\"number_in_room\": \"3\", \"price\": \"1116\", \"number_of_rooms\": \"15\", \"room_image\": [], \"amenities\": \"[\\\"Curtains\\\", \\\"Window netting\\\", \\\"Fan\\\"]\", \"gender\": {\"male\": \"7\", \"female\": \"8\"}}]",
+            "manager": 24,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 25,
+        "fields": {
+            "name": "Protect Management Hostel",
+            "campus": 6,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"TV room\", \"WiFi\"]",
+            "room_details": "[{\"number_in_room\": \"1\", \"price\": \"1503\", \"number_of_rooms\": \"8\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Power socket\\\", \\\"Private bath\\\", \\\"Tiled floor\\\", \\\"Reading lamp\\\"]\", \"gender\": {\"female\": \"8\"}}, {\"number_in_room\": \"5\", \"price\": \"1517\", \"number_of_rooms\": \"18\", \"room_image\": [], \"amenities\": \"[\\\"Wardrobe\\\", \\\"Reading lamp\\\", \\\"Curtains\\\", \\\"Window netting\\\"]\", \"gender\": {\"male\": \"18\"}}, {\"number_in_room\": \"4\", \"price\": \"1681\", \"number_of_rooms\": \"17\", \"room_image\": [], \"amenities\": \"[\\\"Private bath\\\", \\\"Power socket\\\", \\\"Tiled floor\\\", \\\"Ceiling light\\\", \\\"Curtains\\\"]\", \"gender\": {\"male\": \"17\"}}]",
+            "manager": 25,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 26,
+        "fields": {
+            "name": "Poor Individual Hostel",
+            "campus": 12,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Laundry area\", \"Generator\", \"Study room\"]",
+            "room_details": "[{\"number_in_room\": \"3\", \"price\": \"1246\", \"number_of_rooms\": \"10\", \"room_image\": [], \"amenities\": \"[\\\"Reading lamp\\\", \\\"Curtains\\\"]\", \"gender\": {\"male\": \"10\"}}, {\"number_in_room\": \"5\", \"price\": \"1209\", \"number_of_rooms\": \"15\", \"room_image\": [], \"amenities\": \"[\\\"Study desk\\\", \\\"Private bath\\\", \\\"Power socket\\\"]\", \"gender\": {\"male\": \"15\"}}, {\"number_in_room\": \"2\", \"price\": \"1230\", \"number_of_rooms\": \"20\", \"room_image\": [], \"amenities\": \"[\\\"Fan\\\", \\\"Study desk\\\"]\", \"gender\": {\"male\": \"10\", \"female\": \"10\"}}]",
+            "manager": 26,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 27,
+        "fields": {
+            "name": "Now End Hostel",
+            "campus": 6,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"TV room\", \"24/7 water supply\"]",
+            "room_details": "[{\"number_in_room\": \"5\", \"price\": \"1863\", \"number_of_rooms\": \"12\", \"room_image\": [], \"amenities\": \"[\\\"Power socket\\\", \\\"Wardrobe\\\", \\\"Ceiling light\\\", \\\"Reading lamp\\\"]\", \"gender\": {\"male\": \"6\", \"female\": \"6\"}}, {\"number_in_room\": \"1\", \"price\": \"1263\", \"number_of_rooms\": \"18\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Study desk\\\", \\\"Window netting\\\"]\", \"gender\": {\"female\": \"18\"}}, {\"number_in_room\": \"3\", \"price\": \"1796\", \"number_of_rooms\": \"18\", \"room_image\": [], \"amenities\": \"[\\\"Private bath\\\", \\\"Window netting\\\", \\\"Wardrobe\\\", \\\"Study desk\\\"]\", \"gender\": {\"female\": \"18\"}}, {\"number_in_room\": \"4\", \"price\": \"851\", \"number_of_rooms\": \"7\", \"room_image\": [], \"amenities\": \"[\\\"Study desk\\\", \\\"Curtains\\\"]\", \"gender\": {\"male\": \"7\"}}]",
+            "manager": 27,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 28,
+        "fields": {
+            "name": "Stay Society Hostel",
+            "campus": 23,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Generator\", \"Laundry area\", \"Study room\"]",
+            "room_details": "[{\"number_in_room\": \"1\", \"price\": \"1478\", \"number_of_rooms\": \"18\", \"room_image\": [], \"amenities\": \"[\\\"Wardrobe\\\", \\\"Fan\\\", \\\"Reading lamp\\\", \\\"Power socket\\\", \\\"Tiled floor\\\"]\", \"gender\": {\"male\": \"9\", \"female\": \"9\"}}, {\"number_in_room\": \"3\", \"price\": \"1186\", \"number_of_rooms\": \"17\", \"room_image\": [], \"amenities\": \"[\\\"Study desk\\\", \\\"Curtains\\\", \\\"Fan\\\", \\\"Tiled floor\\\", \\\"Private bath\\\"]\", \"gender\": {\"female\": \"17\"}}, {\"number_in_room\": \"2\", \"price\": \"1345\", \"number_of_rooms\": \"5\", \"room_image\": [], \"amenities\": \"[\\\"Tiled floor\\\", \\\"Power socket\\\", \\\"Reading lamp\\\"]\", \"gender\": {\"female\": \"5\"}}, {\"number_in_room\": \"4\", \"price\": \"1629\", \"number_of_rooms\": \"10\", \"room_image\": [], \"amenities\": \"[\\\"Reading lamp\\\", \\\"Fan\\\", \\\"Power socket\\\", \\\"Ceiling light\\\"]\", \"gender\": {\"male\": \"5\", \"female\": \"5\"}}]",
+            "manager": 28,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 29,
+        "fields": {
+            "name": "Energy Know Hostel",
+            "campus": 25,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"CCTV\", \"Ironing bay\", \"24/7 water supply\"]",
+            "room_details": "[{\"number_in_room\": \"1\", \"price\": \"1119\", \"number_of_rooms\": \"12\", \"room_image\": [], \"amenities\": \"[\\\"Tiled floor\\\", \\\"Reading lamp\\\", \\\"Study desk\\\", \\\"Wardrobe\\\"]\", \"gender\": {\"male\": \"12\"}}, {\"number_in_room\": \"2\", \"price\": \"1061\", \"number_of_rooms\": \"18\", \"room_image\": [], \"amenities\": \"[\\\"Window netting\\\", \\\"Fan\\\", \\\"Reading lamp\\\"]\", \"gender\": {\"female\": \"18\"}}]",
+            "manager": 29,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 30,
+        "fields": {
+            "name": "Why Kid Hostel",
+            "campus": 16,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Ironing bay\", \"Parking space\", \"Generator\", \"Laundry area\"]",
+            "room_details": "[{\"number_in_room\": \"2\", \"price\": \"937\", \"number_of_rooms\": \"8\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Reading lamp\\\", \\\"Study desk\\\"]\", \"gender\": {\"male\": \"8\"}}, {\"number_in_room\": \"1\", \"price\": \"1382\", \"number_of_rooms\": \"9\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Reading lamp\\\"]\", \"gender\": {\"female\": \"9\"}}, {\"number_in_room\": \"3\", \"price\": \"1481\", \"number_of_rooms\": \"12\", \"room_image\": [], \"amenities\": \"[\\\"Power socket\\\", \\\"Window netting\\\"]\", \"gender\": {\"male\": \"6\", \"female\": \"6\"}}, {\"number_in_room\": \"4\", \"price\": \"1714\", \"number_of_rooms\": \"18\", \"room_image\": [], \"amenities\": \"[\\\"Window netting\\\", \\\"Study desk\\\"]\", \"gender\": {\"male\": \"18\"}}]",
+            "manager": 30,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 31,
+        "fields": {
+            "name": "Per Upon Hostel",
+            "campus": 22,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Laundry area\", \"Ironing bay\", \"Parking space\", \"Generator\"]",
+            "room_details": "[{\"number_in_room\": \"3\", \"price\": \"985\", \"number_of_rooms\": \"17\", \"room_image\": [], \"amenities\": \"[\\\"Private bath\\\", \\\"Window netting\\\", \\\"Fan\\\"]\", \"gender\": {\"female\": \"17\"}}, {\"number_in_room\": \"5\", \"price\": \"807\", \"number_of_rooms\": \"10\", \"room_image\": [], \"amenities\": \"[\\\"Wardrobe\\\", \\\"Private bath\\\", \\\"Study desk\\\", \\\"Tiled floor\\\"]\", \"gender\": {\"male\": \"10\"}}, {\"number_in_room\": \"2\", \"price\": \"1725\", \"number_of_rooms\": \"18\", \"room_image\": [], \"amenities\": \"[\\\"Study desk\\\", \\\"Fan\\\"]\", \"gender\": {\"female\": \"18\"}}, {\"number_in_room\": \"4\", \"price\": \"1099\", \"number_of_rooms\": \"9\", \"room_image\": [], \"amenities\": \"[\\\"Reading lamp\\\", \\\"Tiled floor\\\", \\\"Study desk\\\", \\\"Ceiling light\\\"]\", \"gender\": {\"male\": \"9\"}}]",
+            "manager": 31,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 32,
+        "fields": {
+            "name": "Trip Safe Hostel",
+            "campus": 18,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"CCTV\", \"Security post\"]",
+            "room_details": "[{\"number_in_room\": \"5\", \"price\": \"1120\", \"number_of_rooms\": \"12\", \"room_image\": [], \"amenities\": \"[\\\"Reading lamp\\\", \\\"Power socket\\\"]\", \"gender\": {\"male\": \"6\", \"female\": \"6\"}}, {\"number_in_room\": \"3\", \"price\": \"1691\", \"number_of_rooms\": \"19\", \"room_image\": [], \"amenities\": \"[\\\"Curtains\\\", \\\"Private bath\\\"]\", \"gender\": {\"male\": \"9\", \"female\": \"10\"}}, {\"number_in_room\": \"2\", \"price\": \"1671\", \"number_of_rooms\": \"15\", \"room_image\": [], \"amenities\": \"[\\\"Window netting\\\", \\\"Wardrobe\\\", \\\"Power socket\\\", \\\"Tiled floor\\\", \\\"Fan\\\"]\", \"gender\": {\"female\": \"15\"}}]",
+            "manager": 32,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 33,
+        "fields": {
+            "name": "Share Compare Hostel",
+            "campus": 18,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Laundry area\", \"CCTV\", \"WiFi\"]",
+            "room_details": "[{\"number_in_room\": \"3\", \"price\": \"1124\", \"number_of_rooms\": \"11\", \"room_image\": [], \"amenities\": \"[\\\"Study desk\\\", \\\"Wardrobe\\\", \\\"Tiled floor\\\"]\", \"gender\": {\"male\": \"11\"}}, {\"number_in_room\": \"2\", \"price\": \"1445\", \"number_of_rooms\": \"13\", \"room_image\": [], \"amenities\": \"[\\\"Window netting\\\", \\\"Study desk\\\", \\\"Wardrobe\\\", \\\"Reading lamp\\\"]\", \"gender\": {\"male\": \"6\", \"female\": \"7\"}}, {\"number_in_room\": \"4\", \"price\": \"1697\", \"number_of_rooms\": \"20\", \"room_image\": [], \"amenities\": \"[\\\"Tiled floor\\\", \\\"Reading lamp\\\", \\\"Power socket\\\", \\\"Window netting\\\", \\\"Study desk\\\"]\", \"gender\": {\"male\": \"10\", \"female\": \"10\"}}]",
+            "manager": 33,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 34,
+        "fields": {
+            "name": "General Both Hostel",
+            "campus": 21,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Generator\", \"WiFi\", \"Ironing bay\", \"Study room\"]",
+            "room_details": "[{\"number_in_room\": \"4\", \"price\": \"1458\", \"number_of_rooms\": \"18\", \"room_image\": [], \"amenities\": \"[\\\"Power socket\\\", \\\"Private bath\\\", \\\"Curtains\\\", \\\"Reading lamp\\\"]\", \"gender\": {\"male\": \"18\"}}, {\"number_in_room\": \"5\", \"price\": \"1851\", \"number_of_rooms\": \"14\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Reading lamp\\\", \\\"Study desk\\\"]\", \"gender\": {\"female\": \"14\"}}, {\"number_in_room\": \"3\", \"price\": \"1648\", \"number_of_rooms\": \"18\", \"room_image\": [], \"amenities\": \"[\\\"Window netting\\\", \\\"Tiled floor\\\", \\\"Ceiling light\\\", \\\"Study desk\\\", \\\"Curtains\\\"]\", \"gender\": {\"male\": \"9\", \"female\": \"9\"}}]",
+            "manager": 34,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 35,
+        "fields": {
+            "name": "Before Be Hostel",
+            "campus": 3,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"WiFi\", \"24/7 water supply\", \"Ironing bay\", \"TV room\", \"Security post\"]",
+            "room_details": "[{\"number_in_room\": \"5\", \"price\": \"1719\", \"number_of_rooms\": \"7\", \"room_image\": [], \"amenities\": \"[\\\"Tiled floor\\\", \\\"Wardrobe\\\", \\\"Reading lamp\\\", \\\"Fan\\\"]\", \"gender\": {\"female\": \"7\"}}, {\"number_in_room\": \"1\", \"price\": \"1624\", \"number_of_rooms\": \"18\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Fan\\\", \\\"Wardrobe\\\"]\", \"gender\": {\"male\": \"18\"}}, {\"number_in_room\": \"3\", \"price\": \"1011\", \"number_of_rooms\": \"9\", \"room_image\": [], \"amenities\": \"[\\\"Study desk\\\", \\\"Tiled floor\\\", \\\"Private bath\\\", \\\"Power socket\\\", \\\"Wardrobe\\\"]\", \"gender\": {\"female\": \"9\"}}]",
+            "manager": 35,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 36,
+        "fields": {
+            "name": "Eye Mouth Hostel",
+            "campus": 24,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"WiFi\", \"Study room\"]",
+            "room_details": "[{\"number_in_room\": \"3\", \"price\": \"1304\", \"number_of_rooms\": \"15\", \"room_image\": [], \"amenities\": \"[\\\"Reading lamp\\\", \\\"Tiled floor\\\", \\\"Private bath\\\", \\\"Fan\\\", \\\"Wardrobe\\\"]\", \"gender\": {\"male\": \"7\", \"female\": \"8\"}}, {\"number_in_room\": \"5\", \"price\": \"1756\", \"number_of_rooms\": \"19\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Tiled floor\\\"]\", \"gender\": {\"female\": \"19\"}}, {\"number_in_room\": \"2\", \"price\": \"1640\", \"number_of_rooms\": \"8\", \"room_image\": [], \"amenities\": \"[\\\"Private bath\\\", \\\"Ceiling light\\\", \\\"Fan\\\"]\", \"gender\": {\"male\": \"8\"}}, {\"number_in_room\": \"1\", \"price\": \"1221\", \"number_of_rooms\": \"12\", \"room_image\": [], \"amenities\": \"[\\\"Private bath\\\", \\\"Study desk\\\", \\\"Power socket\\\"]\", \"gender\": {\"male\": \"6\", \"female\": \"6\"}}]",
+            "manager": 36,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 37,
+        "fields": {
+            "name": "Drug That Hostel",
+            "campus": 1,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Study room\", \"Parking space\", \"Laundry area\", \"CCTV\"]",
+            "room_details": "[{\"number_in_room\": \"4\", \"price\": \"1760\", \"number_of_rooms\": \"18\", \"room_image\": [], \"amenities\": \"[\\\"Tiled floor\\\", \\\"Fan\\\", \\\"Window netting\\\", \\\"Power socket\\\", \\\"Private bath\\\"]\", \"gender\": {\"male\": \"9\", \"female\": \"9\"}}, {\"number_in_room\": \"3\", \"price\": \"841\", \"number_of_rooms\": \"16\", \"room_image\": [], \"amenities\": \"[\\\"Curtains\\\", \\\"Ceiling light\\\", \\\"Study desk\\\"]\", \"gender\": {\"male\": \"16\"}}, {\"number_in_room\": \"5\", \"price\": \"1453\", \"number_of_rooms\": \"20\", \"room_image\": [], \"amenities\": \"[\\\"Study desk\\\", \\\"Window netting\\\"]\", \"gender\": {\"female\": \"20\"}}, {\"number_in_room\": \"2\", \"price\": \"1919\", \"number_of_rooms\": \"20\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Power socket\\\", \\\"Fan\\\"]\", \"gender\": {\"male\": \"10\", \"female\": \"10\"}}]",
+            "manager": 37,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 38,
+        "fields": {
+            "name": "Budget Quite Hostel",
+            "campus": 22,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Laundry area\", \"Study room\", \"TV room\", \"CCTV\", \"Parking space\"]",
+            "room_details": "[{\"number_in_room\": \"1\", \"price\": \"1259\", \"number_of_rooms\": \"17\", \"room_image\": [], \"amenities\": \"[\\\"Study desk\\\", \\\"Curtains\\\"]\", \"gender\": {\"female\": \"17\"}}, {\"number_in_room\": \"4\", \"price\": \"1515\", \"number_of_rooms\": \"13\", \"room_image\": [], \"amenities\": \"[\\\"Private bath\\\", \\\"Fan\\\", \\\"Curtains\\\", \\\"Ceiling light\\\"]\", \"gender\": {\"female\": \"13\"}}, {\"number_in_room\": \"2\", \"price\": \"865\", \"number_of_rooms\": \"10\", \"room_image\": [], \"amenities\": \"[\\\"Reading lamp\\\", \\\"Tiled floor\\\", \\\"Study desk\\\"]\", \"gender\": {\"male\": \"5\", \"female\": \"5\"}}]",
+            "manager": 38,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 39,
+        "fields": {
+            "name": "Certainly Into Hostel",
+            "campus": 14,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"24/7 water supply\", \"Security post\", \"Parking space\", \"Generator\"]",
+            "room_details": "[{\"number_in_room\": \"3\", \"price\": \"851\", \"number_of_rooms\": \"16\", \"room_image\": [], \"amenities\": \"[\\\"Window netting\\\", \\\"Tiled floor\\\", \\\"Ceiling light\\\", \\\"Reading lamp\\\", \\\"Curtains\\\"]\", \"gender\": {\"male\": \"16\"}}, {\"number_in_room\": \"1\", \"price\": \"1218\", \"number_of_rooms\": \"9\", \"room_image\": [], \"amenities\": \"[\\\"Wardrobe\\\", \\\"Private bath\\\", \\\"Fan\\\", \\\"Ceiling light\\\"]\", \"gender\": {\"male\": \"9\"}}, {\"number_in_room\": \"2\", \"price\": \"1604\", \"number_of_rooms\": \"20\", \"room_image\": [], \"amenities\": \"[\\\"Wardrobe\\\", \\\"Study desk\\\", \\\"Window netting\\\", \\\"Curtains\\\"]\", \"gender\": {\"male\": \"20\"}}, {\"number_in_room\": \"4\", \"price\": \"1351\", \"number_of_rooms\": \"8\", \"room_image\": [], \"amenities\": \"[\\\"Wardrobe\\\", \\\"Power socket\\\"]\", \"gender\": {\"female\": \"8\"}}]",
+            "manager": 39,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 40,
+        "fields": {
+            "name": "Natural Community Hostel",
+            "campus": 16,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Generator\", \"Parking space\", \"Laundry area\", \"Ironing bay\"]",
+            "room_details": "[{\"number_in_room\": \"1\", \"price\": \"947\", \"number_of_rooms\": \"19\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Power socket\\\", \\\"Wardrobe\\\", \\\"Study desk\\\"]\", \"gender\": {\"male\": \"19\"}}, {\"number_in_room\": \"4\", \"price\": \"1184\", \"number_of_rooms\": \"5\", \"room_image\": [], \"amenities\": \"[\\\"Study desk\\\", \\\"Wardrobe\\\", \\\"Ceiling light\\\", \\\"Window netting\\\", \\\"Reading lamp\\\"]\", \"gender\": {\"male\": \"5\"}}, {\"number_in_room\": \"2\", \"price\": \"807\", \"number_of_rooms\": \"18\", \"room_image\": [], \"amenities\": \"[\\\"Private bath\\\", \\\"Fan\\\"]\", \"gender\": {\"male\": \"18\"}}, {\"number_in_room\": \"5\", \"price\": \"1433\", \"number_of_rooms\": \"16\", \"room_image\": [], \"amenities\": \"[\\\"Study desk\\\", \\\"Wardrobe\\\"]\", \"gender\": {\"male\": \"8\", \"female\": \"8\"}}]",
+            "manager": 40,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 41,
+        "fields": {
+            "name": "History Record Hostel",
+            "campus": 21,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"24/7 water supply\", \"Generator\", \"Security post\", \"CCTV\"]",
+            "room_details": "[{\"number_in_room\": \"4\", \"price\": \"1240\", \"number_of_rooms\": \"14\", \"room_image\": [], \"amenities\": \"[\\\"Tiled floor\\\", \\\"Power socket\\\", \\\"Reading lamp\\\"]\", \"gender\": {\"male\": \"7\", \"female\": \"7\"}}, {\"number_in_room\": \"1\", \"price\": \"1752\", \"number_of_rooms\": \"15\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Power socket\\\", \\\"Reading lamp\\\", \\\"Fan\\\"]\", \"gender\": {\"female\": \"15\"}}, {\"number_in_room\": \"5\", \"price\": \"1281\", \"number_of_rooms\": \"17\", \"room_image\": [], \"amenities\": \"[\\\"Reading lamp\\\", \\\"Power socket\\\", \\\"Fan\\\", \\\"Ceiling light\\\"]\", \"gender\": {\"male\": \"8\", \"female\": \"9\"}}, {\"number_in_room\": \"2\", \"price\": \"1231\", \"number_of_rooms\": \"20\", \"room_image\": [], \"amenities\": \"[\\\"Tiled floor\\\", \\\"Ceiling light\\\", \\\"Study desk\\\", \\\"Wardrobe\\\", \\\"Private bath\\\"]\", \"gender\": {\"male\": \"20\"}}]",
+            "manager": 41,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 42,
+        "fields": {
+            "name": "Event War Hostel",
+            "campus": 17,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Security post\", \"24/7 water supply\", \"Parking space\", \"CCTV\", \"Laundry area\"]",
+            "room_details": "[{\"number_in_room\": \"1\", \"price\": \"1313\", \"number_of_rooms\": \"9\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Fan\\\", \\\"Power socket\\\"]\", \"gender\": {\"female\": \"9\"}}, {\"number_in_room\": \"4\", \"price\": \"1641\", \"number_of_rooms\": \"10\", \"room_image\": [], \"amenities\": \"[\\\"Curtains\\\", \\\"Reading lamp\\\", \\\"Fan\\\"]\", \"gender\": {\"male\": \"5\", \"female\": \"5\"}}, {\"number_in_room\": \"5\", \"price\": \"1074\", \"number_of_rooms\": \"12\", \"room_image\": [], \"amenities\": \"[\\\"Window netting\\\", \\\"Private bath\\\", \\\"Power socket\\\"]\", \"gender\": {\"female\": \"12\"}}]",
+            "manager": 42,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 43,
+        "fields": {
+            "name": "Risk Color Hostel",
+            "campus": 3,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Generator\", \"CCTV\", \"Study room\"]",
+            "room_details": "[{\"number_in_room\": \"4\", \"price\": \"1397\", \"number_of_rooms\": \"19\", \"room_image\": [], \"amenities\": \"[\\\"Wardrobe\\\", \\\"Private bath\\\", \\\"Reading lamp\\\"]\", \"gender\": {\"male\": \"9\", \"female\": \"10\"}}, {\"number_in_room\": \"1\", \"price\": \"1141\", \"number_of_rooms\": \"6\", \"room_image\": [], \"amenities\": \"[\\\"Private bath\\\", \\\"Wardrobe\\\"]\", \"gender\": {\"female\": \"6\"}}, {\"number_in_room\": \"3\", \"price\": \"1242\", \"number_of_rooms\": \"19\", \"room_image\": [], \"amenities\": \"[\\\"Curtains\\\", \\\"Study desk\\\", \\\"Tiled floor\\\", \\\"Ceiling light\\\"]\", \"gender\": {\"male\": \"9\", \"female\": \"10\"}}, {\"number_in_room\": \"5\", \"price\": \"1149\", \"number_of_rooms\": \"7\", \"room_image\": [], \"amenities\": \"[\\\"Private bath\\\", \\\"Tiled floor\\\", \\\"Power socket\\\"]\", \"gender\": {\"male\": \"3\", \"female\": \"4\"}}]",
+            "manager": 43,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 44,
+        "fields": {
+            "name": "Sport Possible Hostel",
+            "campus": 13,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Generator\", \"CCTV\", \"Security post\", \"Laundry area\", \"WiFi\"]",
+            "room_details": "[{\"number_in_room\": \"4\", \"price\": \"1879\", \"number_of_rooms\": \"19\", \"room_image\": [], \"amenities\": \"[\\\"Curtains\\\", \\\"Private bath\\\", \\\"Ceiling light\\\", \\\"Fan\\\", \\\"Tiled floor\\\"]\", \"gender\": {\"male\": \"19\"}}, {\"number_in_room\": \"2\", \"price\": \"1697\", \"number_of_rooms\": \"6\", \"room_image\": [], \"amenities\": \"[\\\"Window netting\\\", \\\"Reading lamp\\\"]\", \"gender\": {\"female\": \"6\"}}, {\"number_in_room\": \"3\", \"price\": \"1702\", \"number_of_rooms\": \"5\", \"room_image\": [], \"amenities\": \"[\\\"Curtains\\\", \\\"Ceiling light\\\", \\\"Reading lamp\\\", \\\"Study desk\\\"]\", \"gender\": {\"female\": \"5\"}}]",
+            "manager": 44,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 45,
+        "fields": {
+            "name": "All Last Hostel",
+            "campus": 6,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Ironing bay\", \"Security post\"]",
+            "room_details": "[{\"number_in_room\": \"1\", \"price\": \"1833\", \"number_of_rooms\": \"10\", \"room_image\": [], \"amenities\": \"[\\\"Reading lamp\\\", \\\"Fan\\\", \\\"Window netting\\\", \\\"Tiled floor\\\", \\\"Ceiling light\\\"]\", \"gender\": {\"female\": \"10\"}}, {\"number_in_room\": \"2\", \"price\": \"1179\", \"number_of_rooms\": \"12\", \"room_image\": [], \"amenities\": \"[\\\"Reading lamp\\\", \\\"Power socket\\\", \\\"Curtains\\\", \\\"Private bath\\\", \\\"Study desk\\\"]\", \"gender\": {\"male\": \"6\", \"female\": \"6\"}}]",
+            "manager": 45,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 46,
+        "fields": {
+            "name": "Race Too Hostel",
+            "campus": 23,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"24/7 water supply\", \"Study room\"]",
+            "room_details": "[{\"number_in_room\": \"2\", \"price\": \"1070\", \"number_of_rooms\": \"12\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Study desk\\\", \\\"Power socket\\\", \\\"Private bath\\\"]\", \"gender\": {\"female\": \"12\"}}, {\"number_in_room\": \"5\", \"price\": \"1419\", \"number_of_rooms\": \"8\", \"room_image\": [], \"amenities\": \"[\\\"Reading lamp\\\", \\\"Fan\\\"]\", \"gender\": {\"female\": \"8\"}}, {\"number_in_room\": \"4\", \"price\": \"1750\", \"number_of_rooms\": \"6\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Window netting\\\"]\", \"gender\": {\"female\": \"6\"}}, {\"number_in_room\": \"3\", \"price\": \"1376\", \"number_of_rooms\": \"10\", \"room_image\": [], \"amenities\": \"[\\\"Private bath\\\", \\\"Ceiling light\\\", \\\"Tiled floor\\\"]\", \"gender\": {\"male\": \"10\"}}]",
+            "manager": 46,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 47,
+        "fields": {
+            "name": "Tv Agency Hostel",
+            "campus": 25,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Parking space\", \"CCTV\"]",
+            "room_details": "[{\"number_in_room\": \"5\", \"price\": \"993\", \"number_of_rooms\": \"7\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Power socket\\\"]\", \"gender\": {\"male\": \"7\"}}, {\"number_in_room\": \"3\", \"price\": \"1666\", \"number_of_rooms\": \"14\", \"room_image\": [], \"amenities\": \"[\\\"Power socket\\\", \\\"Study desk\\\", \\\"Curtains\\\", \\\"Wardrobe\\\"]\", \"gender\": {\"male\": \"7\", \"female\": \"7\"}}, {\"number_in_room\": \"1\", \"price\": \"1748\", \"number_of_rooms\": \"15\", \"room_image\": [], \"amenities\": \"[\\\"Study desk\\\", \\\"Private bath\\\", \\\"Curtains\\\"]\", \"gender\": {\"female\": \"15\"}}, {\"number_in_room\": \"4\", \"price\": \"854\", \"number_of_rooms\": \"18\", \"room_image\": [], \"amenities\": \"[\\\"Curtains\\\", \\\"Wardrobe\\\", \\\"Reading lamp\\\"]\", \"gender\": {\"male\": \"9\", \"female\": \"9\"}}]",
+            "manager": 47,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 48,
+        "fields": {
+            "name": "Wear Focus Hostel",
+            "campus": 10,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Parking space\", \"CCTV\", \"Generator\", \"WiFi\"]",
+            "room_details": "[{\"number_in_room\": \"5\", \"price\": \"1494\", \"number_of_rooms\": \"10\", \"room_image\": [], \"amenities\": \"[\\\"Fan\\\", \\\"Curtains\\\", \\\"Power socket\\\", \\\"Reading lamp\\\", \\\"Ceiling light\\\"]\", \"gender\": {\"male\": \"10\"}}, {\"number_in_room\": \"1\", \"price\": \"1358\", \"number_of_rooms\": \"10\", \"room_image\": [], \"amenities\": \"[\\\"Curtains\\\", \\\"Fan\\\", \\\"Tiled floor\\\", \\\"Power socket\\\", \\\"Reading lamp\\\"]\", \"gender\": {\"female\": \"10\"}}]",
+            "manager": 48,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 49,
+        "fields": {
+            "name": "Them Others Hostel",
+            "campus": 22,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Laundry area\", \"CCTV\"]",
+            "room_details": "[{\"number_in_room\": \"1\", \"price\": \"1253\", \"number_of_rooms\": \"8\", \"room_image\": [], \"amenities\": \"[\\\"Fan\\\", \\\"Power socket\\\"]\", \"gender\": {\"female\": \"8\"}}, {\"number_in_room\": \"5\", \"price\": \"1862\", \"number_of_rooms\": \"17\", \"room_image\": [], \"amenities\": \"[\\\"Fan\\\", \\\"Ceiling light\\\", \\\"Wardrobe\\\"]\", \"gender\": {\"female\": \"17\"}}, {\"number_in_room\": \"3\", \"price\": \"1750\", \"number_of_rooms\": \"13\", \"room_image\": [], \"amenities\": \"[\\\"Study desk\\\", \\\"Power socket\\\"]\", \"gender\": {\"male\": \"6\", \"female\": \"7\"}}, {\"number_in_room\": \"4\", \"price\": \"1616\", \"number_of_rooms\": \"19\", \"room_image\": [], \"amenities\": \"[\\\"Private bath\\\", \\\"Reading lamp\\\", \\\"Tiled floor\\\", \\\"Wardrobe\\\", \\\"Ceiling light\\\"]\", \"gender\": {\"female\": \"19\"}}]",
+            "manager": 49,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 50,
+        "fields": {
+            "name": "Finish Baby Hostel",
+            "campus": 23,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Generator\", \"CCTV\", \"24/7 water supply\", \"Security post\", \"Ironing bay\"]",
+            "room_details": "[{\"number_in_room\": \"5\", \"price\": \"1104\", \"number_of_rooms\": \"9\", \"room_image\": [], \"amenities\": \"[\\\"Power socket\\\", \\\"Ceiling light\\\", \\\"Private bath\\\"]\", \"gender\": {\"female\": \"9\"}}, {\"number_in_room\": \"4\", \"price\": \"1465\", \"number_of_rooms\": \"19\", \"room_image\": [], \"amenities\": \"[\\\"Study desk\\\", \\\"Power socket\\\", \\\"Ceiling light\\\", \\\"Curtains\\\"]\", \"gender\": {\"male\": \"19\"}}, {\"number_in_room\": \"1\", \"price\": \"1339\", \"number_of_rooms\": \"10\", \"room_image\": [], \"amenities\": \"[\\\"Fan\\\", \\\"Curtains\\\"]\", \"gender\": {\"male\": \"5\", \"female\": \"5\"}}, {\"number_in_room\": \"2\", \"price\": \"1738\", \"number_of_rooms\": \"18\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Study desk\\\", \\\"Window netting\\\"]\", \"gender\": {\"male\": \"9\", \"female\": \"9\"}}]",
+            "manager": 50,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 51,
+        "fields": {
+            "name": "News Bag Hostel",
+            "campus": 21,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"WiFi\", \"Laundry area\"]",
+            "room_details": "[{\"number_in_room\": \"3\", \"price\": \"1937\", \"number_of_rooms\": \"13\", \"room_image\": [], \"amenities\": \"[\\\"Private bath\\\", \\\"Window netting\\\", \\\"Power socket\\\", \\\"Tiled floor\\\", \\\"Study desk\\\"]\", \"gender\": {\"male\": \"6\", \"female\": \"7\"}}, {\"number_in_room\": \"1\", \"price\": \"1407\", \"number_of_rooms\": \"10\", \"room_image\": [], \"amenities\": \"[\\\"Fan\\\", \\\"Study desk\\\", \\\"Wardrobe\\\", \\\"Tiled floor\\\", \\\"Private bath\\\"]\", \"gender\": {\"female\": \"10\"}}]",
+            "manager": 51,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 52,
+        "fields": {
+            "name": "Particular Teach Hostel",
+            "campus": 20,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"CCTV\", \"WiFi\", \"Laundry area\", \"Study room\"]",
+            "room_details": "[{\"number_in_room\": \"4\", \"price\": \"1095\", \"number_of_rooms\": \"16\", \"room_image\": [], \"amenities\": \"[\\\"Study desk\\\", \\\"Curtains\\\", \\\"Ceiling light\\\"]\", \"gender\": {\"male\": \"16\"}}, {\"number_in_room\": \"5\", \"price\": \"1445\", \"number_of_rooms\": \"8\", \"room_image\": [], \"amenities\": \"[\\\"Fan\\\", \\\"Wardrobe\\\", \\\"Private bath\\\", \\\"Tiled floor\\\"]\", \"gender\": {\"male\": \"8\"}}, {\"number_in_room\": \"3\", \"price\": \"1408\", \"number_of_rooms\": \"20\", \"room_image\": [], \"amenities\": \"[\\\"Wardrobe\\\", \\\"Window netting\\\"]\", \"gender\": {\"male\": \"20\"}}]",
+            "manager": 52,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 53,
+        "fields": {
+            "name": "Determine Fear Hostel",
+            "campus": 16,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Generator\", \"TV room\", \"Study room\"]",
+            "room_details": "[{\"number_in_room\": \"4\", \"price\": \"1844\", \"number_of_rooms\": \"5\", \"room_image\": [], \"amenities\": \"[\\\"Fan\\\", \\\"Curtains\\\", \\\"Wardrobe\\\"]\", \"gender\": {\"male\": \"5\"}}, {\"number_in_room\": \"2\", \"price\": \"1370\", \"number_of_rooms\": \"9\", \"room_image\": [], \"amenities\": \"[\\\"Wardrobe\\\", \\\"Fan\\\", \\\"Study desk\\\"]\", \"gender\": {\"female\": \"9\"}}, {\"number_in_room\": \"5\", \"price\": \"1524\", \"number_of_rooms\": \"6\", \"room_image\": [], \"amenities\": \"[\\\"Private bath\\\", \\\"Study desk\\\", \\\"Window netting\\\", \\\"Wardrobe\\\"]\", \"gender\": {\"female\": \"6\"}}]",
+            "manager": 53,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 54,
+        "fields": {
+            "name": "Attorney Street Hostel",
+            "campus": 16,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"CCTV\", \"Laundry area\"]",
+            "room_details": "[{\"number_in_room\": \"3\", \"price\": \"1014\", \"number_of_rooms\": \"15\", \"room_image\": [], \"amenities\": \"[\\\"Private bath\\\", \\\"Reading lamp\\\", \\\"Curtains\\\", \\\"Power socket\\\"]\", \"gender\": {\"male\": \"15\"}}, {\"number_in_room\": \"5\", \"price\": \"1664\", \"number_of_rooms\": \"18\", \"room_image\": [], \"amenities\": \"[\\\"Private bath\\\", \\\"Reading lamp\\\", \\\"Curtains\\\"]\", \"gender\": {\"female\": \"18\"}}, {\"number_in_room\": \"2\", \"price\": \"1946\", \"number_of_rooms\": \"20\", \"room_image\": [], \"amenities\": \"[\\\"Curtains\\\", \\\"Tiled floor\\\", \\\"Fan\\\", \\\"Ceiling light\\\"]\", \"gender\": {\"female\": \"20\"}}, {\"number_in_room\": \"4\", \"price\": \"1107\", \"number_of_rooms\": \"15\", \"room_image\": [], \"amenities\": \"[\\\"Study desk\\\", \\\"Ceiling light\\\", \\\"Private bath\\\", \\\"Fan\\\"]\", \"gender\": {\"female\": \"15\"}}]",
+            "manager": 54,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 55,
+        "fields": {
+            "name": "Decade Water Hostel",
+            "campus": 19,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"CCTV\", \"24/7 water supply\", \"Generator\", \"WiFi\", \"Ironing bay\"]",
+            "room_details": "[{\"number_in_room\": \"5\", \"price\": \"1845\", \"number_of_rooms\": \"7\", \"room_image\": [], \"amenities\": \"[\\\"Curtains\\\", \\\"Wardrobe\\\", \\\"Fan\\\"]\", \"gender\": {\"female\": \"7\"}}, {\"number_in_room\": \"4\", \"price\": \"1038\", \"number_of_rooms\": \"13\", \"room_image\": [], \"amenities\": \"[\\\"Power socket\\\", \\\"Private bath\\\", \\\"Wardrobe\\\"]\", \"gender\": {\"female\": \"13\"}}, {\"number_in_room\": \"2\", \"price\": \"1039\", \"number_of_rooms\": \"17\", \"room_image\": [], \"amenities\": \"[\\\"Study desk\\\", \\\"Fan\\\", \\\"Tiled floor\\\", \\\"Wardrobe\\\"]\", \"gender\": {\"male\": \"17\"}}, {\"number_in_room\": \"3\", \"price\": \"1594\", \"number_of_rooms\": \"20\", \"room_image\": [], \"amenities\": \"[\\\"Reading lamp\\\", \\\"Private bath\\\", \\\"Wardrobe\\\"]\", \"gender\": {\"male\": \"20\"}}]",
+            "manager": 55,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 56,
+        "fields": {
+            "name": "Serve No Hostel",
+            "campus": 18,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"24/7 water supply\", \"Generator\", \"Ironing bay\"]",
+            "room_details": "[{\"number_in_room\": \"4\", \"price\": \"1965\", \"number_of_rooms\": \"20\", \"room_image\": [], \"amenities\": \"[\\\"Wardrobe\\\", \\\"Ceiling light\\\", \\\"Private bath\\\"]\", \"gender\": {\"male\": \"20\"}}, {\"number_in_room\": \"2\", \"price\": \"927\", \"number_of_rooms\": \"19\", \"room_image\": [], \"amenities\": \"[\\\"Curtains\\\", \\\"Study desk\\\", \\\"Tiled floor\\\"]\", \"gender\": {\"female\": \"19\"}}]",
+            "manager": 56,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 57,
+        "fields": {
+            "name": "Arm Well Hostel",
+            "campus": 18,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Study room\", \"CCTV\", \"TV room\"]",
+            "room_details": "[{\"number_in_room\": \"1\", \"price\": \"1083\", \"number_of_rooms\": \"20\", \"room_image\": [], \"amenities\": \"[\\\"Private bath\\\", \\\"Ceiling light\\\", \\\"Fan\\\", \\\"Wardrobe\\\"]\", \"gender\": {\"male\": \"10\", \"female\": \"10\"}}, {\"number_in_room\": \"4\", \"price\": \"913\", \"number_of_rooms\": \"6\", \"room_image\": [], \"amenities\": \"[\\\"Window netting\\\", \\\"Fan\\\", \\\"Ceiling light\\\", \\\"Power socket\\\"]\", \"gender\": {\"male\": \"3\", \"female\": \"3\"}}]",
+            "manager": 57,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 58,
+        "fields": {
+            "name": "Picture Whether Hostel",
+            "campus": 2,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"TV room\", \"Parking space\", \"Security post\", \"Generator\", \"Ironing bay\"]",
+            "room_details": "[{\"number_in_room\": \"4\", \"price\": \"990\", \"number_of_rooms\": \"19\", \"room_image\": [], \"amenities\": \"[\\\"Private bath\\\", \\\"Reading lamp\\\", \\\"Wardrobe\\\", \\\"Tiled floor\\\", \\\"Fan\\\"]\", \"gender\": {\"female\": \"19\"}}, {\"number_in_room\": \"2\", \"price\": \"1868\", \"number_of_rooms\": \"8\", \"room_image\": [], \"amenities\": \"[\\\"Tiled floor\\\", \\\"Ceiling light\\\", \\\"Wardrobe\\\", \\\"Curtains\\\", \\\"Reading lamp\\\"]\", \"gender\": {\"male\": \"4\", \"female\": \"4\"}}]",
+            "manager": 58,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 59,
+        "fields": {
+            "name": "Last Ten Hostel",
+            "campus": 10,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"WiFi\", \"Ironing bay\", \"Parking space\", \"Laundry area\", \"CCTV\"]",
+            "room_details": "[{\"number_in_room\": \"1\", \"price\": \"1154\", \"number_of_rooms\": \"18\", \"room_image\": [], \"amenities\": \"[\\\"Private bath\\\", \\\"Tiled floor\\\"]\", \"gender\": {\"male\": \"9\", \"female\": \"9\"}}, {\"number_in_room\": \"5\", \"price\": \"1787\", \"number_of_rooms\": \"11\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Tiled floor\\\", \\\"Reading lamp\\\", \\\"Fan\\\", \\\"Wardrobe\\\"]\", \"gender\": {\"male\": \"11\"}}]",
+            "manager": 59,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 60,
+        "fields": {
+            "name": "Cell Mouth Hostel",
+            "campus": 25,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Study room\", \"Security post\"]",
+            "room_details": "[{\"number_in_room\": \"4\", \"price\": \"1688\", \"number_of_rooms\": \"8\", \"room_image\": [], \"amenities\": \"[\\\"Tiled floor\\\", \\\"Study desk\\\", \\\"Wardrobe\\\", \\\"Curtains\\\"]\", \"gender\": {\"male\": \"8\"}}, {\"number_in_room\": \"5\", \"price\": \"1707\", \"number_of_rooms\": \"14\", \"room_image\": [], \"amenities\": \"[\\\"Window netting\\\", \\\"Wardrobe\\\", \\\"Power socket\\\", \\\"Study desk\\\"]\", \"gender\": {\"male\": \"14\"}}]",
+            "manager": 60,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 61,
+        "fields": {
+            "name": "Visit Defense Hostel",
+            "campus": 16,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Study room\", \"Ironing bay\"]",
+            "room_details": "[{\"number_in_room\": \"5\", \"price\": \"1747\", \"number_of_rooms\": \"13\", \"room_image\": [], \"amenities\": \"[\\\"Power socket\\\", \\\"Tiled floor\\\"]\", \"gender\": {\"male\": \"6\", \"female\": \"7\"}}, {\"number_in_room\": \"4\", \"price\": \"1323\", \"number_of_rooms\": \"18\", \"room_image\": [], \"amenities\": \"[\\\"Private bath\\\", \\\"Fan\\\", \\\"Ceiling light\\\", \\\"Power socket\\\", \\\"Reading lamp\\\"]\", \"gender\": {\"male\": \"18\"}}]",
+            "manager": 61,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 62,
+        "fields": {
+            "name": "Discussion Security Hostel",
+            "campus": 24,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Parking space\", \"TV room\"]",
+            "room_details": "[{\"number_in_room\": \"3\", \"price\": \"1440\", \"number_of_rooms\": \"20\", \"room_image\": [], \"amenities\": \"[\\\"Tiled floor\\\", \\\"Study desk\\\", \\\"Fan\\\", \\\"Private bath\\\", \\\"Wardrobe\\\"]\", \"gender\": {\"male\": \"10\", \"female\": \"10\"}}, {\"number_in_room\": \"5\", \"price\": \"860\", \"number_of_rooms\": \"13\", \"room_image\": [], \"amenities\": \"[\\\"Fan\\\", \\\"Power socket\\\", \\\"Window netting\\\", \\\"Reading lamp\\\"]\", \"gender\": {\"female\": \"13\"}}, {\"number_in_room\": \"1\", \"price\": \"1791\", \"number_of_rooms\": \"6\", \"room_image\": [], \"amenities\": \"[\\\"Tiled floor\\\", \\\"Study desk\\\", \\\"Window netting\\\", \\\"Private bath\\\"]\", \"gender\": {\"female\": \"6\"}}, {\"number_in_room\": \"4\", \"price\": \"1796\", \"number_of_rooms\": \"15\", \"room_image\": [], \"amenities\": \"[\\\"Wardrobe\\\", \\\"Tiled floor\\\"]\", \"gender\": {\"male\": \"15\"}}]",
+            "manager": 62,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 63,
+        "fields": {
+            "name": "Increase This Hostel",
+            "campus": 18,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"TV room\", \"Generator\"]",
+            "room_details": "[{\"number_in_room\": \"5\", \"price\": \"1598\", \"number_of_rooms\": \"6\", \"room_image\": [], \"amenities\": \"[\\\"Reading lamp\\\", \\\"Power socket\\\", \\\"Study desk\\\", \\\"Ceiling light\\\", \\\"Private bath\\\"]\", \"gender\": {\"male\": \"3\", \"female\": \"3\"}}, {\"number_in_room\": \"4\", \"price\": \"1851\", \"number_of_rooms\": \"7\", \"room_image\": [], \"amenities\": \"[\\\"Reading lamp\\\", \\\"Fan\\\", \\\"Tiled floor\\\", \\\"Window netting\\\", \\\"Ceiling light\\\"]\", \"gender\": {\"male\": \"7\"}}, {\"number_in_room\": \"2\", \"price\": \"1644\", \"number_of_rooms\": \"16\", \"room_image\": [], \"amenities\": \"[\\\"Reading lamp\\\", \\\"Ceiling light\\\", \\\"Fan\\\", \\\"Wardrobe\\\", \\\"Curtains\\\"]\", \"gender\": {\"male\": \"16\"}}, {\"number_in_room\": \"1\", \"price\": \"1861\", \"number_of_rooms\": \"14\", \"room_image\": [], \"amenities\": \"[\\\"Wardrobe\\\", \\\"Curtains\\\", \\\"Fan\\\", \\\"Private bath\\\", \\\"Window netting\\\"]\", \"gender\": {\"male\": \"7\", \"female\": \"7\"}}]",
+            "manager": 63,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 64,
+        "fields": {
+            "name": "Message For Hostel",
+            "campus": 4,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"WiFi\", \"CCTV\", \"Ironing bay\"]",
+            "room_details": "[{\"number_in_room\": \"4\", \"price\": \"1866\", \"number_of_rooms\": \"16\", \"room_image\": [], \"amenities\": \"[\\\"Study desk\\\", \\\"Ceiling light\\\"]\", \"gender\": {\"male\": \"8\", \"female\": \"8\"}}, {\"number_in_room\": \"5\", \"price\": \"1368\", \"number_of_rooms\": \"17\", \"room_image\": [], \"amenities\": \"[\\\"Study desk\\\", \\\"Reading lamp\\\", \\\"Power socket\\\", \\\"Fan\\\", \\\"Curtains\\\"]\", \"gender\": {\"male\": \"17\"}}, {\"number_in_room\": \"3\", \"price\": \"1775\", \"number_of_rooms\": \"8\", \"room_image\": [], \"amenities\": \"[\\\"Reading lamp\\\", \\\"Window netting\\\", \\\"Ceiling light\\\"]\", \"gender\": {\"male\": \"8\"}}]",
+            "manager": 64,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 65,
+        "fields": {
+            "name": "Several Think Hostel",
+            "campus": 20,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"CCTV\", \"Ironing bay\", \"WiFi\"]",
+            "room_details": "[{\"number_in_room\": \"1\", \"price\": \"907\", \"number_of_rooms\": \"8\", \"room_image\": [], \"amenities\": \"[\\\"Reading lamp\\\", \\\"Fan\\\", \\\"Tiled floor\\\"]\", \"gender\": {\"female\": \"8\"}}, {\"number_in_room\": \"5\", \"price\": \"1923\", \"number_of_rooms\": \"20\", \"room_image\": [], \"amenities\": \"[\\\"Study desk\\\", \\\"Wardrobe\\\", \\\"Reading lamp\\\"]\", \"gender\": {\"male\": \"20\"}}]",
+            "manager": 65,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 66,
+        "fields": {
+            "name": "Measure President Hostel",
+            "campus": 18,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Ironing bay\", \"Study room\", \"WiFi\"]",
+            "room_details": "[{\"number_in_room\": \"2\", \"price\": \"1603\", \"number_of_rooms\": \"8\", \"room_image\": [], \"amenities\": \"[\\\"Reading lamp\\\", \\\"Power socket\\\", \\\"Tiled floor\\\", \\\"Curtains\\\"]\", \"gender\": {\"male\": \"4\", \"female\": \"4\"}}, {\"number_in_room\": \"4\", \"price\": \"1616\", \"number_of_rooms\": \"13\", \"room_image\": [], \"amenities\": \"[\\\"Power socket\\\", \\\"Tiled floor\\\", \\\"Curtains\\\", \\\"Reading lamp\\\"]\", \"gender\": {\"male\": \"13\"}}]",
+            "manager": 66,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 67,
+        "fields": {
+            "name": "Mean East Hostel",
+            "campus": 5,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Study room\", \"Laundry area\", \"WiFi\", \"Ironing bay\"]",
+            "room_details": "[{\"number_in_room\": \"2\", \"price\": \"857\", \"number_of_rooms\": \"14\", \"room_image\": [], \"amenities\": \"[\\\"Power socket\\\", \\\"Wardrobe\\\"]\", \"gender\": {\"male\": \"14\"}}, {\"number_in_room\": \"1\", \"price\": \"835\", \"number_of_rooms\": \"11\", \"room_image\": [], \"amenities\": \"[\\\"Study desk\\\", \\\"Private bath\\\", \\\"Ceiling light\\\", \\\"Wardrobe\\\", \\\"Curtains\\\"]\", \"gender\": {\"male\": \"5\", \"female\": \"6\"}}, {\"number_in_room\": \"4\", \"price\": \"1681\", \"number_of_rooms\": \"6\", \"room_image\": [], \"amenities\": \"[\\\"Fan\\\", \\\"Private bath\\\", \\\"Ceiling light\\\"]\", \"gender\": {\"male\": \"3\", \"female\": \"3\"}}, {\"number_in_room\": \"5\", \"price\": \"1429\", \"number_of_rooms\": \"13\", \"room_image\": [], \"amenities\": \"[\\\"Wardrobe\\\", \\\"Power socket\\\", \\\"Tiled floor\\\", \\\"Curtains\\\", \\\"Window netting\\\"]\", \"gender\": {\"female\": \"13\"}}]",
+            "manager": 67,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 68,
+        "fields": {
+            "name": "Ok Experience Hostel",
+            "campus": 15,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Laundry area\", \"24/7 water supply\", \"Ironing bay\"]",
+            "room_details": "[{\"number_in_room\": \"1\", \"price\": \"1101\", \"number_of_rooms\": \"5\", \"room_image\": [], \"amenities\": \"[\\\"Window netting\\\", \\\"Power socket\\\", \\\"Fan\\\", \\\"Tiled floor\\\"]\", \"gender\": {\"female\": \"5\"}}, {\"number_in_room\": \"2\", \"price\": \"1184\", \"number_of_rooms\": \"16\", \"room_image\": [], \"amenities\": \"[\\\"Wardrobe\\\", \\\"Ceiling light\\\", \\\"Tiled floor\\\", \\\"Private bath\\\"]\", \"gender\": {\"female\": \"16\"}}, {\"number_in_room\": \"3\", \"price\": \"1523\", \"number_of_rooms\": \"12\", \"room_image\": [], \"amenities\": \"[\\\"Window netting\\\", \\\"Private bath\\\", \\\"Power socket\\\", \\\"Tiled floor\\\"]\", \"gender\": {\"female\": \"12\"}}]",
+            "manager": 68,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 69,
+        "fields": {
+            "name": "Design Voice Hostel",
+            "campus": 2,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"TV room\", \"WiFi\"]",
+            "room_details": "[{\"number_in_room\": \"5\", \"price\": \"1716\", \"number_of_rooms\": \"8\", \"room_image\": [], \"amenities\": \"[\\\"Curtains\\\", \\\"Power socket\\\"]\", \"gender\": {\"female\": \"8\"}}, {\"number_in_room\": \"1\", \"price\": \"1554\", \"number_of_rooms\": \"14\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Tiled floor\\\"]\", \"gender\": {\"female\": \"14\"}}, {\"number_in_room\": \"3\", \"price\": \"1023\", \"number_of_rooms\": \"18\", \"room_image\": [], \"amenities\": \"[\\\"Study desk\\\", \\\"Tiled floor\\\", \\\"Reading lamp\\\", \\\"Wardrobe\\\"]\", \"gender\": {\"female\": \"18\"}}, {\"number_in_room\": \"4\", \"price\": \"1094\", \"number_of_rooms\": \"6\", \"room_image\": [], \"amenities\": \"[\\\"Study desk\\\", \\\"Ceiling light\\\", \\\"Private bath\\\", \\\"Curtains\\\", \\\"Reading lamp\\\"]\", \"gender\": {\"male\": \"3\", \"female\": \"3\"}}]",
+            "manager": 69,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 70,
+        "fields": {
+            "name": "Personal Support Hostel",
+            "campus": 17,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Security post\", \"Ironing bay\", \"TV room\"]",
+            "room_details": "[{\"number_in_room\": \"3\", \"price\": \"1497\", \"number_of_rooms\": \"19\", \"room_image\": [], \"amenities\": \"[\\\"Reading lamp\\\", \\\"Ceiling light\\\", \\\"Study desk\\\"]\", \"gender\": {\"female\": \"19\"}}, {\"number_in_room\": \"2\", \"price\": \"1956\", \"number_of_rooms\": \"18\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Private bath\\\", \\\"Fan\\\"]\", \"gender\": {\"female\": \"18\"}}, {\"number_in_room\": \"1\", \"price\": \"1412\", \"number_of_rooms\": \"19\", \"room_image\": [], \"amenities\": \"[\\\"Reading lamp\\\", \\\"Tiled floor\\\", \\\"Curtains\\\", \\\"Window netting\\\", \\\"Study desk\\\"]\", \"gender\": {\"male\": \"9\", \"female\": \"10\"}}]",
+            "manager": 70,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 71,
+        "fields": {
+            "name": "Pay Involve Hostel",
+            "campus": 6,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Ironing bay\", \"TV room\"]",
+            "room_details": "[{\"number_in_room\": \"4\", \"price\": \"1507\", \"number_of_rooms\": \"18\", \"room_image\": [], \"amenities\": \"[\\\"Wardrobe\\\", \\\"Curtains\\\", \\\"Tiled floor\\\", \\\"Private bath\\\"]\", \"gender\": {\"male\": \"18\"}}, {\"number_in_room\": \"3\", \"price\": \"1953\", \"number_of_rooms\": \"7\", \"room_image\": [], \"amenities\": \"[\\\"Study desk\\\", \\\"Reading lamp\\\", \\\"Window netting\\\", \\\"Tiled floor\\\"]\", \"gender\": {\"male\": \"7\"}}, {\"number_in_room\": \"1\", \"price\": \"1032\", \"number_of_rooms\": \"17\", \"room_image\": [], \"amenities\": \"[\\\"Study desk\\\", \\\"Tiled floor\\\", \\\"Wardrobe\\\"]\", \"gender\": {\"female\": \"17\"}}, {\"number_in_room\": \"5\", \"price\": \"1337\", \"number_of_rooms\": \"17\", \"room_image\": [], \"amenities\": \"[\\\"Private bath\\\", \\\"Fan\\\", \\\"Tiled floor\\\"]\", \"gender\": {\"male\": \"17\"}}]",
+            "manager": 71,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 72,
+        "fields": {
+            "name": "Like Type Hostel",
+            "campus": 1,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Study room\", \"Security post\", \"Parking space\", \"Ironing bay\"]",
+            "room_details": "[{\"number_in_room\": \"3\", \"price\": \"1645\", \"number_of_rooms\": \"20\", \"room_image\": [], \"amenities\": \"[\\\"Power socket\\\", \\\"Window netting\\\", \\\"Study desk\\\", \\\"Fan\\\", \\\"Private bath\\\"]\", \"gender\": {\"male\": \"10\", \"female\": \"10\"}}, {\"number_in_room\": \"2\", \"price\": \"1230\", \"number_of_rooms\": \"18\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Curtains\\\"]\", \"gender\": {\"male\": \"18\"}}, {\"number_in_room\": \"4\", \"price\": \"1224\", \"number_of_rooms\": \"11\", \"room_image\": [], \"amenities\": \"[\\\"Study desk\\\", \\\"Reading lamp\\\", \\\"Window netting\\\"]\", \"gender\": {\"male\": \"5\", \"female\": \"6\"}}]",
+            "manager": 72,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 73,
+        "fields": {
+            "name": "Item Finish Hostel",
+            "campus": 17,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Parking space\", \"Study room\"]",
+            "room_details": "[{\"number_in_room\": \"5\", \"price\": \"1436\", \"number_of_rooms\": \"11\", \"room_image\": [], \"amenities\": \"[\\\"Tiled floor\\\", \\\"Fan\\\", \\\"Study desk\\\", \\\"Reading lamp\\\", \\\"Ceiling light\\\"]\", \"gender\": {\"male\": \"11\"}}, {\"number_in_room\": \"3\", \"price\": \"1087\", \"number_of_rooms\": \"12\", \"room_image\": [], \"amenities\": \"[\\\"Curtains\\\", \\\"Fan\\\", \\\"Study desk\\\"]\", \"gender\": {\"female\": \"12\"}}, {\"number_in_room\": \"1\", \"price\": \"931\", \"number_of_rooms\": \"17\", \"room_image\": [], \"amenities\": \"[\\\"Private bath\\\", \\\"Reading lamp\\\", \\\"Ceiling light\\\", \\\"Curtains\\\"]\", \"gender\": {\"female\": \"17\"}}, {\"number_in_room\": \"2\", \"price\": \"1764\", \"number_of_rooms\": \"15\", \"room_image\": [], \"amenities\": \"[\\\"Tiled floor\\\", \\\"Reading lamp\\\"]\", \"gender\": {\"male\": \"7\", \"female\": \"8\"}}]",
+            "manager": 73,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 74,
+        "fields": {
+            "name": "Can Space Hostel",
+            "campus": 16,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Study room\", \"Ironing bay\"]",
+            "room_details": "[{\"number_in_room\": \"4\", \"price\": \"1595\", \"number_of_rooms\": \"18\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Power socket\\\"]\", \"gender\": {\"female\": \"18\"}}, {\"number_in_room\": \"5\", \"price\": \"1464\", \"number_of_rooms\": \"7\", \"room_image\": [], \"amenities\": \"[\\\"Reading lamp\\\", \\\"Fan\\\", \\\"Tiled floor\\\", \\\"Power socket\\\"]\", \"gender\": {\"male\": \"7\"}}]",
+            "manager": 74,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 75,
+        "fields": {
+            "name": "Couple Guy Hostel",
+            "campus": 1,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Generator\", \"CCTV\", \"24/7 water supply\", \"WiFi\", \"TV room\"]",
+            "room_details": "[{\"number_in_room\": \"5\", \"price\": \"1630\", \"number_of_rooms\": \"12\", \"room_image\": [], \"amenities\": \"[\\\"Wardrobe\\\", \\\"Private bath\\\", \\\"Window netting\\\", \\\"Reading lamp\\\"]\", \"gender\": {\"female\": \"12\"}}, {\"number_in_room\": \"4\", \"price\": \"861\", \"number_of_rooms\": \"7\", \"room_image\": [], \"amenities\": \"[\\\"Tiled floor\\\", \\\"Study desk\\\"]\", \"gender\": {\"male\": \"3\", \"female\": \"4\"}}, {\"number_in_room\": \"2\", \"price\": \"1358\", \"number_of_rooms\": \"8\", \"room_image\": [], \"amenities\": \"[\\\"Tiled floor\\\", \\\"Wardrobe\\\", \\\"Power socket\\\", \\\"Ceiling light\\\", \\\"Private bath\\\"]\", \"gender\": {\"male\": \"4\", \"female\": \"4\"}}]",
+            "manager": 75,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 76,
+        "fields": {
+            "name": "Fact Between Hostel",
+            "campus": 6,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"24/7 water supply\", \"WiFi\", \"Parking space\", \"Generator\", \"Security post\"]",
+            "room_details": "[{\"number_in_room\": \"1\", \"price\": \"1742\", \"number_of_rooms\": \"8\", \"room_image\": [], \"amenities\": \"[\\\"Wardrobe\\\", \\\"Fan\\\", \\\"Window netting\\\", \\\"Power socket\\\"]\", \"gender\": {\"male\": \"4\", \"female\": \"4\"}}, {\"number_in_room\": \"2\", \"price\": \"804\", \"number_of_rooms\": \"9\", \"room_image\": [], \"amenities\": \"[\\\"Fan\\\", \\\"Window netting\\\", \\\"Tiled floor\\\"]\", \"gender\": {\"male\": \"4\", \"female\": \"5\"}}, {\"number_in_room\": \"4\", \"price\": \"921\", \"number_of_rooms\": \"15\", \"room_image\": [], \"amenities\": \"[\\\"Curtains\\\", \\\"Wardrobe\\\", \\\"Fan\\\", \\\"Ceiling light\\\", \\\"Reading lamp\\\"]\", \"gender\": {\"female\": \"15\"}}, {\"number_in_room\": \"5\", \"price\": \"1525\", \"number_of_rooms\": \"14\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Curtains\\\"]\", \"gender\": {\"female\": \"14\"}}]",
+            "manager": 76,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 77,
+        "fields": {
+            "name": "Society Image Hostel",
+            "campus": 22,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Security post\", \"24/7 water supply\"]",
+            "room_details": "[{\"number_in_room\": \"4\", \"price\": \"1316\", \"number_of_rooms\": \"17\", \"room_image\": [], \"amenities\": \"[\\\"Wardrobe\\\", \\\"Window netting\\\", \\\"Reading lamp\\\", \\\"Private bath\\\", \\\"Curtains\\\"]\", \"gender\": {\"male\": \"8\", \"female\": \"9\"}}, {\"number_in_room\": \"1\", \"price\": \"1055\", \"number_of_rooms\": \"14\", \"room_image\": [], \"amenities\": \"[\\\"Power socket\\\", \\\"Reading lamp\\\", \\\"Private bath\\\"]\", \"gender\": {\"male\": \"14\"}}, {\"number_in_room\": \"5\", \"price\": \"1399\", \"number_of_rooms\": \"7\", \"room_image\": [], \"amenities\": \"[\\\"Power socket\\\", \\\"Private bath\\\", \\\"Tiled floor\\\"]\", \"gender\": {\"male\": \"3\", \"female\": \"4\"}}]",
+            "manager": 77,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 78,
+        "fields": {
+            "name": "Again Finish Hostel",
+            "campus": 23,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Security post\", \"Ironing bay\", \"CCTV\", \"24/7 water supply\"]",
+            "room_details": "[{\"number_in_room\": \"2\", \"price\": \"1079\", \"number_of_rooms\": \"19\", \"room_image\": [], \"amenities\": \"[\\\"Private bath\\\", \\\"Fan\\\", \\\"Wardrobe\\\", \\\"Tiled floor\\\"]\", \"gender\": {\"male\": \"9\", \"female\": \"10\"}}, {\"number_in_room\": \"4\", \"price\": \"1356\", \"number_of_rooms\": \"10\", \"room_image\": [], \"amenities\": \"[\\\"Study desk\\\", \\\"Wardrobe\\\", \\\"Private bath\\\", \\\"Power socket\\\", \\\"Ceiling light\\\"]\", \"gender\": {\"male\": \"10\"}}]",
+            "manager": 78,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 79,
+        "fields": {
+            "name": "Their Rate Hostel",
+            "campus": 16,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Generator\", \"Laundry area\", \"CCTV\", \"TV room\", \"24/7 water supply\"]",
+            "room_details": "[{\"number_in_room\": \"5\", \"price\": \"1740\", \"number_of_rooms\": \"5\", \"room_image\": [], \"amenities\": \"[\\\"Fan\\\", \\\"Private bath\\\"]\", \"gender\": {\"male\": \"2\", \"female\": \"3\"}}, {\"number_in_room\": \"1\", \"price\": \"1143\", \"number_of_rooms\": \"18\", \"room_image\": [], \"amenities\": \"[\\\"Reading lamp\\\", \\\"Fan\\\"]\", \"gender\": {\"female\": \"18\"}}]",
+            "manager": 79,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 80,
+        "fields": {
+            "name": "Market Character Hostel",
+            "campus": 24,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Ironing bay\", \"24/7 water supply\", \"Laundry area\"]",
+            "room_details": "[{\"number_in_room\": \"4\", \"price\": \"1948\", \"number_of_rooms\": \"5\", \"room_image\": [], \"amenities\": \"[\\\"Wardrobe\\\", \\\"Tiled floor\\\", \\\"Power socket\\\"]\", \"gender\": {\"male\": \"5\"}}, {\"number_in_room\": \"2\", \"price\": \"866\", \"number_of_rooms\": \"14\", \"room_image\": [], \"amenities\": \"[\\\"Private bath\\\", \\\"Tiled floor\\\"]\", \"gender\": {\"male\": \"14\"}}]",
+            "manager": 80,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 81,
+        "fields": {
+            "name": "Physical Scientist Hostel",
+            "campus": 12,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Parking space\", \"Security post\", \"24/7 water supply\", \"CCTV\", \"Ironing bay\"]",
+            "room_details": "[{\"number_in_room\": \"5\", \"price\": \"899\", \"number_of_rooms\": \"8\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Fan\\\", \\\"Curtains\\\", \\\"Study desk\\\"]\", \"gender\": {\"male\": \"8\"}}, {\"number_in_room\": \"1\", \"price\": \"1166\", \"number_of_rooms\": \"6\", \"room_image\": [], \"amenities\": \"[\\\"Reading lamp\\\", \\\"Curtains\\\", \\\"Wardrobe\\\"]\", \"gender\": {\"female\": \"6\"}}, {\"number_in_room\": \"2\", \"price\": \"1919\", \"number_of_rooms\": \"14\", \"room_image\": [], \"amenities\": \"[\\\"Tiled floor\\\", \\\"Private bath\\\", \\\"Power socket\\\", \\\"Wardrobe\\\", \\\"Study desk\\\"]\", \"gender\": {\"female\": \"14\"}}]",
+            "manager": 81,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 82,
+        "fields": {
+            "name": "Society Area Hostel",
+            "campus": 4,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"24/7 water supply\", \"Laundry area\", \"Parking space\", \"Generator\", \"WiFi\"]",
+            "room_details": "[{\"number_in_room\": \"3\", \"price\": \"1141\", \"number_of_rooms\": \"17\", \"room_image\": [], \"amenities\": \"[\\\"Fan\\\", \\\"Private bath\\\", \\\"Tiled floor\\\", \\\"Curtains\\\", \\\"Study desk\\\"]\", \"gender\": {\"male\": \"8\", \"female\": \"9\"}}, {\"number_in_room\": \"4\", \"price\": \"1696\", \"number_of_rooms\": \"9\", \"room_image\": [], \"amenities\": \"[\\\"Reading lamp\\\", \\\"Curtains\\\", \\\"Wardrobe\\\", \\\"Ceiling light\\\", \\\"Window netting\\\"]\", \"gender\": {\"male\": \"9\"}}, {\"number_in_room\": \"1\", \"price\": \"1911\", \"number_of_rooms\": \"8\", \"room_image\": [], \"amenities\": \"[\\\"Window netting\\\", \\\"Fan\\\"]\", \"gender\": {\"male\": \"8\"}}, {\"number_in_room\": \"5\", \"price\": \"1868\", \"number_of_rooms\": \"11\", \"room_image\": [], \"amenities\": \"[\\\"Study desk\\\", \\\"Reading lamp\\\", \\\"Wardrobe\\\", \\\"Ceiling light\\\", \\\"Tiled floor\\\"]\", \"gender\": {\"female\": \"11\"}}]",
+            "manager": 82,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 83,
+        "fields": {
+            "name": "Sort Project Hostel",
+            "campus": 1,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"WiFi\", \"24/7 water supply\", \"TV room\"]",
+            "room_details": "[{\"number_in_room\": \"3\", \"price\": \"1894\", \"number_of_rooms\": \"7\", \"room_image\": [], \"amenities\": \"[\\\"Reading lamp\\\", \\\"Private bath\\\", \\\"Power socket\\\"]\", \"gender\": {\"female\": \"7\"}}, {\"number_in_room\": \"1\", \"price\": \"979\", \"number_of_rooms\": \"9\", \"room_image\": [], \"amenities\": \"[\\\"Curtains\\\", \\\"Power socket\\\", \\\"Tiled floor\\\", \\\"Private bath\\\", \\\"Reading lamp\\\"]\", \"gender\": {\"male\": \"4\", \"female\": \"5\"}}, {\"number_in_room\": \"2\", \"price\": \"1156\", \"number_of_rooms\": \"13\", \"room_image\": [], \"amenities\": \"[\\\"Private bath\\\", \\\"Fan\\\", \\\"Curtains\\\"]\", \"gender\": {\"male\": \"13\"}}, {\"number_in_room\": \"4\", \"price\": \"1575\", \"number_of_rooms\": \"14\", \"room_image\": [], \"amenities\": \"[\\\"Window netting\\\", \\\"Reading lamp\\\", \\\"Curtains\\\"]\", \"gender\": {\"female\": \"14\"}}]",
+            "manager": 83,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 84,
+        "fields": {
+            "name": "Protect Concern Hostel",
+            "campus": 25,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Security post\", \"Parking space\", \"Generator\", \"24/7 water supply\"]",
+            "room_details": "[{\"number_in_room\": \"3\", \"price\": \"1091\", \"number_of_rooms\": \"16\", \"room_image\": [], \"amenities\": \"[\\\"Fan\\\", \\\"Reading lamp\\\", \\\"Private bath\\\", \\\"Ceiling light\\\"]\", \"gender\": {\"female\": \"16\"}}, {\"number_in_room\": \"4\", \"price\": \"1875\", \"number_of_rooms\": \"18\", \"room_image\": [], \"amenities\": \"[\\\"Reading lamp\\\", \\\"Curtains\\\", \\\"Power socket\\\", \\\"Ceiling light\\\", \\\"Window netting\\\"]\", \"gender\": {\"female\": \"18\"}}, {\"number_in_room\": \"5\", \"price\": \"861\", \"number_of_rooms\": \"6\", \"room_image\": [], \"amenities\": \"[\\\"Fan\\\", \\\"Curtains\\\", \\\"Study desk\\\"]\", \"gender\": {\"male\": \"6\"}}]",
+            "manager": 84,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 85,
+        "fields": {
+            "name": "Writer Medical Hostel",
+            "campus": 15,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"WiFi\", \"24/7 water supply\", \"Security post\", \"TV room\"]",
+            "room_details": "[{\"number_in_room\": \"3\", \"price\": \"1203\", \"number_of_rooms\": \"17\", \"room_image\": [], \"amenities\": \"[\\\"Wardrobe\\\", \\\"Private bath\\\", \\\"Reading lamp\\\", \\\"Fan\\\", \\\"Tiled floor\\\"]\", \"gender\": {\"male\": \"17\"}}, {\"number_in_room\": \"4\", \"price\": \"1992\", \"number_of_rooms\": \"16\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Tiled floor\\\", \\\"Power socket\\\"]\", \"gender\": {\"male\": \"16\"}}, {\"number_in_room\": \"5\", \"price\": \"1093\", \"number_of_rooms\": \"6\", \"room_image\": [], \"amenities\": \"[\\\"Private bath\\\", \\\"Reading lamp\\\", \\\"Study desk\\\"]\", \"gender\": {\"male\": \"3\", \"female\": \"3\"}}, {\"number_in_room\": \"1\", \"price\": \"1428\", \"number_of_rooms\": \"18\", \"room_image\": [], \"amenities\": \"[\\\"Curtains\\\", \\\"Study desk\\\", \\\"Private bath\\\"]\", \"gender\": {\"female\": \"18\"}}]",
+            "manager": 85,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 86,
+        "fields": {
+            "name": "City Right Hostel",
+            "campus": 22,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Generator\", \"Laundry area\", \"Security post\", \"CCTV\", \"24/7 water supply\"]",
+            "room_details": "[{\"number_in_room\": \"1\", \"price\": \"1406\", \"number_of_rooms\": \"11\", \"room_image\": [], \"amenities\": \"[\\\"Power socket\\\", \\\"Window netting\\\", \\\"Study desk\\\", \\\"Reading lamp\\\", \\\"Ceiling light\\\"]\", \"gender\": {\"female\": \"11\"}}, {\"number_in_room\": \"4\", \"price\": \"1955\", \"number_of_rooms\": \"11\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Power socket\\\", \\\"Tiled floor\\\", \\\"Window netting\\\", \\\"Study desk\\\"]\", \"gender\": {\"male\": \"11\"}}, {\"number_in_room\": \"3\", \"price\": \"941\", \"number_of_rooms\": \"7\", \"room_image\": [], \"amenities\": \"[\\\"Private bath\\\", \\\"Power socket\\\"]\", \"gender\": {\"male\": \"3\", \"female\": \"4\"}}]",
+            "manager": 86,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 87,
+        "fields": {
+            "name": "Less Report Hostel",
+            "campus": 7,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"WiFi\", \"Study room\"]",
+            "room_details": "[{\"number_in_room\": \"1\", \"price\": \"1039\", \"number_of_rooms\": \"15\", \"room_image\": [], \"amenities\": \"[\\\"Tiled floor\\\", \\\"Wardrobe\\\", \\\"Private bath\\\", \\\"Power socket\\\"]\", \"gender\": {\"male\": \"15\"}}, {\"number_in_room\": \"2\", \"price\": \"1897\", \"number_of_rooms\": \"7\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Fan\\\", \\\"Window netting\\\"]\", \"gender\": {\"female\": \"7\"}}, {\"number_in_room\": \"3\", \"price\": \"1220\", \"number_of_rooms\": \"6\", \"room_image\": [], \"amenities\": \"[\\\"Study desk\\\", \\\"Tiled floor\\\", \\\"Ceiling light\\\", \\\"Reading lamp\\\", \\\"Wardrobe\\\"]\", \"gender\": {\"male\": \"6\"}}, {\"number_in_room\": \"4\", \"price\": \"1202\", \"number_of_rooms\": \"9\", \"room_image\": [], \"amenities\": \"[\\\"Fan\\\", \\\"Power socket\\\", \\\"Study desk\\\", \\\"Private bath\\\"]\", \"gender\": {\"male\": \"9\"}}]",
+            "manager": 87,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 88,
+        "fields": {
+            "name": "Commercial Single Hostel",
+            "campus": 13,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Laundry area\", \"WiFi\", \"Ironing bay\", \"Generator\"]",
+            "room_details": "[{\"number_in_room\": \"2\", \"price\": \"1117\", \"number_of_rooms\": \"20\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Fan\\\", \\\"Window netting\\\", \\\"Curtains\\\"]\", \"gender\": {\"male\": \"20\"}}, {\"number_in_room\": \"5\", \"price\": \"968\", \"number_of_rooms\": \"12\", \"room_image\": [], \"amenities\": \"[\\\"Fan\\\", \\\"Reading lamp\\\"]\", \"gender\": {\"male\": \"12\"}}, {\"number_in_room\": \"3\", \"price\": \"1178\", \"number_of_rooms\": \"8\", \"room_image\": [], \"amenities\": \"[\\\"Reading lamp\\\", \\\"Study desk\\\", \\\"Window netting\\\", \\\"Power socket\\\", \\\"Tiled floor\\\"]\", \"gender\": {\"male\": \"8\"}}]",
+            "manager": 88,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 89,
+        "fields": {
+            "name": "Technology Production Hostel",
+            "campus": 20,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"WiFi\", \"24/7 water supply\", \"Generator\", \"Ironing bay\", \"Security post\"]",
+            "room_details": "[{\"number_in_room\": \"4\", \"price\": \"1249\", \"number_of_rooms\": \"18\", \"room_image\": [], \"amenities\": \"[\\\"Wardrobe\\\", \\\"Private bath\\\", \\\"Ceiling light\\\"]\", \"gender\": {\"male\": \"18\"}}, {\"number_in_room\": \"1\", \"price\": \"1845\", \"number_of_rooms\": \"8\", \"room_image\": [], \"amenities\": \"[\\\"Tiled floor\\\", \\\"Private bath\\\"]\", \"gender\": {\"male\": \"4\", \"female\": \"4\"}}, {\"number_in_room\": \"2\", \"price\": \"1646\", \"number_of_rooms\": \"18\", \"room_image\": [], \"amenities\": \"[\\\"Fan\\\", \\\"Private bath\\\", \\\"Curtains\\\"]\", \"gender\": {\"male\": \"9\", \"female\": \"9\"}}]",
+            "manager": 89,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 90,
+        "fields": {
+            "name": "War Thus Hostel",
+            "campus": 1,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Laundry area\", \"CCTV\", \"TV room\"]",
+            "room_details": "[{\"number_in_room\": \"1\", \"price\": \"1762\", \"number_of_rooms\": \"11\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Window netting\\\", \\\"Tiled floor\\\", \\\"Private bath\\\"]\", \"gender\": {\"male\": \"11\"}}, {\"number_in_room\": \"3\", \"price\": \"1047\", \"number_of_rooms\": \"19\", \"room_image\": [], \"amenities\": \"[\\\"Window netting\\\", \\\"Tiled floor\\\", \\\"Reading lamp\\\", \\\"Ceiling light\\\", \\\"Wardrobe\\\"]\", \"gender\": {\"male\": \"9\", \"female\": \"10\"}}]",
+            "manager": 90,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 91,
+        "fields": {
+            "name": "Huge Thought Hostel",
+            "campus": 1,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"TV room\", \"Ironing bay\", \"Security post\", \"WiFi\"]",
+            "room_details": "[{\"number_in_room\": \"1\", \"price\": \"1132\", \"number_of_rooms\": \"10\", \"room_image\": [], \"amenities\": \"[\\\"Tiled floor\\\", \\\"Window netting\\\", \\\"Power socket\\\"]\", \"gender\": {\"male\": \"5\", \"female\": \"5\"}}, {\"number_in_room\": \"3\", \"price\": \"1242\", \"number_of_rooms\": \"18\", \"room_image\": [], \"amenities\": \"[\\\"Power socket\\\", \\\"Study desk\\\", \\\"Ceiling light\\\"]\", \"gender\": {\"female\": \"18\"}}]",
+            "manager": 91,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 92,
+        "fields": {
+            "name": "Type Reach Hostel",
+            "campus": 10,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Study room\", \"Laundry area\", \"TV room\"]",
+            "room_details": "[{\"number_in_room\": \"4\", \"price\": \"1538\", \"number_of_rooms\": \"5\", \"room_image\": [], \"amenities\": \"[\\\"Private bath\\\", \\\"Tiled floor\\\"]\", \"gender\": {\"female\": \"5\"}}, {\"number_in_room\": \"5\", \"price\": \"1467\", \"number_of_rooms\": \"7\", \"room_image\": [], \"amenities\": \"[\\\"Fan\\\", \\\"Study desk\\\", \\\"Curtains\\\", \\\"Ceiling light\\\", \\\"Reading lamp\\\"]\", \"gender\": {\"male\": \"3\", \"female\": \"4\"}}]",
+            "manager": 92,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 93,
+        "fields": {
+            "name": "West Watch Hostel",
+            "campus": 8,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Ironing bay\", \"Generator\", \"WiFi\", \"TV room\", \"Security post\"]",
+            "room_details": "[{\"number_in_room\": \"5\", \"price\": \"1383\", \"number_of_rooms\": \"20\", \"room_image\": [], \"amenities\": \"[\\\"Power socket\\\", \\\"Study desk\\\", \\\"Wardrobe\\\", \\\"Tiled floor\\\"]\", \"gender\": {\"male\": \"20\"}}, {\"number_in_room\": \"2\", \"price\": \"930\", \"number_of_rooms\": \"8\", \"room_image\": [], \"amenities\": \"[\\\"Reading lamp\\\", \\\"Tiled floor\\\"]\", \"gender\": {\"male\": \"8\"}}]",
+            "manager": 93,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 94,
+        "fields": {
+            "name": "Father Eat Hostel",
+            "campus": 4,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Security post\", \"TV room\", \"WiFi\", \"CCTV\"]",
+            "room_details": "[{\"number_in_room\": \"2\", \"price\": \"1518\", \"number_of_rooms\": \"12\", \"room_image\": [], \"amenities\": \"[\\\"Wardrobe\\\", \\\"Tiled floor\\\", \\\"Fan\\\", \\\"Curtains\\\"]\", \"gender\": {\"male\": \"6\", \"female\": \"6\"}}, {\"number_in_room\": \"4\", \"price\": \"850\", \"number_of_rooms\": \"7\", \"room_image\": [], \"amenities\": \"[\\\"Curtains\\\", \\\"Window netting\\\", \\\"Wardrobe\\\", \\\"Tiled floor\\\", \\\"Reading lamp\\\"]\", \"gender\": {\"male\": \"3\", \"female\": \"4\"}}]",
+            "manager": 94,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 95,
+        "fields": {
+            "name": "Everyone Back Hostel",
+            "campus": 2,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"24/7 water supply\", \"TV room\", \"Security post\"]",
+            "room_details": "[{\"number_in_room\": \"1\", \"price\": \"1048\", \"number_of_rooms\": \"19\", \"room_image\": [], \"amenities\": \"[\\\"Window netting\\\", \\\"Power socket\\\", \\\"Ceiling light\\\", \\\"Wardrobe\\\"]\", \"gender\": {\"male\": \"9\", \"female\": \"10\"}}, {\"number_in_room\": \"2\", \"price\": \"1938\", \"number_of_rooms\": \"17\", \"room_image\": [], \"amenities\": \"[\\\"Window netting\\\", \\\"Reading lamp\\\"]\", \"gender\": {\"male\": \"17\"}}, {\"number_in_room\": \"4\", \"price\": \"1414\", \"number_of_rooms\": \"5\", \"room_image\": [], \"amenities\": \"[\\\"Tiled floor\\\", \\\"Power socket\\\", \\\"Fan\\\", \\\"Private bath\\\", \\\"Ceiling light\\\"]\", \"gender\": {\"male\": \"5\"}}]",
+            "manager": 95,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 96,
+        "fields": {
+            "name": "Provide Conference Hostel",
+            "campus": 21,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Security post\", \"24/7 water supply\", \"WiFi\", \"Ironing bay\"]",
+            "room_details": "[{\"number_in_room\": \"4\", \"price\": \"958\", \"number_of_rooms\": \"16\", \"room_image\": [], \"amenities\": \"[\\\"Reading lamp\\\", \\\"Fan\\\"]\", \"gender\": {\"female\": \"16\"}}, {\"number_in_room\": \"2\", \"price\": \"1360\", \"number_of_rooms\": \"8\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Fan\\\", \\\"Reading lamp\\\", \\\"Power socket\\\", \\\"Curtains\\\"]\", \"gender\": {\"male\": \"8\"}}, {\"number_in_room\": \"1\", \"price\": \"1811\", \"number_of_rooms\": \"15\", \"room_image\": [], \"amenities\": \"[\\\"Wardrobe\\\", \\\"Curtains\\\", \\\"Study desk\\\", \\\"Reading lamp\\\", \\\"Ceiling light\\\"]\", \"gender\": {\"male\": \"7\", \"female\": \"8\"}}, {\"number_in_room\": \"5\", \"price\": \"1596\", \"number_of_rooms\": \"14\", \"room_image\": [], \"amenities\": \"[\\\"Fan\\\", \\\"Power socket\\\", \\\"Wardrobe\\\", \\\"Study desk\\\", \\\"Curtains\\\"]\", \"gender\": {\"female\": \"14\"}}]",
+            "manager": 96,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 97,
+        "fields": {
+            "name": "Power Wish Hostel",
+            "campus": 3,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Laundry area\", \"Study room\", \"Security post\"]",
+            "room_details": "[{\"number_in_room\": \"2\", \"price\": \"1869\", \"number_of_rooms\": \"8\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Tiled floor\\\", \\\"Reading lamp\\\"]\", \"gender\": {\"female\": \"8\"}}, {\"number_in_room\": \"4\", \"price\": \"1071\", \"number_of_rooms\": \"9\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Wardrobe\\\"]\", \"gender\": {\"male\": \"4\", \"female\": \"5\"}}, {\"number_in_room\": \"3\", \"price\": \"1965\", \"number_of_rooms\": \"8\", \"room_image\": [], \"amenities\": \"[\\\"Tiled floor\\\", \\\"Study desk\\\", \\\"Wardrobe\\\", \\\"Private bath\\\"]\", \"gender\": {\"female\": \"8\"}}, {\"number_in_room\": \"1\", \"price\": \"1594\", \"number_of_rooms\": \"20\", \"room_image\": [], \"amenities\": \"[\\\"Private bath\\\", \\\"Reading lamp\\\"]\", \"gender\": {\"female\": \"20\"}}]",
+            "manager": 97,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 98,
+        "fields": {
+            "name": "Letter Kind Hostel",
+            "campus": 1,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Parking space\", \"Laundry area\"]",
+            "room_details": "[{\"number_in_room\": \"4\", \"price\": \"1895\", \"number_of_rooms\": \"15\", \"room_image\": [], \"amenities\": \"[\\\"Fan\\\", \\\"Curtains\\\"]\", \"gender\": {\"male\": \"7\", \"female\": \"8\"}}, {\"number_in_room\": \"2\", \"price\": \"1485\", \"number_of_rooms\": \"6\", \"room_image\": [], \"amenities\": \"[\\\"Ceiling light\\\", \\\"Fan\\\", \\\"Wardrobe\\\"]\", \"gender\": {\"female\": \"6\"}}]",
+            "manager": 98,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 99,
+        "fields": {
+            "name": "Work Analysis Hostel",
+            "campus": 22,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"CCTV\", \"Study room\", \"Security post\", \"Laundry area\", \"WiFi\"]",
+            "room_details": "[{\"number_in_room\": \"4\", \"price\": \"1687\", \"number_of_rooms\": \"14\", \"room_image\": [], \"amenities\": \"[\\\"Window netting\\\", \\\"Private bath\\\", \\\"Wardrobe\\\", \\\"Curtains\\\"]\", \"gender\": {\"female\": \"14\"}}, {\"number_in_room\": \"1\", \"price\": \"1978\", \"number_of_rooms\": \"12\", \"room_image\": [], \"amenities\": \"[\\\"Tiled floor\\\", \\\"Fan\\\"]\", \"gender\": {\"female\": \"12\"}}, {\"number_in_room\": \"5\", \"price\": \"1061\", \"number_of_rooms\": \"9\", \"room_image\": [], \"amenities\": \"[\\\"Reading lamp\\\", \\\"Ceiling light\\\", \\\"Curtains\\\", \\\"Private bath\\\"]\", \"gender\": {\"male\": \"9\"}}, {\"number_in_room\": \"3\", \"price\": \"1124\", \"number_of_rooms\": \"9\", \"room_image\": [], \"amenities\": \"[\\\"Tiled floor\\\", \\\"Window netting\\\", \\\"Reading lamp\\\"]\", \"gender\": {\"female\": \"9\"}}]",
+            "manager": 99,
+            "checkout": null
+        }
+    },
+    {
+        "model": "hq.hostel",
+        "pk": 100,
+        "fields": {
+            "name": "Do Job Hostel",
+            "campus": 21,
+            "category": null,
+            "image": null,
+            "status": "Available",
+            "ratings": null,
+            "additional_details": "[\"Laundry area\", \"24/7 water supply\"]",
+            "room_details": "[{\"number_in_room\": \"2\", \"price\": \"1032\", \"number_of_rooms\": \"19\", \"room_image\": [], \"amenities\": \"[\\\"Study desk\\\", \\\"Wardrobe\\\", \\\"Tiled floor\\\"]\", \"gender\": {\"male\": \"9\", \"female\": \"10\"}}, {\"number_in_room\": \"3\", \"price\": \"1353\", \"number_of_rooms\": \"19\", \"room_image\": [], \"amenities\": \"[\\\"Wardrobe\\\", \\\"Study desk\\\", \\\"Private bath\\\", \\\"Reading lamp\\\"]\", \"gender\": {\"male\": \"9\", \"female\": \"10\"}}]",
+            "manager": 100,
+            "checkout": null
+        }
+    }
+]

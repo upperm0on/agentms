@@ -1,0 +1,95 @@
+.payout-request {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.payout-warning {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+  background: #fff7ed;
+  border-radius: 10px;
+  border: 1px solid #fed7aa;
+}
+
+.payout-warning svg {
+  color: #f59e0b;
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+
+.payout-warning p {
+  font-size: 0.875rem;
+  color: #92400e;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.payout-warning strong {
+  font-weight: 600;
+}
+
+.payout-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.balance-display {
+  padding: 1rem;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.balance-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+  color: var(--color-dark-text);
+}
+
+.balance-amount {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.payout-note {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background: #ecfdf5;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  color: #047857;
+}
+
+.payout-note svg {
+  flex-shrink: 0;
+}
+
+.payout-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-marketplace-border);
+}
+
+@media (max-width: 768px) {
+  .payout-actions {
+    flex-direction: column-reverse;
+  }
+  
+  .payout-actions button {
+    width: 100%;
+  }
+}
+

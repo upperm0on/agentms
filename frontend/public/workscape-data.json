@@ -1,0 +1,308 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-09T03:21:59.599Z",
+  "mood": "living visual changelog",
+  "project": "AgentMS",
+  "source": {
+    "mode": "workspace snapshot",
+    "gitAvailable": false,
+    "note": "No usable Git history was present, so this view reports current artifacts rather than commit chronology."
+  },
+  "summary": {
+    "sourceFiles": 16,
+    "sourceLines": 2363,
+    "routes": 28,
+    "components": 74,
+    "designDocs": 28,
+    "decisionDocs": 47,
+    "cssTokens": 31
+  },
+  "stack": [
+    {
+      "name": "react",
+      "requested": "^19.2.8",
+      "installed": "19.2.8"
+    },
+    {
+      "name": "react-dom",
+      "requested": "^19.2.8",
+      "installed": "19.2.8"
+    },
+    {
+      "name": "vite",
+      "requested": "^8.2.0",
+      "installed": "8.2.0"
+    },
+    {
+      "name": "typescript",
+      "requested": "~6.0.2",
+      "installed": "6.0.3"
+    },
+    {
+      "name": "lucide-react",
+      "requested": "^1.28.0",
+      "installed": "1.28.0"
+    }
+  ],
+  "events": [
+    {
+      "id": "grounded",
+      "label": "01",
+      "title": "Product grounded",
+      "outcome": "Scope, permissions, domains, and delivery phases are written down.",
+      "signal": "47 decision artifacts",
+      "files": [
+        "plan/README.md",
+        "plan/requirements/mvp-scope.md",
+        "requirement/design/foundations.md"
+      ],
+      "accent": "#e0a43a"
+    },
+    {
+      "id": "shaped",
+      "label": "02",
+      "title": "Experience shaped",
+      "outcome": "The visual direction and page-level behavior cover public, student, agent, and admin work.",
+      "signal": "28 design artifacts",
+      "files": [
+        "design/foundations/visual-direction.md",
+        "design/pages/page-inventory.md"
+      ],
+      "accent": "#4f8cc9"
+    },
+    {
+      "id": "modeled",
+      "label": "03",
+      "title": "System modeled",
+      "outcome": "Typed records and seeded operational data connect listings, agents, inquiries, and moderation.",
+      "signal": "24 typed contracts",
+      "files": [
+        "frontend/src/app/types.ts",
+        "frontend/src/data/mockData.ts",
+        "frontend/src/api/mockApi.ts"
+      ],
+      "accent": "#d06b50"
+    },
+    {
+      "id": "built",
+      "label": "04",
+      "title": "Interfaces built",
+      "outcome": "Role-specific routes assemble a shared visual language into a working browser prototype.",
+      "signal": "28 routes · 74 components",
+      "files": [
+        "frontend/src/pages/RouteScreens.tsx",
+        "frontend/src/App.css"
+      ],
+      "accent": "#1d8b69"
+    },
+    {
+      "id": "connected",
+      "label": "05",
+      "title": "Behavior connected",
+      "outcome": "Search, inquiry, moderation, editing, persistence, and reset flows respond to user input.",
+      "signal": "Local persistence + mock API",
+      "files": [
+        "frontend/src/api/mockApi.ts",
+        "frontend/src/pages/RouteScreens.tsx"
+      ],
+      "accent": "#8b69b1"
+    },
+    {
+      "id": "visualized",
+      "label": "06",
+      "title": "Work made visible",
+      "outcome": "Repository evidence now drives this replayable map and its downloadable image.",
+      "signal": "Generated manifest + SVG snapshot",
+      "files": [
+        "frontend/scripts/generate-workscape.mjs",
+        "frontend/src/workscape/Workscape.tsx"
+      ],
+      "accent": "#ec7f32"
+    }
+  ],
+  "surfaces": [
+    {
+      "id": "intent",
+      "label": "Product intent",
+      "detail": "47 artifacts",
+      "event": 0,
+      "x": 90,
+      "y": 115,
+      "width": 275,
+      "height": 118,
+      "accent": "#e0a43a"
+    },
+    {
+      "id": "design",
+      "label": "Experience system",
+      "detail": "28 artifacts",
+      "event": 1,
+      "x": 90,
+      "y": 355,
+      "width": 275,
+      "height": 118,
+      "accent": "#4f8cc9"
+    },
+    {
+      "id": "data",
+      "label": "Domain data",
+      "detail": "24 contracts",
+      "event": 2,
+      "x": 505,
+      "y": 545,
+      "width": 275,
+      "height": 118,
+      "accent": "#d06b50"
+    },
+    {
+      "id": "shell",
+      "label": "Application shell",
+      "detail": "74 components",
+      "event": 3,
+      "x": 505,
+      "y": 235,
+      "width": 275,
+      "height": 118,
+      "accent": "#1d8b69"
+    },
+    {
+      "id": "student",
+      "label": "Student",
+      "detail": "7 routes",
+      "event": 3,
+      "x": 920,
+      "y": 78,
+      "width": 235,
+      "height": 104,
+      "accent": "#1d8b69"
+    },
+    {
+      "id": "agent",
+      "label": "Agent",
+      "detail": "9 routes",
+      "event": 3,
+      "x": 920,
+      "y": 250,
+      "width": 235,
+      "height": 104,
+      "accent": "#1d8b69"
+    },
+    {
+      "id": "admin",
+      "label": "Admin",
+      "detail": "7 routes",
+      "event": 3,
+      "x": 920,
+      "y": 422,
+      "width": 235,
+      "height": 104,
+      "accent": "#1d8b69"
+    },
+    {
+      "id": "behavior",
+      "label": "Interactive state",
+      "detail": "Persistence + actions",
+      "event": 4,
+      "x": 920,
+      "y": 594,
+      "width": 235,
+      "height": 104,
+      "accent": "#8b69b1"
+    },
+    {
+      "id": "workscape",
+      "label": "Workscape",
+      "detail": "Replay + image",
+      "event": 5,
+      "x": 1290,
+      "y": 267,
+      "width": 240,
+      "height": 132,
+      "accent": "#ec7f32"
+    }
+  ],
+  "connections": [
+    {
+      "from": "intent",
+      "to": "shell",
+      "event": 0
+    },
+    {
+      "from": "design",
+      "to": "shell",
+      "event": 1
+    },
+    {
+      "from": "data",
+      "to": "shell",
+      "event": 2
+    },
+    {
+      "from": "shell",
+      "to": "student",
+      "event": 3
+    },
+    {
+      "from": "shell",
+      "to": "agent",
+      "event": 3
+    },
+    {
+      "from": "shell",
+      "to": "admin",
+      "event": 3
+    },
+    {
+      "from": "data",
+      "to": "behavior",
+      "event": 4
+    },
+    {
+      "from": "shell",
+      "to": "behavior",
+      "event": 4
+    },
+    {
+      "from": "student",
+      "to": "workscape",
+      "event": 5
+    },
+    {
+      "from": "agent",
+      "to": "workscape",
+      "event": 5
+    },
+    {
+      "from": "admin",
+      "to": "workscape",
+      "event": 5
+    },
+    {
+      "from": "behavior",
+      "to": "workscape",
+      "event": 5
+    }
+  ],
+  "artifacts": [
+    {
+      "extension": "md",
+      "files": 75,
+      "lines": 3437
+    },
+    {
+      "extension": "ts",
+      "files": 6,
+      "lines": 1098
+    },
+    {
+      "extension": "tsx",
+      "files": 7,
+      "lines": 984
+    },
+    {
+      "extension": "css",
+      "files": 3,
+      "lines": 281
+    }
+  ]
+}

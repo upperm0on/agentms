@@ -1,0 +1,597 @@
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.nav-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 15px 30px;
+}
+
+/* Profile Switcher Integration */
+.profile-switcher-item {
+    margin-right: 12px;
+}
+
+.profile-switcher-mobile {
+    padding: 12px 16px;
+    border-bottom: 1px solid #f3f4f6;
+    margin-bottom: 8px;
+}
+
+.profile-switcher-mobile .profile-switcher-trigger {
+    width: 100%;
+    justify-content: space-between;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+}
+
+/* Responsive nav container */
+@media (max-width: 768px) {
+    .nav-container {
+        padding: 12px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-container {
+        padding: 10px 15px;
+    }
+}
+
+.logo {
+    width: 140px;
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.05);
+}
+
+.logo img {
+    width: 100%;
+    height: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Responsive logo */
+@media (max-width: 768px) {
+    .logo {
+        width: 120px;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        width: 100px;
+    }
+}
+
+/* Desktop Navigation */
+.nav-desktop {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+/* Navbar search removed */
+
+.nav-links {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    align-items: center;
+    gap: 30px;
+}
+
+/* Mobile Menu Toggle */
+.mobile-menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.mobile-menu-toggle:hover {
+    background: rgba(37, 99, 235, 0.1);
+}
+
+.mobile-menu-toggle svg {
+    color: var(--color-dark-text);
+    transition: color 0.3s ease;
+}
+
+/* Hide desktop nav on mobile */
+@media (max-width: 768px) {
+    .nav-desktop {
+        display: none;
+    }
+    
+    .mobile-menu-toggle {
+        display: block;
+    }
+}
+
+
+.nav-links-item {
+    position: relative;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    font-family: var(--font-body);
+    color: var(--color-dark-text);
+    font-weight: 500;
+    padding: 10px 15px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-link:hover {
+    background: rgba(37, 99, 235, 0.1);
+    color: var(--color-primary);
+    transform: translateY(-1px);
+}
+
+.icon-container {
+    width: 24px;
+    height: 24px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-container svg {
+    width: 100%;
+    height: 100%;
+    color: currentColor;
+}
+
+
+.login-buttons {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    gap: 15px;
+}
+
+.login-buttons .nav-links-item {
+    list-style: none;
+}
+
+.login-buttons .nav-link {
+    background: rgba(37, 99, 235, 0.1);
+    border: 1px solid rgba(37, 99, 235, 0.2);
+    color: var(--color-primary);
+    font-weight: 600;
+    padding: 12px 20px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.login-buttons .nav-link:hover {
+    background: var(--color-primary);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+}
+
+.buttons_united {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+}
+
+.buttons_united .nav-links-item {
+    list-style: none;
+}
+
+.buttons_united .nav-link {
+    background: rgba(248, 250, 252, 0.8);
+    border: 1px solid rgba(226, 232, 240, 0.5);
+    color: var(--color-dark-text);
+    font-weight: 500;
+    padding: 10px 15px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.buttons_united .nav-link:hover {
+    background: rgba(37, 99, 235, 0.1);
+    border-color: rgba(37, 99, 235, 0.3);
+    color: var(--color-primary);
+}
+
+/* Remove border from logout button container */
+.buttons_united .nav-links-item.logout-item {
+    border: none;
+    background: none;
+}
+
+.buttons_united .nav-links-item.logout-item .nav-link {
+    border: none;
+    background: none;
+    padding: 0;
+}
+
+.button_img {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95rem;
+    text-transform: capitalize;
+}
+
+.button_img svg {
+    width: 20px;
+    height: 20px;
+    color: currentColor;
+}
+
+.logout-button {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    font-family: var(--font-body);
+    font-weight: 500;
+    color: #dc2626;
+    border: 1px solid #dc2626;
+    border-radius: 8px;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.logout-button:hover {
+    background: #dc2626;
+    color: white;
+}
+
+.logout-button svg {
+    width: 16px;
+    height: 16px;
+    color: currentColor;
+}
+
+/* Override LogoutConfirm component styles */
+.logout-item .logout-trigger {
+    padding: 0 !important;
+    background: none !important;
+    color: inherit !important;
+    border: none !important;
+    border-radius: 0 !important;
+    cursor: pointer;
+    transition: none !important;
+}
+
+.logout-item .logout-trigger:hover {
+    background: none !important;
+    color: inherit !important;
+}
+
+/* Mobile Navigation Drawer - Completely Independent */
+.mobile-nav-drawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.mobile-nav-drawer.drawer-open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.drawer-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+}
+
+.drawer-panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 320px;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    border-left: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: -20px 0 40px rgba(0, 0, 0, 0.15);
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+}
+
+.mobile-nav-drawer.drawer-open .drawer-panel {
+    transform: translateX(0);
+}
+
+.drawer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 25px 25px;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.05), rgba(16, 185, 129, 0.05));
+    border-bottom: 1px solid rgba(226, 232, 240, 0.3);
+}
+
+.drawer-brand {
+    width: 110px;
+    position: relative;
+}
+
+.drawer-brand img {
+    width: 100%;
+    height: auto;
+}
+
+.drawer-close-btn {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(226, 232, 240, 0.5);
+    color: var(--color-dark-text);
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 12px;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.drawer-close-btn:hover {
+    background: rgba(37, 99, 235, 0.1);
+    color: var(--color-primary);
+    border-color: rgba(37, 99, 235, 0.3);
+    transform: scale(1.05);
+}
+
+.drawer-body {
+    flex: 1;
+    padding: 20px 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+/* Drawer search removed */
+
+.drawer-menu,
+.drawer-user-menu,
+.drawer-auth-menu {
+    width: 100%;
+    margin-bottom: 0;
+}
+
+.drawer-menu-item {
+    margin: 0;
+    width: 100%;
+}
+
+.drawer-menu-link {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 16px 25px;
+    text-decoration: none;
+    color: var(--color-dark-text);
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    position: relative;
+    margin: 4px 20px;
+    border-radius: 14px;
+    width: calc(100% - 40px);
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.drawer-menu-link:hover {
+    background: rgba(37, 99, 235, 0.08);
+    color: var(--color-primary);
+    transform: translateX(6px);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.15);
+}
+
+.drawer-menu-link::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 0;
+    background: var(--color-primary);
+    border-radius: 0 2px 2px 0;
+    transition: height 0.3s ease;
+}
+
+.drawer-menu-link:hover::before {
+    height: 70%;
+}
+
+.drawer-menu-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(37, 99, 235, 0.1);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.drawer-menu-link:hover .drawer-menu-icon {
+    background: rgba(37, 99, 235, 0.2);
+    transform: scale(1.1);
+}
+
+.drawer-menu-icon svg {
+    width: 18px;
+    height: 18px;
+    color: currentColor;
+}
+
+.drawer-menu-text {
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+
+.drawer-user-menu,
+.drawer-auth-menu {
+    margin-top: 20px;
+    padding: 20px 20px 0;
+    border-top: 1px solid rgba(226, 232, 240, 0.3);
+    width: 100%;
+}
+
+.drawer-user-menu::before,
+.drawer-auth-menu::before {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--color-primary), transparent);
+    margin-bottom: 25px;
+    border-radius: 1px;
+}
+
+.drawer-logout-link {
+    color: #dc2626 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 18px !important;
+    padding: 16px 25px !important;
+    text-decoration: none !important;
+    font-family: var(--font-body) !important;
+    font-weight: 500 !important;
+    font-size: 1.1rem !important;
+    transition: all 0.3s ease !important;
+    position: relative !important;
+    margin: 4px 20px !important;
+    border-radius: 14px !important;
+    width: calc(100% - 40px) !important;
+    box-sizing: border-box !important;
+    cursor: pointer !important;
+}
+
+.drawer-logout-link:hover {
+    background: rgba(220, 38, 38, 0.08) !important;
+    color: #dc2626 !important;
+    transform: translateX(6px) !important;
+    box-shadow: 0 6px 20px rgba(220, 38, 38, 0.15) !important;
+}
+
+.drawer-logout-link .drawer-menu-icon {
+    background: rgba(220, 38, 38, 0.1) !important;
+    width: 24px !important;
+    height: 24px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 10px !important;
+    transition: all 0.3s ease !important;
+    flex-shrink: 0 !important;
+}
+
+.drawer-logout-link:hover .drawer-menu-icon {
+    background: rgba(220, 38, 38, 0.2) !important;
+    transform: scale(1.1) !important;
+}
+
+.drawer-logout-link .drawer-menu-icon svg {
+    width: 18px !important;
+    height: 18px !important;
+    color: currentColor !important;
+}
+
+.drawer-logout-link .drawer-menu-text {
+    font-weight: 500 !important;
+    font-size: 1.1rem !important;
+    color: #dc2626 !important;
+}
+
+.drawer-logout-link::before {
+    content: '' !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    width: 4px !important;
+    height: 0 !important;
+    background: #dc2626 !important;
+    border-radius: 0 2px 2px 0 !important;
+    transition: height 0.3s ease !important;
+}
+
+.drawer-logout-link:hover::before {
+    height: 70% !important;
+}
+
+/* Responsive drawer */
+@media (max-width: 480px) {
+    .drawer-panel {
+        width: 100%;
+    }
+    
+    .drawer-menu-link {
+        margin: 4px 15px;
+        width: calc(100% - 30px);
+        padding: 14px 20px;
+    }
+    
+    .drawer-logout-link {
+        margin: 4px 15px !important;
+        width: calc(100% - 30px) !important;
+        padding: 14px 20px !important;
+    }
+    
+    .drawer-user-menu,
+    .drawer-auth-menu {
+        padding: 20px 15px 0;
+    }
+}

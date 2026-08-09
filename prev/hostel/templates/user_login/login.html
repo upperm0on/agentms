@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %} {% load socialaccount %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/user_login/login.css' %}">
+<link rel="stylesheet" href="{% static 'css/mobile/user_login/login.css' %}" />
+<form action="." method="POST">
+    <h4 class="text-center text-dark m-4">{{ msg }}</h4>
+    {% csrf_token %}
+    {{ forms.as_p }}
+    <center><button type="submit" class="m-4 submit_btn">Submit</button></center>
+    <hr>
+    <center>
+    </center>
+    <div class="error_msg text-center text-danger">{{ error_msg }}</div>
+            {% for provider in providers %}
+        <center class='m-4'><a href="{% provider_login_url provider.id %}">
+        <button type='button' class='btn btn-google'>
+        <i class='fab fa-google'></i> Continue with Google 
+        </button>
+        </a></center>
+        {% endfor %}
+    {% if status == 'login' %}
+    <div class="text-primary text-uppercase text-center">
+        <a href="{% url 'user_signup' %}" class="nav-link p-1"> Sign-up Here</a>
+      </div>
+      {% else %}
+      <div class="text-primary text-uppercase text-center">
+          <a href="{% url 'user_login' %}" class="nav-link p-1">Login Here</a>
+        </div>
+        {% endif %}
+
+        
+    </form>
+
+</script>
+<script src="{% static 'js/user_login/login.js' %}"></script>
+{% endblock content %}

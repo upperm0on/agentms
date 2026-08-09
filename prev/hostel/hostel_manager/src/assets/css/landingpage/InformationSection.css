@@ -1,0 +1,93 @@
+.information_section {
+  justify-self: center;
+  margin: 30px;
+  width: 100%;
+}
+
+/* Responsive information section */
+@media (max-width: 768px) {
+  .information_section {
+    margin: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .information_section {
+    margin: 15px;
+  }
+}
+
+.information_section .information_information {
+  align-self: center;
+  /* outline: 1px solid black; */
+  text-align: center;
+  margin: 30px;
+}
+
+.information_section .information_information .information_section_title p {
+  margin: 30px;
+  margin-bottom: 0;
+  font-size: 2rem;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  color: var(--color-dark-text);
+  letter-spacing: 1px;
+}
+
+/* Responsive section title */
+@media (max-width: 768px) {
+  .information_section .information_information .information_section_title p {
+    font-size: 1.7rem;
+    margin: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .information_section .information_information .information_section_title p {
+    font-size: 1.4rem;
+    margin: 15px;
+  }
+}
+
+.information_section .information_information .information_section_subtitle {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  letter-spacing: 1px;
+  padding: 0 20px;
+}
+
+/* Responsive subtitle */
+@media (max-width: 768px) {
+  .information_section .information_information .information_section_subtitle {
+    font-size: 0.9rem;
+    padding: 0 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .information_section .information_information .information_section_subtitle {
+    font-size: 0.85rem;
+    padding: 0 10px;
+  }
+}
+
+.carousel_section {
+  width: 100vw;
+  background: var(--color-dark-text);
+  padding-bottom: 30px;
+}
+
+/* Responsive carousel section */
+@media (max-width: 768px) {
+  .carousel_section {
+    padding-bottom: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel_section {
+    padding-bottom: 15px;
+  }
+}
+
+

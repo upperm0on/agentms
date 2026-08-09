@@ -1,0 +1,273 @@
+.dashboard_card {
+    margin: 30px;
+    /* display: flex; */
+    /* flex-direction: column; */
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    max-width: 600px;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.dashboard_card:hover {
+    transform: translateY(-4px);
+    box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Responsive dashboard card */
+@media (max-width: 768px) {
+    .dashboard_card {
+        margin: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard_card {
+        margin: 10px;
+    }
+}        
+
+.dashboard_card .image {
+    width: 100%;
+    height: 250px;
+    position: relative;
+    overflow: hidden;
+}
+
+.dashboard_card .image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    transition: transform 0.3s ease;
+}
+
+.dashboard_card:hover .image img {
+    transform: scale(1.05);
+}
+
+.dashboard_card .image .hostel_location {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    color: white;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    font-family: var(--font-body-two);
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.dashboard_card .image .hostel_location {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.dashboard_card .hostel_details {
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.dashboard_card .hostel_details .details_hostel {
+    list-style: none;
+    margin: 0 0 30px 0;
+    padding: 0;
+}
+
+.dashboard_card .hostel_details .details_hostel .details_hostel_item {
+    font-size: 1rem;
+    margin: 12px 0;
+    padding: 16px 20px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.dashboard_card .hostel_details .details_hostel .details_hostel_item:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateX(4px);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.dashboard_card .hostel_details .details_hostel .details_hostel_item strong {
+    font-family: var(--font-body-one);
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    color: var(--color-muted-text);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 6px;
+    opacity: 0.8;
+}
+
+.dashboard_card .hostel_details .details_hostel .details_hostel_item {
+    font-family: var(--font-body-two);
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: var(--color-dark-text);
+    line-height: 1.4;
+}
+
+.dashboard_card .hostel_details .additional_details {
+    margin: 0 0 30px 0;
+}
+
+.dashboard_card .hostel_details .additional_details h4 {
+    font-size: 1.25rem;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    color: var(--color-primary);
+    letter-spacing: 0.025em;
+    margin: 0 0 16px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    line-height: 1.3;
+}
+
+
+.dashboard_card .hostel_details .additional_details h4 svg {
+    animation: sparkle 2s ease-in-out infinite;
+}
+
+@keyframes sparkle {
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    50% { transform: scale(1.1) rotate(180deg); }
+}
+
+.dashboard_card .hostel_details .additional_details ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 8px;
+}
+
+.dashboard_card .hostel_details .additional_details ul li {
+    font-family: var(--font-body-two);
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.025em;
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    color: var(--color-dark-text);
+    line-height: 1.4;
+}
+
+.dashboard_card .hostel_details .additional_details ul li:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.dashboard_card .hostel_details .room_details {
+    margin: 0;
+}
+
+.dashboard_card .hostel_details .room_details h4 {
+    font-size: 1.15rem;
+    font-family: var(--font-heading);
+    color: var(--color-primary);
+    letter-spacing: 1px;
+    margin: 0 0 16px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.dashboard_card .hostel_details .room_details h4::before {
+    content: '🏠';
+    font-size: 1rem;
+}
+
+.grided-content {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+/* Responsive grided content */
+@media (max-width: 768px) {
+    .grided-content {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+
+/* Reviews Section */
+.reviews-section {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.read-reviews-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.read-reviews-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+}
+
+.read-reviews-btn:active {
+    transform: translateY(0);
+}
+
+/* Responsive reviews button */
+@media (max-width: 768px) {
+    .reviews-section {
+        margin-top: 15px;
+    }
+    
+    .read-reviews-btn {
+        padding: 10px 16px;
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .read-reviews-btn {
+        padding: 8px 14px;
+        font-size: 0.8rem;
+    }
+}

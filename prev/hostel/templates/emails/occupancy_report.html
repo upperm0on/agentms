@@ -1,0 +1,76 @@
+{% extends "emails/base_email.html" %}
+
+{% block content %}
+<h2>📊 Monthly Occupancy Report</h2>
+
+<p>Dear {{ manager.first_name|default:manager.username }},</p>
+
+<p>Here's your monthly occupancy report for {{ report_date|date:"F Y" }}. This report provides insights into your hostel's performance and occupancy trends.</p>
+
+<div class="info-box success">
+    <h3>📈 Key Metrics</h3>
+    <table class="details-table">
+        <tr>
+            <th>Total Rooms</th>
+            <td>{{ total_rooms }}</td>
+        </tr>
+        <tr>
+            <th>Occupied Rooms</th>
+            <td>{{ occupied_rooms }}</td>
+        </tr>
+        <tr>
+            <th>Occupancy Rate</th>
+            <td><strong style="color: #27ae60;">{{ occupancy_rate }}%</strong></td>
+        </tr>
+        <tr>
+            <th>Available Rooms</th>
+            <td>{{ total_rooms|add:"-"|add:occupied_rooms }}</td>
+        </tr>
+    </table>
+</div>
+
+<div class="info-box">
+    <h3>📊 Performance Analysis</h3>
+    {% if occupancy_rate >= 90 %}
+    <div class="highlight">
+        <h4>🎉 Excellent Performance!</h4>
+        <p>Your occupancy rate of {{ occupancy_rate }}% is outstanding. Keep up the great work!</p>
+    </div>
+    {% elif occupancy_rate >= 75 %}
+    <div class="info-box">
+        <h4>👍 Good Performance</h4>
+        <p>Your occupancy rate of {{ occupancy_rate }}% is solid. Consider marketing strategies to reach 90%+.</p>
+    </div>
+    {% else %}
+    <div class="info-box warning">
+        <h4>📈 Room for Improvement</h4>
+        <p>Your occupancy rate of {{ occupancy_rate }}% has potential for growth. Consider reviewing your pricing and marketing strategies.</p>
+    </div>
+    {% endif %}
+</div>
+
+<div class="info-box">
+    <h3>💡 Recommendations</h3>
+    <ul>
+        <li><strong>Marketing:</strong> Consider targeted marketing campaigns for underperforming periods</li>
+        <li><strong>Pricing:</strong> Review your pricing strategy based on demand patterns</li>
+        <li><strong>Facilities:</strong> Consider facility improvements to attract more tenants</li>
+        <li><strong>Customer Service:</strong> Focus on tenant satisfaction to improve retention</li>
+    </ul>
+</div>
+
+<div class="info-box">
+    <h3>📞 Support</h3>
+    <p>Need help analyzing your data or improving performance?</p>
+    <ul>
+        <li>📧 Email: {{ support_email }}</li>
+        <li>🌐 Visit: {{ site_url }}</li>
+        <li>📱 Contact our analytics team</li>
+    </ul>
+</div>
+
+<p>Keep up the great work managing your hostel!</p>
+
+<p>Best regards,<br>
+The {{ site_name }} Analytics Team</p>
+{% endblock %}

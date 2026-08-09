@@ -1,0 +1,253 @@
+.delivery-tracking {
+  margin-bottom: 2rem;
+}
+
+.delivery-content {
+  padding: 1.5rem;
+}
+
+.delivery-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.delivery-title {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-dark-text);
+  margin: 0;
+}
+
+.delivery-status {
+  padding: 0.375rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.delivery-status.status-pending {
+  background: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
+}
+
+.delivery-status.status-accepted {
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+}
+
+.delivery-status.status-picked_up {
+  background: rgba(139, 92, 246, 0.1);
+  color: #8b5cf6;
+}
+
+.delivery-status.status-in_transit {
+  background: rgba(37, 99, 235, 0.1);
+  color: #2563eb;
+}
+
+.delivery-status.status-delivered {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+}
+
+.delivery-progress {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+}
+
+.progress-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  min-width: 100px;
+}
+
+.step-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.progress-step.completed .step-icon {
+  background: var(--color-success);
+  color: white;
+}
+
+.progress-step.current .step-icon {
+  background: var(--color-primary);
+  color: white;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.2);
+}
+
+.progress-step.pending .step-icon {
+  background: var(--color-marketplace-bg);
+  color: var(--color-muted-text);
+  border: 2px solid var(--color-marketplace-border);
+}
+
+.step-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-align: center;
+  color: var(--color-dark-text);
+}
+
+.progress-step.pending .step-label {
+  color: var(--color-muted-text);
+}
+
+.progress-line {
+  flex: 1;
+  height: 2px;
+  background: var(--color-marketplace-border);
+  margin: 0 0.5rem;
+  min-width: 50px;
+}
+
+.progress-line.completed {
+  background: var(--color-success);
+}
+
+.driver-info {
+  padding: 1.5rem;
+  background: var(--color-marketplace-bg);
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.info-title {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-dark-text);
+  margin: 0 0 1rem 0;
+}
+
+.driver-details {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.driver-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.driver-text {
+  flex: 1;
+}
+
+.driver-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-dark-text);
+  margin: 0 0 0.25rem 0;
+}
+
+.driver-vehicle {
+  font-size: 0.75rem;
+  color: var(--color-muted-text);
+  margin: 0;
+  text-transform: capitalize;
+}
+
+.driver-contact {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--color-primary);
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.driver-contact:hover {
+  background: var(--color-secondary);
+}
+
+.delivery-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--color-marketplace-border);
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+}
+
+.detail-label {
+  font-size: 0.875rem;
+  color: var(--color-muted-text);
+}
+
+.detail-value {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-dark-text);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .delivery-progress {
+    gap: 0.5rem;
+  }
+  
+  .progress-step {
+    min-width: 80px;
+  }
+  
+  .step-icon {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .progress-line {
+    min-width: 30px;
+  }
+  
+  .driver-details {
+    flex-wrap: wrap;
+  }
+  
+  .detail-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+}
+

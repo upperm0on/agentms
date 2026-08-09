@@ -1,0 +1,74 @@
+{% extends "emails/base_email.html" %}
+
+{% block content %}
+<h2>🎫 Support Ticket Created</h2>
+
+<p>Dear {{ user.first_name|default:user.username }},</p>
+
+<p>Thank you for contacting our support team. We've received your request and will get back to you as soon as possible.</p>
+
+<div class="info-box success">
+    <h3>📋 Ticket Details</h3>
+    <table class="details-table">
+        <tr>
+            <th>Ticket ID</th>
+            <td><strong>#{{ ticket_id }}</strong></td>
+        </tr>
+        <tr>
+            <th>Subject</th>
+            <td>{{ subject }}</td>
+        </tr>
+        <tr>
+            <th>Priority</th>
+            <td>
+                {% if priority == 'High' %}
+                <span style="color: #e74c3c; font-weight: bold;">🔴 High</span>
+                {% elif priority == 'Medium' %}
+                <span style="color: #f39c12; font-weight: bold;">🟡 Medium</span>
+                {% else %}
+                <span style="color: #27ae60; font-weight: bold;">🟢 Low</span>
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <th>Created</th>
+            <td>{{ report_date|date:"F d, Y \a\t g:i A" }}</td>
+        </tr>
+    </table>
+</div>
+
+<div class="info-box">
+    <h3>⏰ What Happens Next?</h3>
+    <ul>
+        <li><strong>Review:</strong> Our support team will review your request</li>
+        <li><strong>Response:</strong> You'll receive a response within 24 hours</li>
+        <li><strong>Updates:</strong> We'll keep you informed of any progress</li>
+        <li><strong>Resolution:</strong> We'll work to resolve your issue promptly</li>
+    </ul>
+</div>
+
+<div class="highlight">
+    <h3>📞 Need Immediate Help?</h3>
+    <p>If your issue is urgent or requires immediate attention:</p>
+    <ul>
+        <li>📧 Email: {{ support_email }}</li>
+        <li>🌐 Visit: {{ site_url }}</li>
+        <li>📱 Contact our emergency support line</li>
+    </ul>
+</div>
+
+<div class="info-box">
+    <h3>💡 Tips for Faster Resolution</h3>
+    <ul>
+        <li>Provide as much detail as possible about your issue</li>
+        <li>Include any error messages or screenshots</li>
+        <li>Let us know what you've already tried</li>
+        <li>Be available for follow-up questions</li>
+    </ul>
+</div>
+
+<p>We appreciate your patience and look forward to resolving your issue.</p>
+
+<p>Best regards,<br>
+The {{ site_name }} Support Team</p>
+{% endblock %}

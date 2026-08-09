@@ -1,0 +1,58 @@
+{% extends "emails/base_email.html" %}
+
+{% block content %}
+<h2>🏨 Manager Action Notification</h2>
+
+<p>Dear <strong>{{ manager.first_name|default:manager.username }}</strong>,</p>
+
+<p>This email confirms an action you performed in the manager dashboard:</p>
+
+<div class="info-box">
+    <h3>🎯 Action Details</h3>
+    <table class="details-table">
+        <tr>
+            <th>📅 Date & Time</th>
+            <td>{{ timestamp|date:"F d, Y \a\t g:i A" }}</td>
+        </tr>
+        <tr>
+            <th>🔍 Action Type</th>
+            <td><span class="status-badge status-confirmed">{{ notification_type|title|replace:"_":" " }}</span></td>
+        </tr>
+        <tr>
+            <th>📊 Status</th>
+            <td><span class="status-badge status-confirmed">Completed</span></td>
+        </tr>
+    </table>
+</div>
+
+<div class="highlight">
+    <h3>📋 Action Information</h3>
+    <ul>
+        {% for key, value in data.items %}
+        <li><strong>{{ key|title|replace:"_":" " }}:</strong> 
+            {% if value|length > 100 %}
+                {{ value|truncatewords:20 }}
+            {% else %}
+                {{ value }}
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="info-box">
+    <h3>🔒 Security Note</h3>
+    <p>This notification is sent for your records. All manager actions are logged for security and audit purposes.</p>
+</div>
+
+<p>If you didn't perform this action, please contact our support team immediately.</p>
+
+<p>Best regards,<br>
+<strong>The {{ site_name }} Team</strong></p>
+
+<div style="text-align: center; margin-top: 30px;">
+    <a href="{{ site_url }}" class="button">Visit Manager Dashboard</a>
+    <a href="mailto:{{ support_email }}" class="button">Contact Support</a>
+</div>
+{% endblock %}
+

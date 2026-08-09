@@ -1,0 +1,356 @@
+/* VerifyEmail Component Styles - Matching App Design System */
+
+/* Main container */
+.verify-email-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8fafc;
+  padding: 20px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Main card - matching signup form style */
+.verify-email-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 40px;
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e2e8f0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Header section */
+.verify-email-header {
+  margin-bottom: 32px;
+}
+
+.verify-email-icon {
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+}
+
+/* Loading spinner - matching app colors */
+.loading-spinner {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner {
+  color: #3b82f6;
+  animation: spin 1s linear infinite;
+}
+
+/* Success icon - clean and minimal */
+.success-icon {
+  width: 60px;
+  height: 60px;
+  background: #f0fdf4;
+  border: 2px solid #10b981;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #10b981;
+  animation: successPulse 0.6s ease-out;
+}
+
+/* Error icon - clean and minimal */
+.error-icon {
+  width: 60px;
+  height: 60px;
+  background: #fef2f2;
+  border: 2px solid #ef4444;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ef4444;
+  animation: errorShake 0.6s ease-out;
+}
+
+/* Title - matching form title style */
+.verify-email-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+/* Content area */
+.verify-email-content {
+  margin-bottom: 24px;
+}
+
+/* Message styles - matching app typography */
+.verifying-message,
+.success-message,
+.error-message {
+  color: #64748b;
+  line-height: 1.6;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.verifying-message p,
+.success-message p,
+.error-message p {
+  margin: 12px 0;
+  font-size: 1rem;
+}
+
+/* Success specific styles */
+.success-message {
+  color: #059669;
+}
+
+.success-text {
+  font-weight: 600;
+  font-size: 1.125rem;
+  margin-bottom: 16px !important;
+  color: #059669;
+}
+
+.redirect-notice {
+  color: #64748b !important;
+  font-size: 0.875rem;
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Error specific styles */
+.error-message {
+  color: #dc2626;
+}
+
+.error-text {
+  font-weight: 600;
+  font-size: 1.125rem;
+  margin-bottom: 24px !important;
+  color: #dc2626;
+}
+
+/* Action buttons - matching form submit style */
+.success-actions,
+.error-actions {
+  margin-top: 24px;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 16px 32px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  text-decoration: none;
+  display: inline-block;
+  min-width: 140px;
+  position: relative;
+  overflow: hidden;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  letter-spacing: 0.025em;
+  line-height: 1.5;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: #3b82f6;
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #2563eb;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  background: #1d4ed8;
+}
+
+.btn-secondary {
+  background: #f8fafc;
+  color: #374151;
+  border: 1px solid #e2e8f0;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: #e2e8f0;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Loading overlay */
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  backdrop-filter: blur(8px);
+}
+
+.loading-text {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #3b82f6;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Animations */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes successPulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes errorShake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+/* Responsive Design - matching app breakpoints */
+@media (max-width: 768px) {
+  .verify-email-container {
+    padding: 20px;
+  }
+  
+  .verify-email-card {
+    padding: 30px 20px;
+  }
+  
+  .verify-email-title {
+    font-size: 1.75rem;
+  }
+  
+  .success-actions,
+  .error-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .btn {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .verify-email-container {
+    padding: 15px;
+  }
+  
+  .verify-email-card {
+    padding: 25px 15px;
+  }
+  
+  .verify-email-title {
+    font-size: 1.5rem;
+  }
+  
+  .verify-email-icon {
+    height: 60px;
+  }
+  
+  .success-icon,
+  .error-icon {
+    width: 50px;
+    height: 50px;
+  }
+  
+  
+  .success-text,
+  .error-text {
+    font-size: 1rem;
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation: none;
+  }
+  
+  .success-icon,
+  .error-icon {
+    animation: none;
+  }
+  
+  .btn:hover {
+    transform: none;
+  }
+}
+
+/* Focus styles for accessibility */
+.btn:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .verify-email-card {
+    background: white;
+    border: 2px solid #000;
+  }
+  
+  .btn-primary {
+    background: #000;
+    color: #fff;
+  }
+  
+  .btn-secondary {
+    background: #fff;
+    color: #000;
+    border: 2px solid #000;
+  }
+}

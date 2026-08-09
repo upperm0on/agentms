@@ -1,0 +1,35 @@
+                       List of relations
+ Schema |              Name              | Type  |    Owner    
+--------+--------------------------------+-------+-------------
+ public | auth_group                     | table | staypaluser
+ public | auth_group_permissions         | table | staypaluser
+ public | auth_permission                | table | staypaluser
+ public | auth_user                      | table | staypaluser
+ public | auth_user_groups               | table | staypaluser
+ public | auth_user_user_permissions     | table | staypaluser
+ public | authtoken_token                | table | staypaluser
+ public | category_category              | table | staypaluser
+ public | consumers_consumer             | table | staypaluser
+ public | django_admin_log               | table | staypaluser
+ public | django_content_type            | table | staypaluser
+ public | django_migrations              | table | staypaluser
+ public | django_q_ormq                  | table | staypaluser
+ public | django_q_schedule              | table | staypaluser
+ public | django_q_task                  | table | staypaluser
+ public | django_session                 | table | staypaluser
+ public | django_site                    | table | staypaluser
+ public | hq_hostel                      | table | staypaluser
+ public | location_location              | table | staypaluser
+ public | managers_manager               | table | staypaluser
+ public | payment_account_paymentaccount | table | staypaluser
+ public | payments_payment               | table | staypaluser
+ public | ratings_five_star              | table | staypaluser
+ public | ratings_four_star              | table | staypaluser
+ public | ratings_one_star               | table | staypaluser
+ public | ratings_three_star             | table | staypaluser
+ public | ratings_two_star               | table | staypaluser
+ public | reviews_reviews                | table | staypaluser
+ public | user_auth_account_status       | table | staypaluser
+ public | user_auth_gender               | table | staypaluser
+(30 rows)
+

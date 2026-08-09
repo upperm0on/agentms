@@ -1,0 +1,251 @@
+/* Remove backgrounds from parent elements */
+.deliverer-dashboard {
+  min-height: 100vh;
+  background: transparent !important;
+  padding: 2rem 0;
+}
+
+/* Ensure parent container has no background */
+.deliverer-dashboard .container {
+  background: transparent !important;
+}
+
+/* Override app-main background for this page */
+.app-main:has(.deliverer-dashboard) {
+  background: transparent !important;
+}
+
+.deliverer-dashboard-header {
+  margin-bottom: 2rem;
+}
+
+.deliverer-dashboard-title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.deliverer-dashboard-title svg {
+  color: #3b82f6;
+}
+
+.deliverer-dashboard-title h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.deliverer-location {
+  color: #64748b;
+  font-size: 0.875rem;
+  margin: 0.25rem 0 0 0;
+}
+
+.deliverer-dashboard-tabs {
+  display: flex;
+  gap: 0.5rem;
+  border-bottom: 2px solid #e2e8f0;
+  margin-bottom: 2rem;
+  overflow-x: auto;
+}
+
+.tab-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: #64748b;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  position: relative;
+  margin-bottom: -2px;
+}
+
+.tab-button:hover:not(:disabled) {
+  color: #3b82f6;
+  background: #f1f5f9;
+}
+
+.tab-button.active {
+  color: #3b82f6;
+  border-bottom-color: #3b82f6;
+}
+
+.tab-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Show labels alongside icons on mobile - labels complement icons */
+@media (max-width: 480px) {
+  .tab-button .tab-text {
+    display: inline;
+  }
+  
+  .tab-button {
+    padding: 10px 14px;
+    min-height: 44px;
+    gap: 8px;
+  }
+  
+  .tab-button svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+  
+  .tab-text {
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+  
+  .deliverer-dashboard-tabs {
+    gap: 4px;
+    padding: 0 4%;
+  }
+  
+  .deliverer-dashboard-content .button-text {
+    display: inline;
+    font-size: 0.85rem;
+  }
+  
+  .deliverer-dashboard-content button {
+    padding: 10px 14px;
+    min-height: 44px;
+    gap: 8px;
+    justify-content: flex-start;
+  }
+  
+  .deliverer-dashboard-content button svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+}
+
+.badge {
+  background: #3b82f6;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.125rem 0.5rem;
+  border-radius: 12px;
+  min-width: 20px;
+  text-align: center;
+}
+
+.deliverer-dashboard-content {
+  min-height: 400px;
+}
+
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 0;
+  color: #64748b;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #e2e8f0;
+  border-top-color: #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #64748b;
+}
+
+.empty-state svg {
+  color: #cbd5e1;
+  margin-bottom: 1rem;
+}
+
+.empty-state h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 0.5rem 0;
+}
+
+.empty-state p {
+  margin: 0.5rem 0 1.5rem;
+}
+
+.info-message {
+  background: #fef3c7;
+  border: 1px solid #fcd34d;
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  color: #92400e;
+}
+
+.info-message svg {
+  color: #f59e0b;
+  margin-bottom: 1rem;
+}
+
+.info-message h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0.5rem 0;
+  color: #78350f;
+}
+
+.info-message p {
+  margin: 0.5rem 0 1.5rem;
+}
+
+.requests-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+.active-deliveries-list,
+.completed-deliveries-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .deliverer-dashboard-tabs {
+    gap: 0.25rem;
+  }
+
+  .tab-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+  }
+
+  .requests-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .deliverer-dashboard-title h1 {
+    font-size: 1.5rem;
+  }
+}
+

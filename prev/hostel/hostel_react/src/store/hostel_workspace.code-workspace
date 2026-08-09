@@ -1,0 +1,20 @@
+{
+	"folders": [
+		{
+			"path": "../.."
+		},
+		{
+			"path": "../../../hostel"
+		},
+		{
+			"path": "../../../hostel_manager"
+		},
+		{
+			"path": "../../../hostel_admin"
+		},
+		{
+			"path": "../../../hostel_market"
+		}
+	],
+	"settings": {}
+}

@@ -1,0 +1,58 @@
+{% extends "emails/base_email.html" %}
+
+{% block content %}
+<h2>📱 Activity Update</h2>
+
+<p>Dear <strong>{{ user.first_name|default:user.username }}</strong>,</p>
+
+<p>We're keeping you informed about your recent activity on {{ site_name }}. Here's what happened:</p>
+
+<div class="info-box">
+    <h3>🎯 Activity Details</h3>
+    <table class="details-table">
+        <tr>
+            <th>📅 Date & Time</th>
+            <td>{{ timestamp|date:"F d, Y \a\t g:i A" }}</td>
+        </tr>
+        <tr>
+            <th>🔍 Action Type</th>
+            <td><span class="status-badge status-confirmed">{{ action_type|title }}</span></td>
+        </tr>
+        <tr>
+            <th>📊 Status</th>
+            <td><span class="status-badge status-confirmed">Completed</span></td>
+        </tr>
+    </table>
+</div>
+
+<div class="highlight">
+    <h3>📋 Additional Information</h3>
+    <ul>
+        {% for key, value in details.items %}
+        <li><strong>{{ key|title }}:</strong> {{ value }}</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="info-box">
+    <h3>🔒 Security & Privacy</h3>
+    <p>We send these notifications to keep you informed about your account activity. This helps ensure:</p>
+    <ul>
+        <li><strong>🔐 Account Security:</strong> You're aware of all activities on your account</li>
+        <li><strong>📊 Transparency:</strong> Complete visibility into your account usage</li>
+        <li><strong>🚨 Early Detection:</strong> Quick identification of any unauthorized access</li>
+        <li><strong>📱 Peace of Mind:</strong> Confidence that your account is secure</li>
+    </ul>
+</div>
+
+<p>If you didn't perform this action or have any concerns, please contact our support team immediately.</p>
+
+<p>Best regards,<br>
+<strong>The {{ site_name }} Team</strong><br>
+<em>Keeping you informed and secure</em></p>
+
+<div style="text-align: center; margin-top: 30px;">
+    <a href="{{ site_url }}" class="button">Visit Dashboard</a>
+    <a href="mailto:{{ support_email }}" class="button">Contact Support</a>
+</div>
+{% endblock %}

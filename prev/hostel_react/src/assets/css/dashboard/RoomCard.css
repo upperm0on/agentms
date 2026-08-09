@@ -1,0 +1,99 @@
+
+.room_card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.room_card:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.room_card p {
+    font-size: 1rem;
+    font-family: var(--font-body-one);
+    letter-spacing: 0.025em;
+    margin: 10px 0;
+    color: var(--color-dark-text);
+    line-height: 1.5;
+}
+
+.room_card p:first-child {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-dark-text);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    line-height: 1.4;
+}
+
+
+.room_card p span {
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+.room_card ul {
+    margin: 16px 0 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.room_card ul .ul_heading {
+    font-weight: 600;
+    color: var(--color-primary);
+    margin: 0 0 12px 0;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-body-one);
+}
+
+
+.room_card ul .ul_heading svg {
+    animation: sparkle 2s ease-in-out infinite;
+}
+
+@keyframes sparkle {
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    50% { transform: scale(1.1) rotate(180deg); }
+}
+
+.room_card ul li {
+    font-size: 0.875rem;
+    font-weight: 500;
+    font-family: var(--font-body-one);
+    letter-spacing: 0.025em;
+    padding: 8px 12px;
+    margin: 4px 0;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    color: var(--color-dark-text);
+    line-height: 1.4;
+}
+
+.room_card ul li:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateX(4px);
+    border-color: rgba(255, 255, 255, 0.2);
+}
