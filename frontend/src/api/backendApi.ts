@@ -1,5 +1,5 @@
 import {
-  loadDatabase,
+  createEmptyDatabase,
   type Agent,
   type Database,
   type Inquiry,
@@ -14,7 +14,15 @@ import {
 } from './mockApi'
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL ?? '/api'
-const roomImages = ['/images/room-1.png', '/images/room-2.png', '/images/room-3.png', '/images/room-4.png', '/images/room-5.jpeg', '/images/room-6.jpeg']
+const BACKEND_RETRY_MS = 10_000
+const FRONTEND_DATABASE_CACHE_MS = 60_000
+const FRONTEND_LISTINGS_CACHE_MS = 300_000
+let backendUnavailableUntil = 0
+const backendDatabaseCache = new Map<string, { expiresAt: number; data: Database }>()
+const backendListingsCache = new Map<string, { expiresAt: number; data: ApiListing[] }>()
+const backendListingPageCache = new Map<string, { expiresAt: number; data: ListingPagePayload }>()
+let backendLocationsCache: { expiresAt: number; data: Location[] } | null = null
+const apiGetInflight = new Map<string, Promise<unknown>>()
 
 const devCredentials: Partial<Record<Role, { email: string; password: string }>> = {
   student: { email: 'esi@knust.edu.gh', password: 'password123' },
@@ -22,7 +30,28 @@ const devCredentials: Partial<Record<Role, { email: string; password: string }>>
   admin: { email: 'admin@agentms.local', password: 'password123' },
 }
 
-type Paginated<T> = { results: T[] }
+type Paginated<T> = { count?: number; results: T[]; next?: string | null }
+
+export type ListingFilters = {
+  q?: string
+  campus?: string
+  availability?: string
+  roomTypes?: string[]
+  minPrice?: string
+  maxPrice?: string
+  sort?: string
+}
+
+export type ListingDetailPayload = {
+  listing: Listing
+  agent: Agent
+}
+
+export type ListingPagePayload = {
+  database: Database
+  next: string | null
+  count: number | null
+}
 
 type ApiUser = {
   id: string
@@ -49,17 +78,17 @@ type ApiArea = {
 
 type ApiAgent = {
   id: string
-  user_detail: ApiUser
+  user_detail?: ApiUser
   display_name: string
   business_name: string
   bio: string
   phone: string
   whatsapp_number: string
   verification_status: string
-  operating_area_details: ApiArea[]
+  operating_area_details?: ApiArea[]
   response_rate: string
   listing_freshness_score: string
-  documents: { title: string }[]
+  documents?: { title: string }[]
   created_at: string
 }
 
@@ -86,6 +115,7 @@ type ApiListing = {
   price_period: string
   amenities_detail: { name: string }[]
   rules: { text: string }[]
+  images: { image: string; caption: string; sort_order: number; is_cover: boolean }[]
   cover_image: string
   saved: boolean
   view_count: number
@@ -137,26 +167,210 @@ function authHeader(role: Role) {
   return credentials ? { Authorization: `Basic ${btoa(`${credentials.email}:${credentials.password}`)}` } : {}
 }
 
+function databaseCacheKey(role: Role, filters: ListingFilters) {
+  return JSON.stringify({ role, filters })
+}
+
+function hasListingFilters(filters: ListingFilters) {
+  return Boolean(
+    filters.q?.trim()
+    || (filters.campus && filters.campus !== 'All campuses')
+    || (filters.availability && filters.availability !== 'Any availability')
+    || filters.roomTypes?.length
+    || filters.minPrice?.trim()
+    || filters.maxPrice?.trim()
+    || (filters.sort && filters.sort !== 'Freshest')
+  )
+}
+
+function readDatabaseCache(role: Role, filters: ListingFilters) {
+  const cached = backendDatabaseCache.get(databaseCacheKey(role, filters))
+  if (cached && cached.expiresAt > Date.now()) return structuredClone(cached.data)
+
+  if (shouldFilterListingsLocally(role) && hasListingFilters(filters)) {
+    const base = backendDatabaseCache.get(databaseCacheKey(role, {}))
+    if (base && base.expiresAt > Date.now()) {
+      const database = structuredClone(base.data)
+      database.listings = applyLocalListingFilters(database.listings, filters)
+      return database
+    }
+  }
+
+  return null
+}
+
+function writeDatabaseCache(role: Role, filters: ListingFilters, data: Database) {
+  backendDatabaseCache.set(databaseCacheKey(role, filters), {
+    expiresAt: Date.now() + FRONTEND_DATABASE_CACHE_MS,
+    data: structuredClone(data),
+  })
+}
+
+function invalidateBackendDatabaseCache() {
+  backendDatabaseCache.clear()
+  backendListingsCache.clear()
+  backendListingPageCache.clear()
+}
+
+function listingCacheKey(role: Role) {
+  return `listings:${role}`
+}
+
+function shouldFilterListingsLocally(role: Role) {
+  return role === 'public' || role === 'student'
+}
+
+function readListingsCache(role: Role) {
+  const cached = backendListingsCache.get(listingCacheKey(role))
+  if (!cached || cached.expiresAt <= Date.now()) return null
+  return structuredClone(cached.data)
+}
+
+function writeListingsCache(role: Role, data: ApiListing[]) {
+  backendListingsCache.set(listingCacheKey(role), {
+    expiresAt: Date.now() + FRONTEND_LISTINGS_CACHE_MS,
+    data: structuredClone(data),
+  })
+}
+
+function listingPageCacheKey(role: Role, filters: ListingFilters, next?: string | null) {
+  return JSON.stringify({ role, filters, next: next ?? null })
+}
+
+function readListingPageCache(role: Role, filters: ListingFilters, next?: string | null) {
+  const cached = backendListingPageCache.get(listingPageCacheKey(role, filters, next))
+  if (!cached || cached.expiresAt <= Date.now()) return null
+  return structuredClone(cached.data)
+}
+
+function writeListingPageCache(role: Role, filters: ListingFilters, next: string | null | undefined, data: ListingPagePayload) {
+  backendListingPageCache.set(listingPageCacheKey(role, filters, next), {
+    expiresAt: Date.now() + FRONTEND_LISTINGS_CACHE_MS,
+    data: structuredClone(data),
+  })
+}
+
+async function apiListings(path: string, role: Role, cacheRole?: Role): Promise<ApiListing[]> {
+  if (cacheRole) {
+    const cached = readListingsCache(cacheRole)
+    if (cached) return cached
+  }
+
+  const listings = await apiList<ApiListing>(path, role)
+  if (cacheRole) writeListingsCache(cacheRole, listings)
+  return listings
+}
+
+function apiPathFromUrl(value: string) {
+  const nextUrl = new URL(value, window.location.origin)
+  const nextPath = nextUrl.pathname.startsWith('/api/') ? nextUrl.pathname.slice(4) : nextUrl.pathname
+  return `${nextPath}${nextUrl.search}`
+}
+
 async function apiFetch<T>(path: string, role: Role, init: RequestInit = {}): Promise<T> {
+  const method = init.method ?? 'GET'
+  const inflightKey = method === 'GET' && !init.body ? `${role}:${path}` : ''
+  if (inflightKey && apiGetInflight.has(inflightKey)) return apiGetInflight.get(inflightKey) as Promise<T>
+
   const headers = new Headers(init.headers)
   headers.set('Accept', 'application/json')
   if (init.body) headers.set('Content-Type', 'application/json')
   Object.entries(authHeader(role)).forEach(([key, value]) => headers.set(key, value))
 
-  const response = await fetch(`${API_BASE}${path}`, {
+  const request = fetch(`${API_BASE}${path}`, {
     ...init,
     headers,
+  }).then((response) => {
+    if (!response.ok) {
+      throw new Error(`${method} ${path} failed with ${response.status}`)
+    }
+    if (response.status === 204) return undefined as T
+    return response.json() as Promise<T>
+  }).finally(() => {
+    if (inflightKey) apiGetInflight.delete(inflightKey)
   })
-  if (!response.ok) {
-    throw new Error(`${init.method ?? 'GET'} ${path} failed with ${response.status}`)
-  }
-  if (response.status === 204) return undefined as T
-  return response.json()
+
+  if (inflightKey) apiGetInflight.set(inflightKey, request)
+  return request
 }
 
 async function apiList<T>(path: string, role: Role): Promise<T[]> {
   const data = await apiFetch<Paginated<T> | T[]>(path, role)
-  return Array.isArray(data) ? data : data.results
+  if (Array.isArray(data)) return data
+  const results = [...data.results]
+  let next = data.next
+  while (next) {
+    const nextPage = await apiFetch<Paginated<T>>(apiPathFromUrl(next), role)
+    results.push(...nextPage.results)
+    next = nextPage.next
+  }
+  return results
+}
+
+async function apiPage<T>(path: string, role: Role): Promise<Paginated<T>> {
+  const data = await apiFetch<Paginated<T> | T[]>(path, role)
+  return Array.isArray(data) ? { results: data, next: null, count: data.length } : data
+}
+
+function listingQuery(filters: ListingFilters = {}) {
+  const params = new URLSearchParams()
+  if (filters.q?.trim()) params.set('q', filters.q.trim())
+  if (filters.campus && filters.campus !== 'All campuses') params.set('campus', filters.campus)
+  if (filters.availability && filters.availability !== 'Any availability') params.set('availability', filters.availability.toLowerCase())
+  if (filters.roomTypes?.length) params.set('room_type', filters.roomTypes.join(','))
+  if (filters.minPrice?.trim()) params.set('min_price', filters.minPrice.trim())
+  if (filters.maxPrice?.trim()) params.set('max_price', filters.maxPrice.trim())
+  if (filters.sort === 'Lowest price') params.set('ordering', 'price')
+  if (filters.sort === 'Highest price') params.set('ordering', '-price')
+  if (filters.sort === 'Popular') params.set('ordering', 'popular')
+  const query = params.toString()
+  return query ? `?${query}` : ''
+}
+
+function listingPath(filters: ListingFilters = {}, next?: string | null) {
+  return next ? apiPathFromUrl(next) : `/listings/${listingQuery(filters)}`
+}
+
+function freshnessRank(value: Listing['freshness']) {
+  return ['Confirmed today', 'Confirmed this week', 'Needs refresh', 'Stale'].indexOf(value)
+}
+
+function roomTypeValue(value: string) {
+  const normalized = value.toLowerCase()
+  if (normalized.includes('single')) return 'single'
+  if (normalized.includes('shared') || normalized.includes(' in room')) return 'shared'
+  if (normalized.includes('studio')) return 'studio'
+  if (normalized.includes('apartment')) return 'apartment'
+  return normalized.replaceAll(' ', '_')
+}
+
+function applyLocalListingFilters(listings: Listing[], filters: ListingFilters = {}) {
+  const term = filters.q?.trim().toLowerCase()
+  const roomTypes = new Set(filters.roomTypes ?? [])
+  const minPrice = filters.minPrice?.trim() ? Number(filters.minPrice) : null
+  const maxPrice = filters.maxPrice?.trim() ? Number(filters.maxPrice) : null
+  return listings
+    .filter((listing) => listing.status === 'Published' && listing.moderation !== 'Rejected')
+    .filter((listing) => !term || `${listing.title} ${listing.property} ${listing.campus} ${listing.area} ${listing.description}`.toLowerCase().includes(term))
+    .filter((listing) => !filters.campus || filters.campus === 'All campuses' || listing.campus === filters.campus)
+    .filter((listing) => !filters.availability || filters.availability === 'Any availability' || listing.availability === filters.availability)
+    .filter((listing) => roomTypes.size === 0 || roomTypes.has(roomTypeValue(listing.occupancy)))
+    .filter((listing) => minPrice === null || Number.isNaN(minPrice) || listing.price >= minPrice)
+    .filter((listing) => maxPrice === null || Number.isNaN(maxPrice) || listing.price <= maxPrice)
+    .sort((a, b) => {
+      if (filters.sort === 'Lowest price') return a.price - b.price
+      if (filters.sort === 'Highest price') return b.price - a.price
+      if (filters.sort === 'Popular') return (b.inquiries * 5 + b.views) - (a.inquiries * 5 + a.views)
+      return freshnessRank(a.freshness) - freshnessRank(b.freshness)
+    })
+}
+
+function localDatabase(role: Role, filters: ListingFilters = {}) {
+  const fallback = createEmptyDatabase()
+  return {
+    ...fallback,
+    listings: role === 'admin' ? fallback.listings : applyLocalListingFilters(fallback.listings, filters),
+  }
 }
 
 function label(value: string) {
@@ -168,6 +382,12 @@ function dateLabel(value: string | null) {
   const date = new Date(value)
   if (Number.isNaN(date.getTime())) return value
   return date.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })
+}
+
+function mediaUrl(value: string) {
+  if (!value) return ''
+  if (/^https?:\/\//.test(value)) return value
+  return value.startsWith('/') ? value : `/${value}`
 }
 
 function freshness(value: string | null): Listing['freshness'] {
@@ -224,21 +444,27 @@ function mapAgent(agent: ApiAgent): Agent {
     id: agent.id,
     name: agent.display_name,
     business: agent.business_name,
-    email: agent.user_detail.email,
+    email: agent.user_detail?.email ?? '',
     phone: agent.phone,
     whatsapp: agent.whatsapp_number || agent.phone,
     bio: agent.bio,
-    areas: agent.operating_area_details.map((area) => area.name),
+    areas: agent.operating_area_details?.map((area) => area.name) ?? [],
     verification: label(agent.verification_status) as Agent['verification'],
     responseRate: Number(agent.response_rate),
     freshnessScore: Number(agent.listing_freshness_score),
     joined: dateLabel(agent.created_at),
-    documents: agent.documents.map((document) => document.title),
+    documents: agent.documents?.map((document) => document.title) ?? [],
   }
 }
 
-function mapListing(listing: ApiListing, index = 0): Listing {
+function mapListing(listing: ApiListing): Listing {
   const area = listing.property_detail.area_detail
+  const images = listing.images
+    .slice()
+    .sort((a, b) => Number(b.is_cover) - Number(a.is_cover) || a.sort_order - b.sort_order)
+    .map((image) => mediaUrl(image.image))
+    .filter(Boolean)
+  const coverImage = mediaUrl(listing.cover_image) || images[0] || ''
   return {
     id: listing.id,
     title: listing.title,
@@ -262,7 +488,8 @@ function mapListing(listing: ApiListing, index = 0): Listing {
     description: listing.description,
     amenities: listing.amenities_detail.map((amenity) => amenity.name),
     rules: listing.rules.map((rule) => rule.text),
-    image: roomImages[index % roomImages.length],
+    image: coverImage,
+    images: images.length ? images : coverImage ? [coverImage] : [],
     saved: listing.saved,
     views: listing.view_count,
     inquiries: listing.inquiry_count,
@@ -323,18 +550,37 @@ async function fetchCurrentUser(role: Role) {
   }
 }
 
-export async function loadBackendDatabase(role: Role): Promise<Database> {
-  const fallback = loadDatabase()
+export async function loadBackendDatabase(role: Role, filters: ListingFilters = {}): Promise<Database> {
+  const cached = readDatabaseCache(role, filters)
+  if (cached) return cached
+
+  if (Date.now() < backendUnavailableUntil) return localDatabase(role, filters)
+
+  const fallback = createEmptyDatabase()
   const apiRole = role === 'public' ? 'public' : role
-  const [listingsApi, areasApi, meApi] = await Promise.all([
-    apiList<ApiListing>(role === 'admin' ? '/admin/listings/' : '/listings/', apiRole),
-    apiList<ApiArea>('/locations/areas/', 'public'),
-    fetchCurrentUser(apiRole),
-  ])
+  const useLocalListingFilters = shouldFilterListingsLocally(role)
+  const listingsPath = role === 'admin' ? '/admin/listings/' : `/listings/${useLocalListingFilters ? '' : listingQuery(filters)}`
+  let listingsApi: ApiListing[]
+  let areasApi: ApiArea[]
+  let meApi: ApiUser | null
+  let agentMeApi: ApiAgent | null = null
+  try {
+    ;[listingsApi, areasApi, meApi, agentMeApi] = await Promise.all([
+      apiListings(listingsPath, apiRole, useLocalListingFilters ? role : undefined),
+      apiList<ApiArea>('/locations/areas/', 'public'),
+      fetchCurrentUser(apiRole),
+      role === 'agent' ? apiFetch<ApiAgent>('/agents/me/', role).catch(() => null) : Promise.resolve(null),
+    ])
+  } catch (error) {
+    backendUnavailableUntil = Date.now() + BACKEND_RETRY_MS
+    console.warn('Backend API unavailable; using local filtered data until retry window expires.', error)
+    return localDatabase(role, filters)
+  }
 
   const listings = listingsApi.map(mapListing)
   const agentMap = new Map<string, Agent>()
   listingsApi.forEach((listing) => agentMap.set(listing.agent_detail.id, mapAgent(listing.agent_detail)))
+  if (agentMeApi) agentMap.set(agentMeApi.id, mapAgent(agentMeApi))
 
   const [adminAgents, adminReports, inquiriesApi, notificationsApi, savedApi] = await Promise.all([
     role === 'admin' ? apiList<ApiAgent>('/admin/agents/', role).catch(() => []) : Promise.resolve([]),
@@ -347,10 +593,11 @@ export async function loadBackendDatabase(role: Role): Promise<Database> {
 
   adminAgents.forEach((agent) => agentMap.set(agent.id, mapAgent(agent)))
   const savedIds = new Set(savedApi.map((saved) => saved.listing))
-  const mappedListings = listings.map((listing) => ({ ...listing, saved: listing.saved || savedIds.has(listing.id) }))
+  const savedListings = listings.map((listing) => ({ ...listing, saved: listing.saved || savedIds.has(listing.id) }))
+  const mappedListings = useLocalListingFilters ? applyLocalListingFilters(savedListings, filters) : savedListings
   const users = role === 'admin' ? adminUsers.map(mapUser) : meApi ? [mapUser(meApi)] : []
 
-  return {
+  const database = {
     ...fallback,
     listings: mappedListings,
     inquiries: inquiriesApi.map(mapInquiry),
@@ -364,8 +611,85 @@ export async function loadBackendDatabase(role: Role): Promise<Database> {
       email: meApi.email,
       phone: meApi.phone,
       whatsapp: meApi.phone,
-      campus: fallback.profile.campus,
+      campus: areasApi[0]?.campus_name ?? '',
     } : fallback.profile,
+  }
+  if (useLocalListingFilters) {
+    writeDatabaseCache(role, {}, { ...database, listings: savedListings })
+  }
+  writeDatabaseCache(role, filters, database)
+  return database
+}
+
+export async function loadBackendLocations(): Promise<Location[]> {
+  if (backendLocationsCache && backendLocationsCache.expiresAt > Date.now()) {
+    return structuredClone(backendLocationsCache.data)
+  }
+  const locations = (await apiList<ApiArea>('/locations/areas/', 'public')).map(mapArea)
+  backendLocationsCache = {
+    expiresAt: Date.now() + FRONTEND_LISTINGS_CACHE_MS,
+    data: structuredClone(locations),
+  }
+  return locations
+}
+
+export async function loadBackendListingsPage(role: Role = 'public', filters: ListingFilters = {}, next: string | null = null): Promise<ListingPagePayload> {
+  const cached = readListingPageCache(role, filters, next)
+  if (cached) return cached
+
+  if (Date.now() < backendUnavailableUntil) {
+    return { database: localDatabase(role, filters), next: null, count: null }
+  }
+
+  const fallback = createEmptyDatabase()
+  const apiRole = role === 'public' ? 'public' : role
+  const path = listingPath(filters, next)
+  try {
+    const [page, meApi, notificationsApi, savedApi] = await Promise.all([
+      apiPage<ApiListing>(path, apiRole),
+      next ? Promise.resolve(null) : fetchCurrentUser(apiRole),
+      !next && role !== 'public' ? apiList<ApiNotification>('/notifications/', role).catch(() => []) : Promise.resolve([]),
+      role === 'student' ? apiList<{ listing: string }>('/listings/saved/', role).catch(() => []) : Promise.resolve([]),
+    ])
+
+    const savedIds = new Set(savedApi.map((saved) => saved.listing))
+    const listings = page.results
+      .map(mapListing)
+      .map((listing) => ({ ...listing, saved: listing.saved || savedIds.has(listing.id) }))
+    const agentMap = new Map<string, Agent>()
+    page.results.forEach((listing) => agentMap.set(listing.agent_detail.id, mapAgent(listing.agent_detail)))
+
+    const database = {
+      ...fallback,
+      listings,
+      agents: Array.from(agentMap.values()),
+      locations: fallback.locations,
+      users: meApi ? [mapUser(meApi)] : [],
+      notifications: notificationsApi.map(mapNotification),
+      profile: meApi ? {
+        name: meApi.name,
+        email: meApi.email,
+        phone: meApi.phone,
+        whatsapp: meApi.phone,
+        campus: '',
+      } : fallback.profile,
+    }
+    const payload = { database, next: page.next ?? null, count: page.count ?? null }
+    writeListingPageCache(role, filters, next, payload)
+    return payload
+  } catch (error) {
+    backendUnavailableUntil = Date.now() + BACKEND_RETRY_MS
+    console.warn('Backend listing page unavailable; using local filtered data until retry window expires.', error)
+    return { database: localDatabase(role, filters), next: null, count: null }
+  }
+}
+
+export async function loadBackendListingDetail(id: string, role: Role = 'public'): Promise<ListingDetailPayload> {
+  const apiRole = role === 'public' ? 'public' : role
+  const listingApi = await apiFetch<ApiListing>(`/listings/${id}/`, apiRole)
+  return {
+    listing: mapListing(listingApi),
+    agent: mapAgent(listingApi.agent_detail),
   }
 }
 
@@ -380,6 +704,7 @@ export async function persistBackendMutation(before: Database, after: Database, 
         preferred_contact_method: createdInquiry.contactMethod.toLowerCase(),
       }),
     })
+    invalidateBackendDatabaseCache()
     return
   }
 
@@ -393,6 +718,7 @@ export async function persistBackendMutation(before: Database, after: Database, 
         severity: createdReport.severity.toLowerCase(),
       }),
     })
+    invalidateBackendDatabaseCache()
     return
   }
 
@@ -404,6 +730,7 @@ export async function persistBackendMutation(before: Database, after: Database, 
         method: 'POST',
         body: JSON.stringify({ listing: listing.id }),
       })
+      invalidateBackendDatabaseCache()
       return
     }
     if (previous.freshness !== listing.freshness || previous.slots !== listing.slots || previous.availability !== listing.availability) {
@@ -414,14 +741,17 @@ export async function persistBackendMutation(before: Database, after: Database, 
           available_slots: listing.slots,
         }),
       })
+      invalidateBackendDatabaseCache()
       return
     }
     if (previous.status !== listing.status && listing.status === 'Published') {
       await apiFetch(`/listings/${listing.id}/publish/`, 'agent', { method: 'POST' })
+      invalidateBackendDatabaseCache()
       return
     }
     if (previous.status !== listing.status && listing.status === 'Unpublished') {
       await apiFetch(`/listings/${listing.id}/unpublish/`, 'agent', { method: 'POST' })
+      invalidateBackendDatabaseCache()
       return
     }
     if ((previous.moderation !== listing.moderation || previous.status !== listing.status) && role === 'admin') {
@@ -429,9 +759,10 @@ export async function persistBackendMutation(before: Database, after: Database, 
         method: 'PATCH',
         body: JSON.stringify({
           moderation_status: apiModeration(listing.moderation),
-          note: 'Updated from AgentMS frontend prototype.',
+          note: 'Updated from AgentMS frontend.',
         }),
       })
+      invalidateBackendDatabaseCache()
       return
     }
   }
@@ -443,9 +774,10 @@ export async function persistBackendMutation(before: Database, after: Database, 
         method: 'PATCH',
         body: JSON.stringify({
           status: apiInquiryStatus(inquiry.status),
-          agent_notes: 'Updated from AgentMS frontend prototype.',
+          agent_notes: 'Updated from AgentMS frontend.',
         }),
       })
+      invalidateBackendDatabaseCache()
       return
     }
   }
@@ -457,9 +789,10 @@ export async function persistBackendMutation(before: Database, after: Database, 
         method: 'PATCH',
         body: JSON.stringify({
           verification_status: apiVerification(agent.verification),
-          verification_notes: 'Updated from AgentMS frontend prototype.',
+          verification_notes: 'Updated from AgentMS frontend.',
         }),
       })
+      invalidateBackendDatabaseCache()
       return
     }
   }
@@ -471,9 +804,10 @@ export async function persistBackendMutation(before: Database, after: Database, 
         method: 'PATCH',
         body: JSON.stringify({
           status: apiReportStatus(report.status),
-          resolution_notes: 'Updated from AgentMS frontend prototype.',
+          resolution_notes: 'Updated from AgentMS frontend.',
         }),
       })
+      invalidateBackendDatabaseCache()
       return
     }
   }

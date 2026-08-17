@@ -1,67 +1,121 @@
-import { useEffect, useMemo, useRef, useState, type CSSProperties, type RefObject } from 'react'
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type CSSProperties,
+  type PointerEvent as ReactPointerEvent,
+  type WheelEvent as ReactWheelEvent,
+} from 'react'
+import gsap from 'gsap'
+import Lenis from 'lenis'
 import {
   ArrowLeft,
-  Check,
-  Download,
-  FileCode2,
-  Image,
-  Layers3,
-  Map as MapIcon,
-  Pause,
-  Play,
-  RotateCcw,
+  Box,
+  CircleDot,
+  Focus,
+  Minus,
+  Orbit,
+  Plus,
   Sparkles,
+  X,
 } from 'lucide-react'
 import './Workscape.css'
 
-type WorkscapeEvent = {
-  id: string
-  label: string
-  title: string
-  outcome: string
-  signal: string
-  files: string[]
-  accent: string
+type ChangeFile = {
+  path: string
+  status: string
+  department: string
+  additions: number
+  deletions: number
+  kind?: string
+  mood?: string
+  accent?: string
+  palette?: string[]
+  signals?: string[]
+  snapshot?: {
+    mode: string
+    focus: string
+    before: SnapshotProfile
+    after: SnapshotProfile
+  }
 }
 
-type WorkscapeSurface = {
-  id: string
-  label: string
-  detail: string
-  event: number
-  x: number
-  y: number
-  width: number
-  height: number
-  accent: string
+type SnapshotProfile = {
+  kind?: string
+  mood?: string
+  accent?: string
+  palette?: string[]
+  signals?: string[]
+  empty?: boolean
+  lines?: number
+  label?: string
 }
 
 type WorkscapeManifest = {
-  schemaVersion: number
   generatedAt: string
   mood: string
   project: string
   source: { mode: string; gitAvailable: boolean; note: string }
-  summary: {
-    sourceFiles: number
-    sourceLines: number
-    routes: number
-    components: number
-    designDocs: number
-    decisionDocs: number
-    cssTokens: number
+  summary: { sourceFiles: number; sourceLines: number; routes: number; apiRoutes: number; backendApps: number; components: number }
+  change: {
+    summary: { changedFiles: number; stableAnchors: number; additions: number; deletions: number; departments: number }
+    files: ChangeFile[]
+    departments: Array<{ name: string; files: number; additions: number; deletions: number }>
+    stableAnchors: Array<{ path: string; department: string; status: string }>
   }
-  stack: Array<{ name: string; requested: string; installed: string }>
-  events: WorkscapeEvent[]
-  surfaces: WorkscapeSurface[]
-  connections: Array<{ from: string; to: string; event: number }>
-  artifacts: Array<{ extension: string; files: number; lines: number }>
 }
 
-type ViewMode = 'flow' | 'snapshot'
+type Camera = { x: number; y: number; scale: number }
+type PositionedFile = ChangeFile & { x: number; y: number; sequence: number }
+type PositionedDepartment = WorkscapeManifest['change']['departments'][number] & { x: number; y: number; filesInSpace: PositionedFile[] }
 
-const EVENT_ICONS = [Layers3, Sparkles, FileCode2, MapIcon, Play, Image]
-const SVG_NS = 'http://www.w3.org/2000/svg'
+const SPACE_WIDTH = 2200
+const SPACE_HEIGHT = 1400
+const FILE_OFFSETS = [
+  [-300, -225], [300, -225], [-300, 225], [300, 225], [-385, 0], [385, 0], [0, -285], [0, 285],
+]
+
+const FALLBACK_PROFILES: Record<string, Pick<ChangeFile, 'kind' | 'mood' | 'accent'>> = {
+  css: { kind: 'style', mood: 'kinetic visual system', accent: '#ff8a3d' },
+  tsx: { kind: 'interface', mood: 'interactive interface', accent: '#52d6c5' },
+  ts: { kind: 'automation', mood: 'logic flow', accent: '#f3c75f' },
+  mjs: { kind: 'automation', mood: 'generative pipeline', accent: '#f3c75f' },
+  json: { kind: 'data', mood: 'structured live state', accent: '#a88cf5' },
+  md: { kind: 'narrative', mood: 'documented intent', accent: '#ef718a' },
+  py: { kind: 'service', mood: 'backend service flow', accent: '#6fb8ff' },
+}
+
+function fileName(path: string) {
+  return path.split('/').at(-1) ?? path
+}
+
+function profileFor(file: ChangeFile) {
+  const extension = file.path.split('.').at(-1)?.toLowerCase() ?? ''
+  const fallback = FALLBACK_PROFILES[extension] ?? { kind: 'artifact', mood: 'workspace element', accent: '#9caeaa' }
+  return {
+    kind: file.kind ?? fallback.kind,
+    mood: file.mood ?? fallback.mood,
+    accent: file.accent ?? fallback.accent,
+    palette: file.palette?.length ? file.palette : [file.accent ?? fallback.accent, '#17211f', '#eef1eb'],
+  }
+}
+
+function snapshotProfileFor(file: ChangeFile, phase: 'before' | 'after') {
+  const fallback = profileFor(file)
+  const snapshot = file.snapshot?.[phase]
+  return {
+    kind: snapshot?.kind ?? fallback.kind,
+    mood: snapshot?.mood ?? fallback.mood,
+    accent: snapshot?.accent ?? fallback.accent,
+    palette: snapshot?.palette?.length ? snapshot.palette : fallback.palette,
+    signals: snapshot?.signals ?? file.signals ?? [],
+    empty: snapshot?.empty ?? false,
+    lines: snapshot?.lines ?? 0,
+    label: snapshot?.label ?? phase,
+  }
+}
 
 function useWorkscapeManifest() {
   const [data, setData] = useState<WorkscapeManifest | null>(null)
@@ -85,274 +139,389 @@ function useWorkscapeManifest() {
   return { data, error }
 }
 
-function connectionPath(from: WorkscapeSurface, to: WorkscapeSurface) {
-  const startX = from.x + from.width
-  const startY = from.y + from.height / 2
-  const endX = to.x
-  const endY = to.y + to.height / 2
-  const bend = Math.max(70, Math.abs(endX - startX) * 0.46)
-  return `M ${startX} ${startY} C ${startX + bend} ${startY}, ${endX - bend} ${endY}, ${endX} ${endY}`
+function ArtifactVisual({ file, expanded = false, snapshot }: { file: ChangeFile; expanded?: boolean; snapshot?: ReturnType<typeof snapshotProfileFor> }) {
+  const baseProfile = profileFor(file)
+  const profile = {
+    ...baseProfile,
+    signals: file.signals ?? [],
+    empty: false,
+    lines: 0,
+    label: '',
+    ...snapshot,
+  }
+  const style = {
+    '--artifact-accent': profile.accent,
+    '--palette-one': profile.palette[0] ?? profile.accent,
+    '--palette-two': profile.palette[1] ?? '#52d6c5',
+    '--palette-three': profile.palette[2] ?? '#a88cf5',
+  } as CSSProperties
+
+  if (profile.empty) {
+    return (
+      <div className={`artifact-visual empty-visual ${expanded ? 'expanded' : ''}`} style={style}>
+        <span /><i /><i /><i />
+      </div>
+    )
+  }
+
+  if (profile.kind === 'style') {
+    return (
+      <div className={`artifact-visual style-visual ${expanded ? 'expanded' : ''}`} style={style}>
+        <span className="style-orbit orbit-a" /><span className="style-orbit orbit-b" /><span className="style-orbit orbit-c" />
+        <div className="style-palette">{profile.palette.slice(0, 5).map((color) => <i key={color} style={{ background: color }} />)}</div>
+      </div>
+    )
+  }
+
+  if (profile.kind === 'interface') {
+    return (
+      <div className={`artifact-visual interface-visual ${expanded ? 'expanded' : ''}`} style={style}>
+        <div className="interface-chrome"><i /><i /><i /></div>
+        <div className="interface-shell"><span className="interface-nav" /><div className="interface-content"><b /><b /><b /><em /><em /></div></div>
+        <span className="interface-cursor" />
+      </div>
+    )
+  }
+
+  if (profile.kind === 'automation') {
+    return (
+      <div className={`artifact-visual automation-visual ${expanded ? 'expanded' : ''}`} style={style}>
+        <span className="automation-line" />
+        {[0, 1, 2, 3].map((index) => <i key={index} style={{ '--step': index } as CSSProperties}><b /></i>)}
+      </div>
+    )
+  }
+
+  if (profile.kind === 'data') {
+    return (
+      <div className={`artifact-visual data-visual ${expanded ? 'expanded' : ''}`} style={style}>
+        {Array.from({ length: 24 }, (_, index) => <i key={index} style={{ '--cell': index } as CSSProperties} />)}
+        <span className="data-scan" />
+      </div>
+    )
+  }
+
+  if (profile.kind === 'narrative') {
+    return (
+      <div className={`artifact-visual narrative-visual ${expanded ? 'expanded' : ''}`} style={style}>
+        {[0, 1, 2].map((page) => <div className={`narrative-page page-${page}`} key={page}><b />{[0, 1, 2, 3].map((line) => <i key={line} />)}</div>)}
+      </div>
+    )
+  }
+
+  if (profile.kind === 'service') {
+    return (
+      <div className={`artifact-visual service-visual ${expanded ? 'expanded' : ''}`} style={style}>
+        <span className="service-core" />
+        {[0, 1, 2, 3, 4].map((index) => <i key={index} style={{ '--service-index': index } as CSSProperties} />)}
+      </div>
+    )
+  }
+
+  return <div className={`artifact-visual artifact-generic ${expanded ? 'expanded' : ''}`} style={style}><Box /><span /><span /><span /></div>
 }
 
-function ProjectMap({ data, active, svgRef }: { data: WorkscapeManifest; active: number; svgRef: RefObject<SVGSVGElement | null> }) {
-  const surfaces = useMemo(() => new Map(data.surfaces.map((surface) => [surface.id, surface])), [data.surfaces])
-
+function SnapshotComparison({ file }: { file: ChangeFile }) {
+  const before = snapshotProfileFor(file, 'before')
+  const after = snapshotProfileFor(file, 'after')
   return (
-    <svg ref={svgRef} className="workscape-map" viewBox="0 0 1600 820" role="img" aria-labelledby="workscape-map-title workscape-map-description">
-      <title id="workscape-map-title">AgentMS project state map</title>
-      <desc id="workscape-map-description">A generated map connecting product planning, design, data, application surfaces, interactions, and Workscape.</desc>
-      <defs>
-        <pattern id="workscape-grid" width="32" height="32" patternUnits="userSpaceOnUse">
-          <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#31403c" strokeWidth="1" opacity="0.28" />
-        </pattern>
-        <marker id="workscape-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-          <path d="M 0 0 L 10 5 L 0 10 z" fill="#80918c" />
-        </marker>
-      </defs>
-      <rect className="map-background" width="1600" height="820" />
-      <rect width="1600" height="820" fill="url(#workscape-grid)" />
-      <text className="map-kicker" x="70" y="62">CURRENT PROJECT STATE · GENERATED FROM WORKSPACE</text>
-      <text className="map-stamp" x="1530" y="62" textAnchor="end">SCHEMA {data.schemaVersion}</text>
-
-      <g className="map-connections">
-        {data.connections.map((connection) => {
-          const from = surfaces.get(connection.from)
-          const to = surfaces.get(connection.to)
-          if (!from || !to) return null
-          const visible = connection.event <= active
-          return (
-            <path
-              key={`${connection.from}-${connection.to}`}
-              d={connectionPath(from, to)}
-              className={visible ? 'map-connection revealed' : 'map-connection'}
-              markerEnd="url(#workscape-arrow)"
-              style={{ '--connection-delay': `${connection.event * 80}ms` } as CSSProperties}
-            />
-          )
-        })}
-      </g>
-
-      <g className="map-surfaces">
-        {data.surfaces.map((surface) => {
-          const visible = surface.event <= active
-          const current = surface.event === active
-          return (
-            <g
-              key={surface.id}
-              className={`map-node ${visible ? 'revealed' : ''} ${current ? 'current' : ''}`}
-              transform={`translate(${surface.x} ${surface.y})`}
-              style={{ '--node-accent': surface.accent, '--node-delay': `${surface.event * 90}ms` } as CSSProperties}
-            >
-              <rect className="node-shadow" x="7" y="9" width={surface.width} height={surface.height} rx="4" />
-              <rect className="node-body" width={surface.width} height={surface.height} rx="4" />
-              <rect className="node-accent" width="7" height={surface.height} rx="3" />
-              <circle className="node-signal" cx={surface.width - 27} cy="25" r="6" />
-              <text className="node-label" x="24" y="43">{surface.label}</text>
-              <text className="node-detail" x="24" y="71">{surface.detail}</text>
-              <text className="node-index" x="24" y={surface.height - 17}>{String(surface.event + 1).padStart(2, '0')}</text>
-            </g>
-          )
-        })}
-      </g>
-
-      <g className="map-footer">
-        <line x1="70" y1="750" x2="1530" y2="750" stroke="#34433f" />
-        <text x="70" y="786">{data.summary.sourceFiles} SOURCE FILES</text>
-        <text x="355" y="786">{data.summary.sourceLines.toLocaleString()} SOURCE LINES</text>
-        <text x="720" y="786">{data.summary.routes} ROUTES</text>
-        <text x="970" y="786">{data.summary.components} COMPONENTS</text>
-        <text x="1530" y="786" textAnchor="end">{data.summary.cssTokens} CSS TOKENS</text>
-      </g>
-    </svg>
+    <div className="snapshot-comparison">
+      <div className="snapshot-stage before" style={{ '--snapshot-accent': before.accent } as CSSProperties}>
+        <span>{before.label}</span>
+        <ArtifactVisual file={file} snapshot={before} />
+        <small>{before.lines} lines</small>
+      </div>
+      <div className="snapshot-transfer" aria-hidden="true"><i /><i /><i /></div>
+      <div className="snapshot-stage after" style={{ '--snapshot-accent': after.accent } as CSSProperties}>
+        <span>{after.label}</span>
+        <ArtifactVisual file={file} snapshot={after} />
+        <small>{after.lines} lines</small>
+      </div>
+    </div>
   )
 }
 
-function exportSvg(svg: SVGSVGElement, project: string) {
-  const clone = svg.cloneNode(true) as SVGSVGElement
-  clone.setAttribute('xmlns', SVG_NS)
-  clone.setAttribute('width', '1600')
-  clone.setAttribute('height', '820')
-  clone.classList.add('snapshot-export')
+function makeSpace(data: WorkscapeManifest): PositionedDepartment[] {
+  const departments = data.change.departments.length
+    ? data.change.departments.slice(0, 6)
+    : [{ name: 'Workspace', files: 0, additions: 0, deletions: 0 }]
 
-  const style = document.createElementNS(SVG_NS, 'style')
-  style.textContent = `
-    text { font-family: Inter, ui-sans-serif, system-ui, sans-serif; letter-spacing: 0; }
-    .map-background { fill: #17211f; }
-    .map-kicker, .map-stamp, .map-footer text { fill: #91a09b; font-size: 14px; font-weight: 700; }
-    .map-connection { fill: none; stroke: #70817c; stroke-width: 2; opacity: .8; }
-    .node-shadow { fill: #0b1210; opacity: .48; }
-    .node-body { fill: #f7f8f4; stroke: var(--node-accent); stroke-width: 1.5; }
-    .node-accent, .node-signal { fill: var(--node-accent); }
-    .node-label { fill: #17211f; font-size: 20px; font-weight: 800; }
-    .node-detail { fill: #66746f; font-size: 14px; }
-    .node-index { fill: var(--node-accent); font-size: 12px; font-weight: 800; }
-    .map-footer line { stroke: #34433f; }
-  `
-  clone.prepend(style)
-  clone.querySelectorAll('.map-node, .map-connection').forEach((element) => element.classList.add('revealed'))
-
-  const serialized = new XMLSerializer().serializeToString(clone)
-  const blob = new Blob([serialized], { type: 'image/svg+xml;charset=utf-8' })
-  const url = URL.createObjectURL(blob)
-  const anchor = document.createElement('a')
-  anchor.href = url
-  anchor.download = `${project.toLowerCase()}-workscape.svg`
-  anchor.click()
-  window.setTimeout(() => URL.revokeObjectURL(url), 0)
+  return departments.map((department, index) => {
+    let x = 1100
+    let y = 700
+    if (departments.length === 1) x = 680
+    else if (departments.length === 2) x = index === 0 ? 650 : 1550
+    else {
+      const angle = (-90 + (index * 360) / departments.length) * Math.PI / 180
+      x += Math.cos(angle) * 560
+      y += Math.sin(angle) * 390
+    }
+    const files = data.change.files.filter((file) => file.department === department.name)
+    const filesInSpace = files.map((file, fileIndex) => {
+      const offset = FILE_OFFSETS[fileIndex % FILE_OFFSETS.length]
+      const sequence = data.change.files.findIndex((changedFile) => changedFile.path === file.path)
+      return { ...file, sequence: sequence < 0 ? fileIndex : sequence, x: x + offset[0], y: y + offset[1] }
+    })
+    return { ...department, x, y, filesInSpace }
+  })
 }
 
 export function Workscape({ navigate }: { navigate: (path: string) => void }) {
   const { data, error } = useWorkscapeManifest()
-  const [active, setActive] = useState(0)
-  const [playing, setPlaying] = useState(true)
-  const [mode, setMode] = useState<ViewMode>('flow')
-  const svgRef = useRef<SVGSVGElement>(null)
+  const viewportRef = useRef<HTMLDivElement>(null)
+  const lensScrollRef = useRef<HTMLElement>(null)
+  const dragRef = useRef<{ pointerId: number; x: number; y: number; cameraX: number; cameraY: number } | null>(null)
+  const cameraTargetRef = useRef<Camera>({ x: 0, y: 0, scale: .7 })
+  const [camera, setCamera] = useState<Camera>({ x: 0, y: 0, scale: .7 })
+  const [expandedDepartments, setExpandedDepartments] = useState<Set<string> | null>(null)
+  const [stableExpanded, setStableExpanded] = useState(false)
+  const [selected, setSelected] = useState<ChangeFile | null>(null)
+  const departments = useMemo(() => data ? makeSpace(data) : [], [data])
+
+  const animateCamera = useCallback((next: Camera, duration = .62) => {
+    gsap.killTweensOf(cameraTargetRef.current)
+    gsap.to(cameraTargetRef.current, {
+      x: next.x,
+      y: next.y,
+      scale: next.scale,
+      duration,
+      ease: 'power3.out',
+      overwrite: true,
+      onUpdate: () => setCamera({ ...cameraTargetRef.current }),
+      onComplete: () => setCamera({ ...cameraTargetRef.current }),
+    })
+  }, [])
+
+  const fitSpace = useCallback(() => {
+    const viewport = viewportRef.current
+    if (!viewport) return
+    const fittedScale = Math.min(viewport.clientWidth / SPACE_WIDTH, viewport.clientHeight / SPACE_HEIGHT) * 1.12
+    const scale = viewport.clientWidth < 720 ? Math.max(.42, fittedScale) : fittedScale
+    animateCamera({
+      scale,
+      x: (viewport.clientWidth - SPACE_WIDTH * scale) / 2,
+      y: (viewport.clientHeight - SPACE_HEIGHT * scale) / 2,
+    }, .74)
+  }, [animateCamera])
 
   useEffect(() => {
-    if (!data || !playing || mode !== 'flow') return
-    const timer = window.setTimeout(() => {
-      setActive((current) => {
-        if (current >= data.events.length - 1) {
-          setPlaying(false)
-          return current
-        }
-        return current + 1
-      })
-    }, 1450)
-    return () => window.clearTimeout(timer)
-  }, [active, data, mode, playing])
+    if (!data) return
+    requestAnimationFrame(fitSpace)
+    const observer = new ResizeObserver(fitSpace)
+    if (viewportRef.current) observer.observe(viewportRef.current)
+    return () => observer.disconnect()
+  }, [data, fitSpace])
 
-  if (error) {
-    return <main className="workscape-state"><FileCode2 /><h1>Workscape unavailable</h1><p>{error}</p><button onClick={() => navigate('/')}>Return to AgentMS</button></main>
-  }
+  useEffect(() => () => {
+    gsap.killTweensOf(cameraTargetRef.current)
+  }, [])
 
-  if (!data) {
-    return <main className="workscape-state" aria-live="polite"><span className="workscape-loader" /><p>Composing project map</p></main>
-  }
-
-  const event = data.events[active]
-  const eventCount = data.events.length
-  const progress = ((active + 1) / data.events.length) * 100
-  const largestArtifact = Math.max(...data.artifacts.map((artifact) => artifact.lines), 1)
-
-  function chooseMode(nextMode: ViewMode) {
-    setMode(nextMode)
-    if (nextMode === 'snapshot') {
-      setPlaying(false)
-      setActive(eventCount - 1)
+  useEffect(() => {
+    const wrapper = lensScrollRef.current
+    if (!selected || !wrapper) return undefined
+    const content = wrapper.firstElementChild
+    if (!(content instanceof HTMLElement)) return undefined
+    const lenis = new Lenis({
+      wrapper,
+      content,
+      duration: 1.05,
+      smoothWheel: true,
+      wheelMultiplier: .8,
+    })
+    let frame = 0
+    const raf = (time: number) => {
+      lenis.raf(time)
+      frame = requestAnimationFrame(raf)
     }
+    frame = requestAnimationFrame(raf)
+    return () => {
+      cancelAnimationFrame(frame)
+      lenis.destroy()
+    }
+  }, [selected])
+
+  const zoomAtCenter = (factor: number) => {
+    const viewport = viewportRef.current
+    if (!viewport) return
+    const centerX = viewport.clientWidth / 2
+    const centerY = viewport.clientHeight / 2
+    const current = cameraTargetRef.current
+    const scale = Math.min(1.6, Math.max(.28, current.scale * factor))
+    const worldX = (centerX - current.x) / current.scale
+    const worldY = (centerY - current.y) / current.scale
+    animateCamera({ scale, x: centerX - worldX * scale, y: centerY - worldY * scale })
   }
 
-  function replay() {
-    setMode('flow')
-    setActive(0)
-    setPlaying(true)
+  const handleWheel = (event: ReactWheelEvent<HTMLDivElement>) => {
+    event.preventDefault()
+    const bounds = event.currentTarget.getBoundingClientRect()
+    const pointerX = event.clientX - bounds.left
+    const pointerY = event.clientY - bounds.top
+    const current = cameraTargetRef.current
+    if (event.ctrlKey || event.metaKey) {
+      const scale = Math.min(1.6, Math.max(.28, current.scale * Math.exp(-event.deltaY * .0014)))
+      const worldX = (pointerX - current.x) / current.scale
+      const worldY = (pointerY - current.y) / current.scale
+      animateCamera({ scale, x: pointerX - worldX * scale, y: pointerY - worldY * scale }, .42)
+      return
+    }
+    const xDelta = event.shiftKey ? event.deltaY : event.deltaX
+    animateCamera({
+      ...current,
+      x: current.x - xDelta,
+      y: current.y - event.deltaY,
+    }, .48)
   }
+
+  const handlePointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
+    if ((event.target as HTMLElement).closest('button')) return
+    gsap.killTweensOf(cameraTargetRef.current)
+    dragRef.current = { pointerId: event.pointerId, x: event.clientX, y: event.clientY, cameraX: cameraTargetRef.current.x, cameraY: cameraTargetRef.current.y }
+    event.currentTarget.setPointerCapture(event.pointerId)
+    event.currentTarget.classList.add('dragging')
+  }
+
+  const handlePointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
+    const drag = dragRef.current
+    if (!drag || drag.pointerId !== event.pointerId) return
+    const next = { ...cameraTargetRef.current, x: drag.cameraX + event.clientX - drag.x, y: drag.cameraY + event.clientY - drag.y }
+    Object.assign(cameraTargetRef.current, next)
+    setCamera({ ...cameraTargetRef.current })
+  }
+
+  const endPointer = (event: ReactPointerEvent<HTMLDivElement>) => {
+    if (dragRef.current?.pointerId !== event.pointerId) return
+    dragRef.current = null
+    event.currentTarget.classList.remove('dragging')
+  }
+
+  const toggleDepartment = (name: string) => {
+    setExpandedDepartments((current) => {
+      const next = new Set(current ?? (data?.change.departments ?? []).map((department) => department.name))
+      if (next.has(name)) next.delete(name)
+      else next.add(name)
+      return next
+    })
+  }
+
+  const departmentIsExpanded = (name: string) => expandedDepartments === null || expandedDepartments.has(name)
+
+  if (error) return <main className="workscape-state"><CircleDot /><h1>Workscape unavailable</h1><p>{error}</p><button onClick={() => navigate('/')}>Return to AgentMS</button></main>
+  if (!data) return <main className="workscape-state" aria-live="polite"><span className="workscape-loader" /><p>Building spatial context</p></main>
+
+  const stableCenter = { x: 1100, y: 1190 }
 
   return (
     <main className="workscape">
       <header className="workscape-header">
         <div className="workscape-brand">
           <button className="workscape-icon-button" onClick={() => navigate('/')} title="Return to AgentMS" aria-label="Return to AgentMS"><ArrowLeft /></button>
-          <div className="workscape-mark"><span>W</span></div>
-          <div><strong>Workscape</strong><span>{data.project} · workspace snapshot</span></div>
+          <div className="workscape-mark"><Orbit /></div>
+          <div><strong>Workscape</strong><span>{data.project} · {data.mood}</span></div>
         </div>
-        <code>mood = &quot;{data.mood}&quot;</code>
+        <div className="workscape-live"><i />{data.change.summary.changedFiles} live changes</div>
         <div className="workscape-actions">
-          <div className="workscape-segmented" aria-label="View mode">
-            <button className={mode === 'flow' ? 'active' : ''} onClick={() => chooseMode('flow')}><Play />Flow</button>
-            <button className={mode === 'snapshot' ? 'active' : ''} onClick={() => chooseMode('snapshot')}><Image />Snapshot</button>
-          </div>
-          <button className="workscape-button" onClick={() => svgRef.current && exportSvg(svgRef.current, data.project)} title="Download SVG snapshot"><Download /><span>Download SVG</span></button>
+          <button className="workscape-icon-button" onClick={() => zoomAtCenter(.82)} title="Zoom out" aria-label="Zoom out"><Minus /></button>
+          <span className="workscape-zoom">{Math.round(camera.scale * 100)}%</span>
+          <button className="workscape-icon-button" onClick={() => zoomAtCenter(1.22)} title="Zoom in" aria-label="Zoom in"><Plus /></button>
+          <button className="workscape-icon-button fit" onClick={fitSpace} title="Fit space" aria-label="Fit space"><Focus /></button>
         </div>
       </header>
 
-      <section className="workscape-stage-band">
-        <div className="workscape-stage-heading">
-          <div><span className="workscape-eyebrow">Project signal</span><h1>{event.title}</h1></div>
-          <p>{event.outcome}</p>
+      <div
+        ref={viewportRef}
+        className="workscape-viewport"
+        onWheel={handleWheel}
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={endPointer}
+        onPointerCancel={endPointer}
+      >
+        <div className="workscape-space" style={{ transform: `translate3d(${camera.x}px, ${camera.y}px, 0) scale(${camera.scale})` }}>
+          <div className="space-grid" />
+          <svg className="space-connections" viewBox={`0 0 ${SPACE_WIDTH} ${SPACE_HEIGHT}`} aria-hidden="true">
+            {departments.map((department, index) => (
+              <g key={department.name}>
+                <path className="space-flow main" style={{ '--flow-delay': `${index * 180}ms` } as CSSProperties} d={`M 1100 700 C ${1100 + (department.x - 1100) * .42} ${610 + index * 38}, ${1100 + (department.x - 1100) * .72} ${department.y}, ${department.x} ${department.y}`} />
+                {departmentIsExpanded(department.name) && department.filesInSpace.map((file) => (
+                  <path className="space-flow branch" style={{ '--flow-delay': `${260 + file.sequence * 150}ms` } as CSSProperties} key={file.path} d={`M ${department.x} ${department.y} Q ${(department.x + file.x) / 2} ${(department.y + file.y) / 2 - 35}, ${file.x} ${file.y}`} />
+                ))}
+              </g>
+            ))}
+            <path className="space-flow stable-line" d={`M 1100 700 C 1100 870, 1100 1010, ${stableCenter.x} ${stableCenter.y}`} />
+          </svg>
+
+          <button className="project-core" style={{ left: 1100, top: 700 } as CSSProperties} onClick={() => setSelected(null)}>
+            <span className="project-radar radar-outer" /><span className="project-radar radar-inner" />
+            <Sparkles /><strong>{data.project}</strong><small>request complete</small>
+          </button>
+
+          {departments.map((department) => {
+            const expanded = departmentIsExpanded(department.name)
+            return (
+              <div className="department-constellation" key={department.name}>
+                <button
+                  className={`department-node ${expanded ? 'expanded' : 'collapsed'}`}
+                  style={{ left: department.x, top: department.y, '--cluster-accent': department.filesInSpace[0] ? profileFor(department.filesInSpace[0]).accent : '#ff8a3d' } as CSSProperties}
+                  onClick={() => toggleDepartment(department.name)}
+                  aria-expanded={expanded}
+                >
+                  <span className="department-ring" /><Box /><strong>{department.name}</strong><small>{department.files} elements</small>
+                </button>
+                {expanded && department.filesInSpace.map((file) => {
+                  const profile = profileFor(file)
+                  return (
+                    <button
+                      className={`visual-node ${selected?.path === file.path ? 'selected' : ''}`}
+                      style={{ left: file.x, top: file.y, '--node-accent': profile.accent, '--node-delay': `${420 + file.sequence * 150}ms` } as CSSProperties}
+                      key={file.path}
+                      onClick={() => setSelected(file)}
+                    >
+                      <ArtifactVisual file={file} />
+                      <span className="visual-node-copy"><strong>{fileName(file.path)}</strong><small>{profile.mood}</small></span>
+                      <i className="change-volume">{file.additions + file.deletions}</i>
+                    </button>
+                  )
+                })}
+              </div>
+            )
+          })}
+
+          <div className="stable-constellation">
+            <button className={`stable-cluster ${stableExpanded ? 'expanded' : ''}`} style={{ left: stableCenter.x, top: stableCenter.y }} onClick={() => setStableExpanded((current) => !current)} aria-expanded={stableExpanded}>
+              <span /><CircleDot /><strong>Stable field</strong><small>{data.change.summary.stableAnchors} anchors</small>
+            </button>
+            {stableExpanded && data.change.stableAnchors.slice(0, 10).map((anchor, index) => {
+              const angle = (-165 + index * (330 / Math.max(data.change.stableAnchors.length - 1, 1))) * Math.PI / 180
+              const x = stableCenter.x + Math.cos(angle) * 430
+              const y = stableCenter.y + Math.sin(angle) * 125
+              return <button className="stable-node" key={anchor.path} style={{ left: x, top: y, '--stable-delay': `${index * 55}ms` } as CSSProperties} title={anchor.path}><i /><span>{fileName(anchor.path)}</span></button>
+            })}
+          </div>
         </div>
 
-        <div className="workscape-stage-layout">
-          <div className="workscape-map-frame">
-            <ProjectMap data={data} active={active} svgRef={svgRef} />
-            <div className="workscape-playback">
-              <button className="workscape-icon-button light" onClick={() => setPlaying((current) => !current)} title={playing ? 'Pause replay' : 'Play replay'} aria-label={playing ? 'Pause replay' : 'Play replay'}>
-                {playing ? <Pause /> : <Play />}
-              </button>
-              <button className="workscape-icon-button light" onClick={replay} title="Replay from start" aria-label="Replay from start"><RotateCcw /></button>
-              <div className="workscape-progress"><i style={{ width: `${progress}%` }} /></div>
-              <span>{String(active + 1).padStart(2, '0')} / {String(data.events.length).padStart(2, '0')}</span>
-            </div>
-          </div>
+        <div className="space-status">
+          <span><i className="active" />+{data.change.summary.additions} / -{data.change.summary.deletions}</span>
+          <span><i className="quiet" />{data.summary.sourceFiles} source elements</span>
+        </div>
 
-          <aside className="workscape-focus" style={{ '--event-accent': event.accent } as CSSProperties}>
-            <span className="workscape-event-number">{event.label}</span>
-            <div className="workscape-focus-icon">{(() => { const Icon = EVENT_ICONS[active] ?? Sparkles; return <Icon /> })()}</div>
-            <span className="workscape-eyebrow">In focus</span>
-            <h2>{event.title}</h2>
-            <p>{event.outcome}</p>
-            <strong>{event.signal}</strong>
-            <div className="workscape-file-list">
-              {event.files.map((file) => <span key={file}><Check />{file}</span>)}
+        {selected && (
+          <aside ref={lensScrollRef} className="artifact-lens" style={{ '--lens-accent': profileFor(selected).accent } as CSSProperties}>
+            <div className="artifact-lens-content">
+              <button className="lens-close" onClick={() => setSelected(null)} title="Close" aria-label="Close"><X /></button>
+              <span className="lens-kind">{profileFor(selected).kind}</span>
+              <SnapshotComparison file={selected} />
+              <div className="lens-copy">
+                <small>{selected.department}</small>
+                <h2>{fileName(selected.path)}</h2>
+                <p>{selected.snapshot?.focus ?? profileFor(selected).mood}</p>
+              </div>
+              <div className="lens-signals">{selected.signals?.map((signal) => <span key={signal}>{signal}</span>)}</div>
+              <div className="lens-delta"><span>+{selected.additions}</span><span>-{selected.deletions}</span><code>{selected.path}</code></div>
             </div>
           </aside>
-        </div>
-      </section>
-
-      <nav className="workscape-timeline" aria-label="Project sequence">
-        {data.events.map((item, index) => {
-          const Icon = EVENT_ICONS[index] ?? Sparkles
-          return (
-            <button
-              key={item.id}
-              className={`${index === active ? 'active' : ''} ${index < active ? 'passed' : ''}`}
-              onClick={() => { setActive(index); setPlaying(false) }}
-              style={{ '--event-accent': item.accent } as CSSProperties}
-            >
-              <span><Icon /></span>
-              <small>{item.label}</small>
-              <strong>{item.title}</strong>
-            </button>
-          )
-        })}
-      </nav>
-
-      <section className="workscape-metrics-band">
-        <div className="workscape-section-heading"><span className="workscape-eyebrow">Measured output</span><h2>Current build, at a glance</h2></div>
-        <div className="workscape-metrics">
-          <div><span>Source</span><strong>{data.summary.sourceLines.toLocaleString()}</strong><small>lines across {data.summary.sourceFiles} files</small></div>
-          <div><span>Coverage</span><strong>{data.summary.routes}</strong><small>public and role routes</small></div>
-          <div><span>Interface</span><strong>{data.summary.components}</strong><small>component functions</small></div>
-          <div><span>Decisions</span><strong>{data.summary.decisionDocs + data.summary.designDocs}</strong><small>plan, requirement, and design artifacts</small></div>
-        </div>
-      </section>
-
-      <section className="workscape-detail-grid">
-        <div className="workscape-artifacts">
-          <div className="workscape-section-heading"><span className="workscape-eyebrow">Artifact density</span><h2>Where the work lives</h2></div>
-          <div className="artifact-bars">
-            {data.artifacts.slice(0, 7).map((artifact) => (
-              <div key={artifact.extension}>
-                <span>.{artifact.extension}</span>
-                <div><i style={{ width: `${Math.max(4, (artifact.lines / largestArtifact) * 100)}%` }} /></div>
-                <strong>{artifact.lines.toLocaleString()}</strong>
-                <small>{artifact.files} files</small>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="workscape-stack">
-          <div className="workscape-section-heading"><span className="workscape-eyebrow">Version ledger</span><h2>Verified implementation stack</h2></div>
-          <div className="stack-table" role="table" aria-label="Installed package versions">
-            <div className="stack-row stack-head" role="row"><span>Element</span><span>Requested</span><span>Installed</span></div>
-            {data.stack.map((item) => <div className="stack-row" role="row" key={item.name}><strong>{item.name}</strong><code>{item.requested}</code><code>{item.installed}</code></div>)}
-          </div>
-          <p className="workscape-source-note"><FileCode2 />{data.source.note}</p>
-          <small className="workscape-generated">Manifest refreshed {new Date(data.generatedAt).toLocaleString()}</small>
-        </div>
-      </section>
+        )}
+      </div>
     </main>
   )
 }
