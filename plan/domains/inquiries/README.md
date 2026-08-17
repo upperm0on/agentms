@@ -12,7 +12,7 @@ Previous system behavior:
 
 AgentMS direction:
 
-- First release should avoid complex direct booking/payment unless required.
+- First release does not include direct booking or payment.
 - Start with lead/contact flow: student expresses interest, agent follows up.
 - Track inquiry state so agents can manage demand.
 - Keep reservation-like concepts for future escalation.

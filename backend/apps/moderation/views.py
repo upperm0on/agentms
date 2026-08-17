@@ -1,6 +1,7 @@
 from rest_framework import generics, permissions, response, views, viewsets
 
 from apps.agents.models import AgentProfile
+from apps.common.cache import bump_cache_version
 from apps.agents.serializers import AgentProfileSerializer
 from apps.common.permissions import IsAdminRole, IsStudent
 from apps.listings.models import Listing
@@ -80,6 +81,7 @@ class AdminListingModerationView(views.APIView):
             moderation_status=request.data["moderation_status"],
             note=request.data.get("note", ""),
         )
+        bump_cache_version("public-listings")
         return response.Response(ListingSerializer(listing, context={"request": request}).data)
 
 

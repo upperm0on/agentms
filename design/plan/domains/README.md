@@ -11,5 +11,4 @@ The most important MVP domain surfaces are:
 - Trust and moderation.
 - Admin operations.
 
-Payments and marketplace remain deferred.
-
+Payments are excluded. Marketplace remains deferred.

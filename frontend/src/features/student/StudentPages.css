@@ -1,0 +1,38 @@
+.metric-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 14px; margin-bottom: 32px; }.metric-grid.four { grid-template-columns: repeat(4, minmax(0,1fr)); }.metric { display: grid; gap: 5px; min-height: 110px; padding: 17px; background: #fff; box-shadow: var(--shadow); }.metric span { color: var(--muted); font-size: 12px; font-weight: 700; }.metric strong { font-size: 27px; }.metric small { font-size: 11px; }.metric.success strong { color: var(--green); }.metric.warning strong { color: var(--amber); }.metric.danger strong { color: var(--red); }.metric.info strong { color: var(--blue); }.dashboard-greeting { margin-bottom: 25px; }.student-page { padding-top: 34px; }.student-dashboard { display: grid; grid-template-columns: minmax(0,1fr) 360px; gap: 30px; margin-bottom: 50px; }.inquiry-timeline { display: grid; background: #fff; box-shadow: var(--shadow); }.inquiry-timeline button { display: grid; grid-template-columns: 35px minmax(0,1fr) auto 20px; align-items: center; gap: 11px; min-height: 70px; padding: 12px 16px; border: 0; background: transparent; text-align: left; box-shadow: inset 0 -1px 0 #edf1ef; }.timeline-icon, .record-icon { width: 32px; height: 32px; display: grid; place-items: center; color: var(--muted); background: #edf0ee; border-radius: 50%; }.timeline-icon.success, .record-icon.success { color: var(--green); background: var(--green-soft); }.timeline-icon.warning, .record-icon.warning { color: var(--amber); background: var(--amber-soft); }.timeline-icon.info, .record-icon.info { color: var(--blue); background: var(--blue-soft); }.inquiry-timeline div { display: grid; gap: 2px; }.inquiry-timeline strong { font-size: 13px; }.inquiry-timeline p { margin: 0; color: var(--muted); font-size: 12px; }.inquiry-timeline > span { color: var(--muted); font-size: 11px; }.inquiry-notification-place { align-self: start; padding: 19px; background: #fff; box-shadow: var(--shadow); }.panel-heading { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }.panel-heading h2 { margin: 3px 0 0; font-size: 19px; }.panel-heading > svg { color: var(--teal); }.inquiry-update { display: flex; gap: 9px; padding: 13px 0; box-shadow: inset 0 -1px 0 #edf1ef; }.inquiry-update div { display: grid; gap: 3px; }.inquiry-update strong { font-size: 12px; }.inquiry-update p { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.4; }.inquiry-update small { font-size: 10px; }.tabs { display: flex; gap: 18px; margin-bottom: 16px; box-shadow: inset 0 -1px 0 #e4ebe7; }.tabs button { min-height: 37px; padding: 0 2px; border: 0; color: var(--muted); background: transparent; font-size: 13px; font-weight: 750; }.tabs button.active { color: var(--teal); box-shadow: inset 0 -2px var(--teal); }.tabs span { padding: 1px 5px; background: var(--soft); border-radius: 999px; font-size: 10px; }.record-list { display: grid; background: #fff; box-shadow: var(--shadow); }.record-row { display: grid; grid-template-columns: 38px minmax(160px,1fr) 150px 130px 18px; align-items: center; gap: 16px; min-height: 74px; padding: 12px 16px; border: 0; background: transparent; text-align: left; box-shadow: inset 0 -1px 0 #edf1ef; }.record-row:hover { background: #f8fbf9; }.record-main { display: grid; gap: 3px; }.record-main strong { font-size: 13px; }.record-main span, .record-date span { color: var(--muted); font-size: 11px; }.record-date { display: grid; gap: 3px; }.record-date strong { font-size: 11px; }.result-count { margin-left: auto; color: var(--muted); font-size: 12px; }.form-section { display: grid; grid-template-columns: 200px minmax(0,1fr); gap: 30px; padding: 25px 0; box-shadow: inset 0 -1px 0 #e4ebe7; }.form-section-heading h2 { margin: 0 0 6px; font-size: 18px; }.form-section-heading p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.45; }.form-actions { display: flex; justify-content: flex-end; padding-top: 24px; }.toggle-list { display: grid; }.toggle-list label { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 64px; padding: 10px 0; box-shadow: inset 0 -1px 0 #edf1ef; cursor: pointer; }.toggle-list div { display: grid; gap: 3px; }.toggle-list strong { font-size: 13px; }.toggle-list span { color: var(--muted); font-size: 11px; }.toggle-list input { position: absolute; opacity: 0; }.toggle-list i { width: 37px; height: 21px; display: block; flex: 0 0 auto; padding: 3px; background: #cbd6d0; border-radius: 999px; transition: .16s; }.toggle-list i::after { content: ''; display: block; width: 15px; height: 15px; background: #fff; border-radius: 50%; transition: .16s; }.toggle-list input:checked + i { background: var(--teal); }.toggle-list input:checked + i::after { transform: translateX(16px); }
+.student-page .metric-grid { margin-bottom: 28px; }
+.student-page .metric { min-height: auto; padding: 4px 0 14px; background: transparent; box-shadow: inset 0 -1px 0 #dfe8e2; }
+.student-page .metric span { color: #364a41; font-size: 13px; font-weight: 850; }
+.student-page .metric strong { font-size: clamp(34px, 5vw, 54px); line-height: .95; font-weight: 950; letter-spacing: 0; }
+.student-page .metric small { color: #53665e; font-size: 12px; font-weight: 760; }
+.student-page .metric-icon { top: 4px; right: 0; }
+.student-action-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: -10px 0 24px;
+}
+
+.student-action-strip button {
+  min-width: 44px;
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 6px;
+  color: var(--teal);
+  background: var(--soft);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.student-action-strip button:hover {
+  background: #dcefe7;
+}
+
+.student-action-strip svg {
+  flex: 0 0 auto;
+}
+@media (max-width: 760px) { .student-page { padding-top: 22px; }.student-page .dashboard-greeting { gap: 14px; }.student-page .dashboard-greeting .btn { width: 100%; }.student-page .metric-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 9px; }.student-page .metric { min-height: 92px; padding: 8px 0 10px; }.student-page .metric span { font-size: 11px; }.student-page .metric strong { font-size: 30px; }.student-page .metric small { font-size: 10px; line-height: 1.25; }.student-page .metric-icon { width: 28px; height: 28px; margin-bottom: 4px; }.student-action-strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin: 0 0 22px; }.student-action-strip button { min-height: 48px; padding: 0 6px; flex-direction: column; gap: 4px; font-size: 11px; }.student-action-strip svg { width: 18px; height: 18px; }.listing-card { min-width: 0; }.listing-content { gap: 9px; padding: 13px; }.listing-title strong { font-size: 14px; line-height: 1.25; }.listing-bottom { align-items: flex-start; flex-direction: column; gap: 4px; }.listing-signals { grid-template-columns: repeat(3, 28px); gap: 8px; }.signal-tag, .listing-signals .signal-tag, .signal-slot { width: 28px; height: 28px; }.topbar .brand strong { display: none; }.topbar .brand span { width: 34px; height: 34px; }.prototype-rail .segmented button { min-height: 30px; padding: 0 9px; font-size: 11px; }.icon-btn { width: 38px; height: 38px; }.row-actions { gap: 5px; }.data-table { min-width: 640px; } }

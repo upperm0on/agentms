@@ -19,7 +19,8 @@ Stable decisions:
 - Managers are not the MVP user target.
 - Listings are agent-owned.
 - Availability freshness is a first-class feature.
-- Marketplace and real payment capture are deferred from MVP.
-- Guest payment intent creation must not require authentication; remembered history and preferences require a student account.
+- Marketplace is deferred from MVP.
+- Payments are excluded from the platform.
+- Remembered history and preferences require a student account.
 - Old credentials from `prev/` must not be reused.
 - Waterfall artifacts must be completed and reviewed before broad implementation.

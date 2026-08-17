@@ -11,8 +11,7 @@ The product direction is agent-first: agents publish and maintain listings, stud
 - Agent dashboard, listings, inquiries, profile, verification, and settings screens.
 - Admin dashboard, agent review, listing moderation, reports, locations, and users screens.
 - Django REST API organized by domain apps.
-- Demo seed data for listings, agents, locations, inquiries, notifications, moderation, users, and payment intents.
-- Guest payment intent creation without requiring an authenticated student account.
+- Demo seed data for listings, agents, locations, inquiries, notifications, moderation, and users.
 - Icon-first listing signal tags for availability, freshness, and verified agents.
 
 ## Project Structure
@@ -29,7 +28,6 @@ agentms/
       locations/
       moderation/
       notifications/
-      payments/
     backend/
       settings.py
       urls.py
@@ -74,6 +72,17 @@ backend/db.sqlite3
 ```
 
 This file is intentionally treated as local development data and should not be committed.
+
+### Backend Cache
+
+The backend uses Django's cache framework for read-heavy public data. By default it uses local memory so development works without extra services. Set `REDIS_URL` to use Redis:
+
+```bash
+export REDIS_URL=redis://127.0.0.1:6379/1
+red/bin/python backend/manage.py runserver 127.0.0.1:8001
+```
+
+Cached API data currently covers anonymous public listings and shared location/reference endpoints. Authenticated student, agent, and admin responses are not shared through the public cache because they can contain user-specific state.
 
 ## Frontend Setup
 
@@ -145,7 +154,6 @@ The backend routes are mounted under:
 /api/moderation/
 /api/admin/
 /api/notifications/
-/api/payments/
 ```
 
 See `backend/docs/database-schema.md` and `plan/architecture/api-surface.md` for more context.
@@ -162,8 +170,8 @@ See `backend/docs/database-schema.md` and `plan/architecture/api-surface.md` for
 ## Current Limitations
 
 - Production settings are not yet environment-driven.
-- Real payment provider integration is not complete.
-- Guest payment intent API exists, but the frontend booking/payment flow still needs final wiring.
+- Redis should be configured in deployed environments with `REDIS_URL`; local memory cache is only a development fallback.
+- Payments, deposits, checkout, wallets, and booking payment flows are intentionally excluded from the platform.
 - Authentication is still prototype-level for the frontend experience.
 - Automated test coverage needs to be expanded across API permissions and frontend workflows.
 - The repository boundary should be clarified before the final GitHub push.
@@ -171,4 +179,3 @@ See `backend/docs/database-schema.md` and `plan/architecture/api-surface.md` for
 ## Handoff
 
 Read `PROGRESS.md` before continuing. It records what was incomplete before this session, what was completed, and the recommended next steps.
-

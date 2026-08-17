@@ -29,7 +29,6 @@ urlpatterns = [
     path('api/moderation/', include('apps.moderation.urls')),
     path('api/admin/', include('apps.moderation.admin_urls')),
     path('api/notifications/', include('apps.notifications.urls')),
-    path('api/payments/', include('apps.payments.urls')),
 ]
 
 if settings.DEBUG:

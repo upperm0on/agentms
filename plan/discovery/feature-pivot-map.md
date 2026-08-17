@@ -80,7 +80,7 @@ Previous features:
 
 AgentMS pivot:
 
-- First release should avoid complex direct booking/payment unless required.
+- First release does not include direct booking or payment.
 - Start with lead/contact flow: student expresses interest, agent follows up.
 - Track inquiry state so agents can manage demand.
 - Keep reservation-like concepts for future escalation.
@@ -119,17 +119,9 @@ Previous features:
 
 AgentMS pivot:
 
-- Payments are not MVP-critical unless the business requires paid agent leads, deposits, subscriptions, or commissions.
-- New keys and auth must be generated; do not reuse old secrets.
-- Payment design should be deferred until listing and inquiry workflows are stable.
-
-Potential future payment models:
-
-- Agent subscription
-- Pay-per-lead
-- Featured listings
-- Student deposit escrow
-- Agent commission tracking
+- Payments are excluded from the active platform.
+- Do not build payment intent, checkout, wallet, escrow, or payment-history flows.
+- Old payment credentials must not be reused.
 
 ## Reviews, Ratings, And Trust
 
@@ -215,7 +207,6 @@ MVP notifications:
 Future notifications:
 
 - Viewing reminders
-- Deposit/payment receipts
 - Weekly agent performance summary
 - Student saved-search alerts
 

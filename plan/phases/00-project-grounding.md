@@ -16,7 +16,7 @@ Deliverables:
 Exit criteria:
 
 - The team agrees that AgentMS is agent-first, not manager-first.
-- The MVP excludes marketplace and full direct payments unless explicitly reintroduced.
+- The MVP excludes marketplace and payments.
 - Old auth/secrets are marked unusable.
 
 Primary documents:

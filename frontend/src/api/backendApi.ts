@@ -14,6 +14,7 @@ import {
 } from './mockApi'
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL ?? '/api'
+const DEMO_AUTH_ENABLED = import.meta.env.VITE_USE_DEMO_AUTH !== 'false'
 const BACKEND_RETRY_MS = 10_000
 const FRONTEND_DATABASE_CACHE_MS = 60_000
 const FRONTEND_LISTINGS_CACHE_MS = 300_000
@@ -163,8 +164,16 @@ type ApiNotification = {
 }
 
 function authHeader(role: Role) {
+  if (!DEMO_AUTH_ENABLED) return {}
   const credentials = devCredentials[role]
   return credentials ? { Authorization: `Basic ${btoa(`${credentials.email}:${credentials.password}`)}` } : {}
+}
+
+function cookieValue(name: string) {
+  return document.cookie
+    .split('; ')
+    .find((row) => row.startsWith(`${name}=`))
+    ?.split('=')[1] ?? ''
 }
 
 function databaseCacheKey(role: Role, filters: ListingFilters) {
@@ -275,10 +284,15 @@ async function apiFetch<T>(path: string, role: Role, init: RequestInit = {}): Pr
   const headers = new Headers(init.headers)
   headers.set('Accept', 'application/json')
   if (init.body) headers.set('Content-Type', 'application/json')
+  if (!['GET', 'HEAD', 'OPTIONS', 'TRACE'].includes(method.toUpperCase())) {
+    const csrfToken = cookieValue('csrftoken')
+    if (csrfToken) headers.set('X-CSRFToken', decodeURIComponent(csrfToken))
+  }
   Object.entries(authHeader(role)).forEach(([key, value]) => headers.set(key, value))
 
   const request = fetch(`${API_BASE}${path}`, {
     ...init,
+    credentials: 'same-origin',
     headers,
   }).then((response) => {
     if (!response.ok) {
@@ -292,6 +306,54 @@ async function apiFetch<T>(path: string, role: Role, init: RequestInit = {}): Pr
 
   if (inflightKey) apiGetInflight.set(inflightKey, request)
   return request
+}
+
+export type BackendAuthUser = ReturnType<typeof mapUser>
+
+export async function loginBackend(email: string, password: string) {
+  const user = await apiFetch<ApiUser>('/auth/login/', 'public', {
+    method: 'POST',
+    body: JSON.stringify({ email, password }),
+  })
+  invalidateBackendDatabaseCache()
+  return mapUser(user)
+}
+
+export async function registerBackend(payload: {
+  email: string
+  password: string
+  firstName: string
+  lastName: string
+  phone?: string
+  role: 'student' | 'agent'
+}) {
+  const user = await apiFetch<ApiUser>('/auth/register/', 'public', {
+    method: 'POST',
+    body: JSON.stringify({
+      email: payload.email,
+      password: payload.password,
+      first_name: payload.firstName,
+      last_name: payload.lastName,
+      phone: payload.phone ?? '',
+      role: payload.role,
+    }),
+  })
+  invalidateBackendDatabaseCache()
+  return mapUser(user)
+}
+
+export async function loginWithGoogleBackend(credential: string, role: 'student' | 'agent') {
+  const user = await apiFetch<ApiUser>('/auth/google/', 'public', {
+    method: 'POST',
+    body: JSON.stringify({ credential, role }),
+  })
+  invalidateBackendDatabaseCache()
+  return mapUser(user)
+}
+
+export async function logoutBackend() {
+  await apiFetch<void>('/auth/logout/', 'public', { method: 'POST' })
+  invalidateBackendDatabaseCache()
 }
 
 async function apiList<T>(path: string, role: Role): Promise<T[]> {

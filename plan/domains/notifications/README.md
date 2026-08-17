@@ -30,6 +30,5 @@ MVP notifications:
 Future notifications:
 
 - Viewing reminders
-- Deposit/payment receipts
 - Weekly agent performance summary
 - Student saved-search alerts

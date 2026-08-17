@@ -1,5 +1,8 @@
+from datetime import timedelta
 from decimal import Decimal
+import shutil
 
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
 from django.utils import timezone
@@ -10,7 +13,6 @@ from apps.listings.models import Amenity, Listing, ListingImage, ListingRule, Pr
 from apps.locations.models import Area, Campus, Region
 from apps.moderation.models import AuditLog, ListingReport, ModerationAction
 from apps.notifications.models import Notification
-from apps.payments.models import PaymentIntent
 
 
 User = get_user_model()
@@ -22,26 +24,55 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         now = timezone.now()
 
+        self.ensure_listing_media_assets()
         users = self.create_users()
         locations = self.create_locations()
         amenities = self.create_amenities()
         agents = self.create_agents(users, locations, now)
         properties = self.create_properties(users, locations, amenities)
         listings = self.create_listings(agents, properties, amenities, now)
+        listings.update(self.create_expanded_hostel_inventory(users, locations, amenities, now, count=50))
         self.create_saved_listings(users, listings)
         inquiries = self.create_inquiries(users, agents, listings, now)
         reports = self.create_reports(users, listings, now)
         self.create_moderation(users, agents, listings, reports, now)
         self.create_notifications(users, now)
-        self.create_payment_intents(users, listings)
 
         self.stdout.write(self.style.SUCCESS("AgentMS demo database populated."))
 
+    def ensure_listing_media_assets(self):
+        source_dir = settings.BASE_DIR.parent / "frontend" / "public" / "images"
+        target_dir = settings.MEDIA_ROOT / "listings" / "images"
+        target_dir.mkdir(parents=True, exist_ok=True)
+        for image_name in ["room-1.png", "room-2.png", "room-3.png", "room-4.png", "room-5.jpeg", "room-6.jpeg"]:
+            source = source_dir / image_name
+            target = target_dir / image_name
+            if source.exists():
+                shutil.copyfile(source, target)
+
+    def demo_listing_image(self, index):
+        names = ["room-1.png", "room-2.png", "room-3.png", "room-4.png", "room-5.jpeg", "room-6.jpeg"]
+        return f"listings/images/{names[index % len(names)]}"
+
+    def sync_listing_images(self, *, listing, uploaded_by, caption, start_index):
+        for offset in range(3):
+            ListingImage.objects.update_or_create(
+                listing=listing,
+                sort_order=offset,
+                defaults={
+                    "caption": f"{caption} image {offset + 1}",
+                    "image": self.demo_listing_image(start_index + offset),
+                    "is_cover": offset == 0,
+                    "uploaded_by": uploaded_by,
+                },
+            )
+
     def upsert_user(self, *, email, password, **fields):
-        user, _created = User.objects.get_or_create(email=email, defaults=fields)
+        user, created = User.objects.get_or_create(email=email, defaults=fields)
         for key, value in fields.items():
             setattr(user, key, value)
-        user.set_password(password)
+        if created:
+            user.set_password(password)
         user.save()
         return user
 
@@ -177,6 +208,16 @@ class Command(BaseCommand):
             "Study lounge",
             "Laundry",
             "Kitchenette",
+            "CCTV",
+            "Generator",
+            "Gym",
+            "Balcony",
+            "Wardrobe",
+            "Tiled floor",
+            "Common room",
+            "Hot water",
+            "On-site caretaker",
+            "Prepaid electricity",
         ]
         amenities = {}
         for name in names:
@@ -285,13 +326,13 @@ class Command(BaseCommand):
         specs = [
             ("sunlit", agents["ama"], properties["unity"], "Sunlit single room", "A quiet, furnished single room with reliable water and a short walk to the KNUST commercial area.", "published", "available", "approved", "single", "mixed", 1, 1, "4200.00", "academic_year", "500.00", "150.00", True, ["Wi-Fi", "Study desk", "Water tank", "Security"], "agent_verified", "Ama Mensah", 286, 18, ["No smoking", "Visitors until 9 PM"], "room-1.png"),
             ("kotei", agents["kojo"], properties["north_gate"], "Two-in-a-room at Kotei", "Bright shared room with private washroom, kitchen access and regular shuttle service to campus.", "published", "limited", "approved", "two_in_room", "female", 2, 1, "2850.00", "academic_year", "300.00", "120.00", False, ["Private bath", "Shuttle", "Kitchen", "Backup power"], "caretaker", "North Gate caretaker", 174, 11, ["Female residents only", "No pets"], "room-2.png"),
-            ("chamber", agents["nana"], properties["bomso"], "Chamber and hall", "Self-contained chamber and hall for students who want more space and privacy.", "published", "available", "flagged", "apartment", "mixed", 2, 2, "6900.00", "year", "800.00", "200.00", True, ["Kitchen", "Parking", "Water tank"], "owner", "Property owner", 93, 4, ["One-year agreement", "Inspection before payment"], "room-3.png"),
+            ("chamber", agents["nana"], properties["bomso"], "Chamber and hall", "Self-contained chamber and hall for students who want more space and privacy.", "published", "available", "flagged", "apartment", "mixed", 2, 2, "6900.00", "year", "800.00", "200.00", True, ["Kitchen", "Parking", "Water tank"], "owner", "Property owner", 93, 4, ["One-year agreement", "Inspection before commitment"], "room-3.png"),
             ("legon", agents["ama"], properties["pentagon"], "Affordable shared room", "Modern shared student room close to the UG shuttle route with shared study lounge.", "published", "available", "approved", "four_in_room", "mixed", 4, 2, "5100.00", "academic_year", "600.00", "180.00", False, ["Wi-Fi", "Air conditioning", "Study lounge", "Laundry"], "agent_verified", "Ama Mensah", 412, 29, ["Student ID required", "No overnight visitors"], "room-4.png"),
             ("ucc", agents["kojo"], properties["cape"], "Private studio near UCC", "Compact self-contained studio with kitchenette and easy transport to UCC Science Gate.", "published", "full", "approved", "studio", "mixed", 1, 0, "4800.00", "academic_year", "450.00", "150.00", False, ["Kitchenette", "Private bath", "Water tank"], "manager", "Cape Coast Studio manager", 207, 14, ["Quiet hours after 10 PM", "No subletting"], "room-5.jpeg"),
             ("boadi", agents["ama"], properties["green"], "Three-in-a-room at Boadi", "Budget shared room in a gated compound with a direct car route to KNUST.", "unpublished", "available", "pending", "three_in_room", "male", 3, 3, "2400.00", "academic_year", "250.00", "100.00", True, ["Security", "Water tank", "Parking"], "porter", "Green Court porter", 61, 2, ["Male residents only", "Keep compound gate locked"], "room-6.jpeg"),
         ]
         listings = {}
-        for key, agent, prop, title, description, status, availability, moderation, room_type, gender, capacity, slots, price, period, deposit, fee, negotiable, amenity_names, source_type, source_name, views, inquiries, rules, image in specs:
+        for spec_index, (key, agent, prop, title, description, status, availability, moderation, room_type, gender, capacity, slots, price, period, deposit, fee, negotiable, amenity_names, source_type, source_name, views, inquiries, rules, image) in enumerate(specs):
             listing, _ = Listing.objects.update_or_create(
                 agent=agent,
                 property=prop,
@@ -321,17 +362,176 @@ class Command(BaseCommand):
             listing.amenities.set([amenities[name] for name in amenity_names])
             for index, rule in enumerate(rules):
                 ListingRule.objects.update_or_create(listing=listing, text=rule, defaults={"sort_order": index})
-            ListingImage.objects.update_or_create(
-                listing=listing,
-                caption=f"{title} cover image",
+            self.sync_listing_images(listing=listing, uploaded_by=agent.user, caption=title, start_index=spec_index)
+            listings[key] = listing
+        return listings
+
+    def create_expanded_hostel_inventory(self, users, locations, amenities, now, count=50):
+        region_specs = [
+            ("Eastern", "Koforidua Technical University", "KTU", "Koforidua", ["Adweso", "Koforidua Zongo", "Effiduase"]),
+            ("Northern", "University for Development Studies", "UDS", "Tamale", ["Nyankpala", "Dungu", "Sagnarigu"]),
+            ("Volta", "Ho Technical University", "HTU", "Ho", ["Ho Dome", "Ahoe", "Bankoe"]),
+            ("Bono", "Sunyani Technical University", "STU", "Sunyani", ["Penkwase", "New Dormaa", "Area Four"]),
+            ("Western", "Takoradi Technical University", "TTU", "Takoradi", ["Anaji", "Effia-Kuma", "Kwesimintsim"]),
+            ("Greater Accra", "GIMPA", "GIMPA", "Accra", ["Achimota", "Dzorwulu", "Legon"]),
+            ("Ashanti", "KNUST", "KNUST", "Kumasi", ["Ayigya", "Kentinkrono", "Atonsu"]),
+            ("Central", "University of Cape Coast", "UCC", "Cape Coast", ["Kwaprow", "Pedu", "Apewosika"]),
+        ]
+        for region_name, campus_name, abbreviation, city, area_names in region_specs:
+            region, _ = Region.objects.update_or_create(name=region_name, defaults={"is_active": True})
+            campus, _ = Campus.objects.update_or_create(
+                region=region,
+                name=campus_name,
+                defaults={"abbreviation": abbreviation, "city": city, "is_active": True},
+            )
+            for area_name in area_names:
+                key = area_name.lower().replace("-", "_").replace(" ", "_")
+                locations[key], _ = Area.objects.update_or_create(campus=campus, name=area_name, defaults={"is_active": True})
+
+        area_keys = [
+            "ayeduase", "kotei", "bomso", "boadi", "east_legon", "amamoma",
+            "adweso", "koforidua_zongo", "effiduase", "nyankpala", "dungu", "sagnarigu",
+            "ho_dome", "ahoe", "bankoe", "penkwase", "new_dormaa", "area_four",
+            "anaji", "effia_kuma", "kwesimintsim", "achimota", "dzorwulu", "legon",
+            "ayigya", "kentinkrono", "atonsu", "kwaprow", "pedu", "apewosika",
+        ]
+        hostel_names = [
+            "Akwaaba Hall", "Sankofa Court", "Nhyira Lodge", "Adinkra Place", "Aseda Heights",
+            "Obaahemaa Residence", "Mensah Lodge", "Agyemang House", "Osei Flats", "Baah Hostel",
+            "Ankrah Inn", "Akua Gardens", "Bediako House", "Kofi Corner", "Abena Rest",
+            "Odwira Hostel", "Mission Hill", "Grace Place", "Faith Residences", "Hope Suites",
+            "Unity Annex", "Royal Student Village", "Palm Grove Hostel", "Cedar Court", "Maple Lodge",
+        ]
+        first_names = [
+            "Michael", "Daniel", "Emmanuel", "Paul", "John", "Grace", "Deborah", "Esther", "David",
+            "Jonathan", "Samuel", "Mary", "Peter", "Joseph", "Evelyn", "Ruth", "Joshua", "Benjamin",
+        ]
+        last_names = [
+            "Mensah", "Boateng", "Osei", "Owusu", "Asante", "Appiah", "Agyemang", "Addo", "Darko",
+            "Baah", "Nkrumah", "Ankrah", "Kumi", "Yeboah", "Quartey",
+        ]
+        room_types = ["single", "two_in_room", "three_in_room", "four_in_room", "shared", "studio", "apartment"]
+        genders = ["mixed", "female", "male", "unknown"]
+        periods = ["academic_year", "semester", "month", "year"]
+        sources = ["manager", "porter", "owner", "caretaker", "agent_verified"]
+        amenity_sets = [
+            ["Wi-Fi", "Security", "Water tank", "Study desk"],
+            ["Private bath", "Kitchen", "Backup power", "Laundry"],
+            ["CCTV", "Generator", "Parking", "On-site caretaker"],
+            ["Air conditioning", "Balcony", "Wardrobe", "Tiled floor"],
+            ["Common room", "Hot water", "Prepaid electricity", "Study lounge"],
+        ]
+        rules = [
+            ["Student ID required", "Quiet hours after 10 PM"],
+            ["No smoking", "Visitors until 9 PM"],
+            ["Keep compound gate locked", "No subletting"],
+            ["One-year agreement", "Inspection before commitment"],
+            ["Caretaker check-in required", "No pets"],
+        ]
+        listings = {}
+        for index in range(count):
+            number = index + 1
+            first_name = first_names[index % len(first_names)]
+            last_name = last_names[(index * 3) % len(last_names)]
+            email = f"seed-agent-{number:02d}@agentms.local"
+            phone = f"+233 20 77{number:04d}"
+            agent_user = self.upsert_user(
+                email=email,
+                password="password123",
+                first_name=first_name,
+                last_name=last_name,
+                phone=phone,
+                role="agent",
+                is_email_verified=True,
+                status="active",
+                last_active_at=now,
+            )
+            area_key = area_keys[index % len(area_keys)]
+            area = locations[area_key]
+            verification_status = "verified" if index % 5 != 0 else "pending"
+            agent, _ = AgentProfile.objects.update_or_create(
+                user=agent_user,
                 defaults={
-                    "image": f"listings/images/{image}",
-                    "sort_order": 0,
-                    "is_cover": True,
-                    "uploaded_by": agent.user,
+                    "display_name": f"{first_name} {last_name}",
+                    "business_name": f"{last_name} Campus Rooms {number:02d}",
+                    "bio": f"Campus room agent covering {area.name} and nearby student hostels.",
+                    "phone": phone,
+                    "whatsapp_number": phone,
+                    "profile_photo": f"agents/profile_photos/seed-agent-{number:02d}.jpg",
+                    "verification_status": verification_status,
+                    "verification_notes": "Generated seed agent with deterministic demo identity records.",
+                    "response_rate": Decimal(str(60 + (index * 7) % 39)),
+                    "listing_freshness_score": Decimal(str(58 + (index * 11) % 41)),
                 },
             )
-            listings[key] = listing
+            agent.operating_areas.set([area])
+
+            hostel_name = f"{hostel_names[index % len(hostel_names)]} {area.name} {number:02d}"
+            gender = genders[index % len(genders)]
+            prop, _ = Property.objects.update_or_create(
+                area=area,
+                name=hostel_name,
+                defaults={
+                    "address_text": f"{area.name} campus road, block {number}",
+                    "landmark": f"Near {area.campus.abbreviation or area.campus.name} student route",
+                    "property_type": "hostel",
+                    "gender_policy": gender,
+                    "created_by": agent_user,
+                },
+            )
+            amenity_names = amenity_sets[index % len(amenity_sets)]
+            prop.amenities.set([amenities[name] for name in amenity_names])
+
+            capacity = 1 + (index % 6)
+            if index % 7 == 0:
+                availability = "full"
+                slots = 0
+            elif index % 5 == 0:
+                availability = "limited"
+                slots = max(1, capacity // 2)
+            elif index % 13 == 0:
+                availability = "unavailable"
+                slots = 0
+            else:
+                availability = "available"
+                slots = capacity
+            moderation = "approved" if index % 11 != 0 else "flagged"
+            listing_status = "published"
+            room_type = room_types[index % len(room_types)]
+            price = Decimal(1800 + (index * 275) % 8400)
+            deposit = Decimal(200 + (index * 45) % 900)
+            title = f"{hostel_name} {room_type.replace('_', ' ')}"
+            listing, _ = Listing.objects.update_or_create(
+                agent=agent,
+                property=prop,
+                title=title,
+                defaults={
+                    "description": f"{hostel_name} offers {room_type.replace('_', ' ')} rooms around {area.name}, {area.campus.name}, with practical student amenities and clear availability.",
+                    "status": listing_status,
+                    "availability_status": availability,
+                    "moderation_status": moderation,
+                    "room_type": room_type,
+                    "gender_restriction": gender,
+                    "capacity": capacity,
+                    "available_slots": slots,
+                    "price_amount": price,
+                    "price_period": periods[index % len(periods)],
+                    "deposit_amount": deposit,
+                    "agent_fee_amount": Decimal(100 + (index * 25) % 450),
+                    "negotiable": index % 3 == 0,
+                    "source_type": sources[index % len(sources)],
+                    "source_name": f"{first_name} {last_name}",
+                    "last_confirmed_at": now - timedelta(days=index % 18),
+                    "published_at": now - timedelta(days=index % 35),
+                    "view_count": 45 + (index * 37) % 520,
+                    "inquiry_count": (index * 5) % 42,
+                },
+            )
+            listing.amenities.set([amenities[name] for name in amenity_names])
+            for rule_index, rule in enumerate(rules[index % len(rules)]):
+                ListingRule.objects.update_or_create(listing=listing, text=rule, defaults={"sort_order": rule_index})
+            self.sync_listing_images(listing=listing, uploaded_by=agent_user, caption=hostel_name, start_index=index)
+            listings[f"seed_hostel_{number:02d}"] = listing
         return listings
 
     def create_saved_listings(self, users, listings):
@@ -448,32 +648,5 @@ class Command(BaseCommand):
                     "is_read": is_read,
                     "read_at": now if is_read else None,
                     "metadata": {"source": "seed_demo_data"},
-                },
-            )
-
-    def create_payment_intents(self, users, listings):
-        specs = [
-            ("AGMS-DEMO-GUEST-001", None, "Guest Student", "guest@student.test", "+233 20 123 4567", listings["sunlit"], False),
-            ("AGMS-DEMO-ESI-001", users["student_esi"], "Esi Boateng", "esi@knust.edu.gh", "+233 24 555 0182", listings["legon"], True),
-        ]
-        for reference, student, name, email, phone, listing, wants_history in specs:
-            PaymentIntent.objects.update_or_create(
-                provider_reference=reference,
-                defaults={
-                    "listing": listing,
-                    "student": student,
-                    "guest_name": name,
-                    "guest_email": email,
-                    "guest_phone": phone,
-                    "amount": listing.deposit_amount or listing.price_amount,
-                    "currency": "GHS",
-                    "provider": "manual",
-                    "status": "pending",
-                    "wants_account_history": wants_history,
-                    "metadata": {
-                        "source": "seed_demo_data",
-                        "auth_required": False,
-                        "portal_history_requires_account": True,
-                    },
                 },
             )

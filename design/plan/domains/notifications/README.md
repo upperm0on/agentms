@@ -8,5 +8,4 @@ MVP notification design should include preference and status surfaces for:
 - Stale listing reminder.
 - Admin verification result.
 
-Future reminders and payment receipts are not MVP UI.
-
+Future reminders may be designed later. Payment receipts are excluded.

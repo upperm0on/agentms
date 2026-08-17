@@ -46,7 +46,6 @@ Student discovery:
 - View listing details
 - View agent profile summary
 - Contact or submit inquiry
-- Start a one-time booking/payment intent without creating an account
 - Create or log into a student account only when saving preferences, history, saved rooms, or portal access
 
 Inquiries:
@@ -67,13 +66,6 @@ Admin:
 - Manage campus/location data
 - Basic platform stats
 
-Payments:
-
-- Guest checkout/payment intent creation must not require authentication.
-- Authenticated student accounts are required only for remembered preferences, saved rooms, payment history, inquiry history, and portal features.
-- Guest payment records must collect enough contact detail for follow-up: name, email, and phone.
-- Guest payment records may later be claimed by a student account after verification.
-
 Notifications:
 
 - Email verification
@@ -87,6 +79,8 @@ Notifications:
 - Tenant/occupancy management after move-in
 - Direct online room booking
 - Real Paystack deposit/payment capture
+- Guest checkout/payment intent creation
+- Payment history and payment records
 - Marketplace stores/products/delivery
 - Wallets
 - Advanced analytics

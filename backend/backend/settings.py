@@ -10,10 +10,14 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+import os
 from pathlib import Path
+
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(BASE_DIR.parent / ".env")
 
 
 # Quick-start development settings - unsuitable for production
@@ -46,7 +50,6 @@ INSTALLED_APPS = [
     'apps.inquiries',
     'apps.moderation',
     'apps.notifications',
-    'apps.payments',
 ]
 
 MIDDLEWARE = [
@@ -90,6 +93,31 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+REDIS_URL = os.environ.get("REDIS_URL")
+
+if REDIS_URL:
+    CACHES = {
+        "default": {
+            "BACKEND": "django_redis.cache.RedisCache",
+            "LOCATION": REDIS_URL,
+            "OPTIONS": {
+                "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            },
+            "KEY_PREFIX": "agentms",
+        }
+    }
+else:
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+            "LOCATION": "agentms-local-cache",
+        }
+    }
+
+PUBLIC_LISTING_CACHE_TTL = int(os.environ.get("PUBLIC_LISTING_CACHE_TTL", "120"))
+REFERENCE_DATA_CACHE_TTL = int(os.environ.get("REFERENCE_DATA_CACHE_TTL", "900"))
+GOOGLE_OAUTH_CLIENT_ID = os.environ.get("GOOGLE_OAUTH_CLIENT_ID", "")
 
 
 # Password validation

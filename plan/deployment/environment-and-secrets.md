@@ -17,8 +17,6 @@ Required future environment variables:
 - `DEFAULT_FROM_EMAIL`
 - `MEDIA_STORAGE_BACKEND`
 - `MEDIA_STORAGE_BUCKET`
-- `PAYSTACK_PUBLIC_KEY` only when payments are reintroduced
-- `PAYSTACK_SECRET_KEY` only when payments are reintroduced
 
 Rules:
 

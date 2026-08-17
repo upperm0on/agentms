@@ -9,7 +9,6 @@ from apps.listings.models import Amenity, AvailabilityStatus, Listing, ListingSt
 from apps.locations.models import Area, Campus, Region
 from apps.moderation.models import ListingReport, ModerationAction
 from apps.notifications.models import Notification
-from apps.payments.models import PaymentIntent
 
 
 User = get_user_model()
@@ -154,6 +153,44 @@ class AgentMSAPITestCase(APITestCase):
         self.assertEqual(item["campus_name"], "KNUST")
         self.assertEqual(item["area_name"], "Ayeduase")
         self.assertEqual(item["agent_detail"]["business_name"], "CampusKey Rooms")
+
+    def test_public_listing_list_applies_discovery_filters_and_popular_ordering(self):
+        Listing.objects.create(
+            agent=self.agent,
+            property=self.property,
+            title="Affordable shared room",
+            description="Shared room near Ayeduase market.",
+            status=ListingStatus.PUBLISHED,
+            availability_status=AvailabilityStatus.LIMITED,
+            moderation_status="approved",
+            room_type=RoomType.SHARED,
+            gender_restriction="mixed",
+            capacity=2,
+            available_slots=1,
+            price_amount=2800,
+            price_period=PricePeriod.ACADEMIC_YEAR,
+            source_type="agent_verified",
+            last_confirmed_at=timezone.now(),
+            published_at=timezone.now(),
+            view_count=300,
+            inquiry_count=12,
+        )
+
+        response = self.client.get(
+            "/api/listings/",
+            {
+                "q": "Ayeduase",
+                "availability": "limited",
+                "room_type": "shared",
+                "min_price": "2500",
+                "max_price": "3000",
+                "ordering": "popular",
+            },
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        titles = [item["title"] for item in response.data["results"]]
+        self.assertEqual(titles, ["Affordable shared room"])
 
     def test_student_can_create_listing_inquiry(self):
         self.client.force_authenticate(self.student)
@@ -313,47 +350,3 @@ class AgentMSAPITestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         titles = [item["title"] for item in response.data["results"]]
         self.assertEqual(titles, ["Sunlit single room"])
-
-    def test_guest_can_create_payment_intent_without_account(self):
-        response = self.client.post(
-            "/api/payments/intents/",
-            {
-                "listing": str(self.listing.id),
-                "guest_name": "Guest Student",
-                "guest_email": "guest@student.test",
-                "guest_phone": "+233201234567",
-                "wants_account_history": False,
-            },
-            format="json",
-        )
-
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(PaymentIntent.objects.count(), 1)
-        intent = PaymentIntent.objects.get()
-        self.assertIsNone(intent.student)
-        self.assertEqual(intent.guest_email, "guest@student.test")
-        self.assertEqual(intent.amount, self.listing.deposit_amount)
-        self.assertFalse(intent.metadata["auth_required"])
-
-    def test_payment_history_requires_authenticated_student_account(self):
-        anonymous_response = self.client.get("/api/payments/student/intents/")
-        self.assertEqual(anonymous_response.status_code, status.HTTP_403_FORBIDDEN)
-
-        PaymentIntent.objects.create(
-            listing=self.listing,
-            student=self.student,
-            guest_name="Esi Boateng",
-            guest_email="esi@knust.edu.gh",
-            guest_phone="+233245550182",
-            amount=self.listing.deposit_amount,
-            currency="GHS",
-            provider="manual",
-            provider_reference="AGMS-TEST-HISTORY",
-            status="pending",
-            wants_account_history=True,
-        )
-        self.client.force_authenticate(self.student)
-        authenticated_response = self.client.get("/api/payments/student/intents/")
-
-        self.assertEqual(authenticated_response.status_code, status.HTTP_200_OK)
-        self.assertEqual(authenticated_response.data["count"], 1)

@@ -35,7 +35,6 @@ AgentMS planning is split by phase, domain, architecture, quality, deployment, a
 - [Trust And Moderation](./domains/trust-and-moderation/README.md)
 - [Notifications](./domains/notifications/README.md)
 - [Admin Operations](./domains/admin-operations/README.md)
-- [Payments](./domains/payments/README.md)
 - [Marketplace](./domains/marketplace/README.md)
 
 ## Architecture
