@@ -13,7 +13,9 @@ import {
   type User,
 } from './mockApi'
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL ?? '/api'
+const RAW_API_BASE = import.meta.env.VITE_API_BASE_URL ?? '/api'
+export const API_BASE = RAW_API_BASE.replace(/\/$/, '')
+const API_ORIGIN = /^https?:\/\//.test(API_BASE) ? new URL(API_BASE).origin : window.location.origin
 const DEMO_AUTH_ENABLED = import.meta.env.VITE_USE_DEMO_AUTH !== 'false'
 const BACKEND_RETRY_MS = 10_000
 const FRONTEND_DATABASE_CACHE_MS = 60_000
@@ -276,6 +278,10 @@ function apiPathFromUrl(value: string) {
   return `${nextPath}${nextUrl.search}`
 }
 
+export function apiUrl(path: string) {
+  return `${API_BASE}${path}`
+}
+
 async function apiFetch<T>(path: string, role: Role, init: RequestInit = {}): Promise<T> {
   const method = init.method ?? 'GET'
   const inflightKey = method === 'GET' && !init.body ? `${role}:${path}` : ''
@@ -290,9 +296,9 @@ async function apiFetch<T>(path: string, role: Role, init: RequestInit = {}): Pr
   }
   Object.entries(authHeader(role)).forEach(([key, value]) => headers.set(key, value))
 
-  const request = fetch(`${API_BASE}${path}`, {
+  const request = fetch(apiUrl(path), {
     ...init,
-    credentials: 'same-origin',
+    credentials: 'include',
     headers,
   }).then(async (response) => {
     if (!response.ok) {
@@ -456,7 +462,7 @@ function dateLabel(value: string | null) {
 function mediaUrl(value: string) {
   if (!value) return ''
   if (/^https?:\/\//.test(value)) return value
-  return value.startsWith('/') ? value : `/${value}`
+  return new URL(value.startsWith('/') ? value : `/${value}`, API_ORIGIN).toString()
 }
 
 function freshness(value: string | null): Listing['freshness'] {

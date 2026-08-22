@@ -3,6 +3,7 @@ import { ArrowLeft, CheckCircle2, LoaderCircle, Mail, ShieldCheck } from 'lucide
 import type { AppProps } from '../../app/types'
 import { Brand } from '../../components/layout/AppShell'
 import { Field } from '../../components/shared/Primitives'
+import { apiUrl } from '../../api/backendApi'
 import './AuthPage.css'
 
 function roleValue(role: 'Student' | 'Agent') {
@@ -38,7 +39,7 @@ export function AuthPage(props: AppProps) {
   function startGoogleLogin() {
     setError('')
     setStatusText('Opening Google...')
-    window.location.href = `/api/auth/google/start/?role=${roleValue(role)}`
+    window.location.href = apiUrl(`/auth/google/start/?role=${roleValue(role)}`)
   }
 
   async function submit(e: FormEvent<HTMLFormElement>) {
