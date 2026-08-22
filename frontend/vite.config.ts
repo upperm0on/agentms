@@ -6,6 +6,9 @@ export default defineConfig({
   plugins: [react()],
   envDir: '..',
   server: {
+    headers: {
+      'Cross-Origin-Opener-Policy': 'same-origin-allow-popups',
+    },
     proxy: {
       '/api': 'http://127.0.0.1:8001',
       '/media': 'http://127.0.0.1:8001',

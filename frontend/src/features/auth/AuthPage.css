@@ -48,6 +48,18 @@
   line-height: 1.4;
 }
 
+.inline-progress {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 11px;
+  color: var(--teal);
+  background: var(--soft);
+  font-size: 12px;
+  font-weight: 760;
+  line-height: 1.4;
+}
+
 @media (max-width: 760px) {
   .auth-page {
     grid-template-columns: 1fr;

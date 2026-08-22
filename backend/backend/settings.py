@@ -118,6 +118,10 @@ else:
 PUBLIC_LISTING_CACHE_TTL = int(os.environ.get("PUBLIC_LISTING_CACHE_TTL", "120"))
 REFERENCE_DATA_CACHE_TTL = int(os.environ.get("REFERENCE_DATA_CACHE_TTL", "900"))
 GOOGLE_OAUTH_CLIENT_ID = os.environ.get("GOOGLE_OAUTH_CLIENT_ID", "")
+GOOGLE_OAUTH_CLIENT_SECRET = os.environ.get("GOOGLE_OAUTH_CLIENT_SECRET", "")
+GOOGLE_OAUTH_REDIRECT_URI = os.environ.get("GOOGLE_OAUTH_REDIRECT_URI", "http://localhost:5173/api/auth/google/callback/")
+FRONTEND_ORIGIN = os.environ.get("FRONTEND_ORIGIN", "http://localhost:5173")
+SECURE_CROSS_ORIGIN_OPENER_POLICY = "same-origin-allow-popups"
 
 
 # Password validation

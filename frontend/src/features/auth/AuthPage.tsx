@@ -1,49 +1,22 @@
-import { useEffect, useRef, useState, type FormEvent } from 'react'
+import { useEffect, useMemo, useState, type FormEvent } from 'react'
 import { ArrowLeft, CheckCircle2, LoaderCircle, Mail, ShieldCheck } from 'lucide-react'
 import type { AppProps } from '../../app/types'
 import { Brand } from '../../components/layout/AppShell'
 import { Field } from '../../components/shared/Primitives'
 import './AuthPage.css'
 
-const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID ?? ''
-
-declare global {
-  interface Window {
-    google?: {
-      accounts: {
-        id: {
-          initialize: (options: { client_id: string; callback: (response: { credential?: string }) => void }) => void
-          renderButton: (element: HTMLElement, options: Record<string, string | number | boolean>) => void
-        }
-      }
-    }
-  }
-}
-
 function roleValue(role: 'Student' | 'Agent') {
   return role.toLowerCase() as 'student' | 'agent'
 }
 
-function loadGoogleScript() {
-  return new Promise<void>((resolve, reject) => {
-    if (window.google?.accounts?.id) {
-      resolve()
-      return
-    }
-    const existing = document.querySelector<HTMLScriptElement>('script[src="https://accounts.google.com/gsi/client"]')
-    if (existing) {
-      existing.addEventListener('load', () => resolve(), { once: true })
-      existing.addEventListener('error', () => reject(new Error('Google login script failed to load.')), { once: true })
-      return
-    }
-    const script = document.createElement('script')
-    script.src = 'https://accounts.google.com/gsi/client'
-    script.async = true
-    script.defer = true
-    script.onload = () => resolve()
-    script.onerror = () => reject(new Error('Google login script failed to load.'))
-    document.head.appendChild(script)
-  })
+const authErrorText: Record<string, string> = {
+  google_not_configured: 'Google login needs the client secret in .env.',
+  google_denied: 'Google login was cancelled.',
+  google_missing_code: 'Google did not return a login code.',
+  google_bad_state: 'Google login expired. Try again.',
+  google_token_failed: 'Google could not exchange the login code.',
+  google_invalid_token: 'Google returned an invalid token.',
+  google_email_failed: 'Google account email could not be verified.',
 }
 
 export function AuthPage(props: AppProps) {
@@ -51,54 +24,27 @@ export function AuthPage(props: AppProps) {
   const [role, setRole] = useState<'Student' | 'Agent'>('Student')
   const [sent, setSent] = useState(false)
   const [error, setError] = useState('')
-  const googleButtonRef = useRef<HTMLDivElement | null>(null)
+  const [statusText, setStatusText] = useState('')
   const title = path === '/login' ? 'Welcome back' : path === '/signup' ? 'Create your AgentMS account' : path === '/forgot-password' ? 'Reset your password' : path.startsWith('/verify-email') ? 'Email verified' : 'Choose a new password'
   const showAccountForm = path === '/login' || path === '/signup'
+  const authError = useMemo(() => new URLSearchParams(window.location.search).get('auth_error') ?? '', [path])
 
   useEffect(() => {
     setSent(false)
-    setError('')
-  }, [path])
+    setStatusText('')
+    setError(authError ? authErrorText[authError] ?? 'Google login failed. Try again.' : '')
+  }, [authError, path])
 
-  useEffect(() => {
-    const button = googleButtonRef.current
-    if (!button || !showAccountForm || !googleClientId) return
-    button.innerHTML = ''
-    let cancelled = false
-    loadGoogleScript()
-      .then(() => {
-        if (cancelled || !window.google || !googleButtonRef.current) return
-        window.google.accounts.id.initialize({
-          client_id: googleClientId,
-          callback: async (response) => {
-            if (!response.credential) {
-              setError('Google did not return a credential.')
-              return
-            }
-            setError('')
-            try {
-              await props.loginWithGoogle(response.credential, roleValue(role))
-            } catch {
-              setError('Google login failed. Try again or use email and password.')
-            }
-          },
-        })
-        window.google.accounts.id.renderButton(googleButtonRef.current, {
-          theme: 'outline',
-          size: 'large',
-          width: 360,
-          text: path === '/signup' ? 'signup_with' : 'signin_with',
-        })
-      })
-      .catch(() => setError('Google login is unavailable right now.'))
-    return () => {
-      cancelled = true
-    }
-  }, [path, props, role, showAccountForm])
+  function startGoogleLogin() {
+    setError('')
+    setStatusText('Opening Google...')
+    window.location.href = `/api/auth/google/start/?role=${roleValue(role)}`
+  }
 
   async function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
     setError('')
+    setStatusText(path === '/signup' ? 'Creating your account...' : path === '/login' ? 'Checking your account...' : '')
     const form = new FormData(e.currentTarget)
     const email = String(form.get('email') ?? '')
     const password = String(form.get('password') ?? '')
@@ -118,8 +64,9 @@ export function AuthPage(props: AppProps) {
         return
       }
       setSent(true)
-    } catch {
-      setError(path === '/signup' ? 'Account creation failed. Check the details and try again.' : 'Invalid login details.')
+    } catch (submitError) {
+      setStatusText('')
+      setError(submitError instanceof Error ? submitError.message : path === '/signup' ? 'Account creation failed. Check the details and try again.' : 'Invalid login details.')
     }
   }
 
@@ -144,12 +91,13 @@ export function AuthPage(props: AppProps) {
             <>
               <div><span className="eyebrow">{path === '/login' ? 'Sign in' : 'Account access'}</span><h2>{title}</h2><p>{path === '/forgot-password' ? 'We will send a reset link to your verified email.' : path === '/reset-password' ? 'Use at least 8 characters with one number.' : 'Use Google or your email and password.'}</p></div>
               {showAccountForm && <div className="segmented large"><button type="button" className={role === 'Student' ? 'active' : ''} onClick={() => setRole('Student')}>Student</button><button type="button" className={role === 'Agent' ? 'active' : ''} onClick={() => setRole('Agent')}>Agent</button></div>}
-              {showAccountForm && (googleClientId ? <div className="google-login" ref={googleButtonRef} /> : <button className="google-login-fallback" type="button" disabled>Continue with Google</button>)}
+              {showAccountForm && <button className="google-login-fallback" type="button" onClick={startGoogleLogin}>Continue with Google</button>}
               {showAccountForm && <div className="auth-divider"><span>or</span></div>}
               {path === '/signup' && <div className="form-row"><Field label="First name"><input required name="firstName" autoComplete="given-name" /></Field><Field label="Last name"><input required name="lastName" autoComplete="family-name" /></Field></div>}
               <Field label="Email address"><input required name="email" type="email" autoComplete="email" /></Field>
               {path !== '/forgot-password' && <Field label={path === '/reset-password' ? 'New password' : 'Password'}><input required name="password" type="password" autoComplete={path === '/login' ? 'current-password' : 'new-password'} /></Field>}
               {path === '/reset-password' && <Field label="Confirm password"><input required name="confirmPassword" type="password" autoComplete="new-password" /></Field>}
+              {(busy || statusText) && <div className="inline-progress"><LoaderCircle className="spin" size={17} />{statusText || 'Opening your workspace...'}</div>}
               {sent && <div className="inline-success"><CheckCircle2 size={17} />{path === '/forgot-password' ? 'Reset link sent. Check your inbox.' : 'Success.'}</div>}
               {error && <div className="inline-error">{error}</div>}
               <button className="btn primary full" disabled={busy}>{busy && <LoaderCircle className="spin" />}{path === '/login' ? 'Sign in' : path === '/signup' ? 'Create account' : path === '/forgot-password' ? 'Send reset link' : 'Update password'}</button>

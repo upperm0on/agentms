@@ -69,3 +69,15 @@ class AccountAuthTests(APITestCase):
         )
 
         self.assertEqual(response.status_code, status.HTTP_503_SERVICE_UNAVAILABLE)
+
+    @override_settings(
+        GOOGLE_OAUTH_CLIENT_ID="google-client.test",
+        GOOGLE_OAUTH_CLIENT_SECRET="secret",
+        GOOGLE_OAUTH_REDIRECT_URI="http://localhost:5173/api/auth/google/callback/",
+    )
+    def test_google_oauth_start_redirects_to_google(self):
+        response = self.client.get("/api/auth/google/start/?role=agent")
+
+        self.assertEqual(response.status_code, status.HTTP_302_FOUND)
+        self.assertTrue(response["Location"].startswith("https://accounts.google.com/o/oauth2/v2/auth?"))
+        self.assertIn("redirect_uri=http%3A%2F%2Flocalhost%3A5173%2Fapi%2Fauth%2Fgoogle%2Fcallback%2F", response["Location"])

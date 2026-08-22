@@ -294,9 +294,16 @@ async function apiFetch<T>(path: string, role: Role, init: RequestInit = {}): Pr
     ...init,
     credentials: 'same-origin',
     headers,
-  }).then((response) => {
+  }).then(async (response) => {
     if (!response.ok) {
-      throw new Error(`${method} ${path} failed with ${response.status}`)
+      let detail = `${method} ${path} failed with ${response.status}`
+      try {
+        const data = await response.clone().json()
+        if (typeof data?.detail === 'string') detail = data.detail
+      } catch {
+        detail = `${method} ${path} failed with ${response.status}`
+      }
+      throw new Error(detail)
     }
     if (response.status === 204) return undefined as T
     return response.json() as Promise<T>
