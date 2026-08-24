@@ -1,6 +1,6 @@
 {
   "schemaVersion": 3,
-  "generatedAt": "2026-08-24T09:49:36Z",
+  "generatedAt": "2026-08-24T18:28:21Z",
   "mood": "adaptive spatial workspace",
   "project": "AgentMS",
   "source": {
@@ -10,11 +10,11 @@
   },
   "summary": {
     "sourceFiles": 4436,
-    "sourceLines": 993093,
+    "sourceLines": 993273,
     "frontendFiles": 62,
-    "frontendLines": 4087,
+    "frontendLines": 4136,
     "backendFiles": 4374,
-    "backendLines": 989006,
+    "backendLines": 989137,
     "routes": 27,
     "apiRoutes": 86,
     "backendApps": 8,
@@ -62,123 +62,171 @@
   ],
   "change": {
     "summary": {
-      "changedFiles": 4,
-      "stableAnchors": 9,
-      "additions": 318,
-      "deletions": 97,
-      "departments": 2
+      "changedFiles": 5,
+      "stableAnchors": 10,
+      "additions": 286,
+      "deletions": 167,
+      "departments": 3
     },
     "files": [
       {
-        "path": "frontend/public/workscape-data.json",
+        "path": "backend/apps/accounts/tests.py",
         "status": "modified",
-        "department": "Workscape",
-        "additions": 247,
-        "deletions": 53,
-        "kind": "data",
-        "mood": "structured live state",
-        "accent": "#a88cf5",
-        "palette": [
-          "#9caeaa",
-          "#6fb8ff",
-          "#ef718a",
-          "#f3c75f",
-          "#e0a43a"
-        ],
+        "department": "Backend",
+        "additions": 121,
+        "deletions": 1,
+        "kind": "service",
+        "mood": "backend service flow",
+        "accent": "#6fb8ff",
+        "palette": [],
         "signals": [
-          "432 fields",
-          "659 lines",
-          "generated state"
+          "1 classes",
+          "11 functions",
+          "0 routes"
         ],
         "snapshot": {
           "mode": "changed",
-          "focus": "465 lines before · 659 lines after",
+          "focus": "84 lines before · 204 lines after",
           "before": {
-            "kind": "data",
-            "mood": "structured live state",
-            "accent": "#a88cf5",
-            "palette": [
-              "#f3c75f",
-              "#e0a43a",
-              "#4f8cc9",
-              "#d06b50",
-              "#1d8b69"
-            ],
+            "kind": "service",
+            "mood": "backend service flow",
+            "accent": "#6fb8ff",
+            "palette": [],
             "signals": [
-              "306 fields",
-              "465 lines",
-              "generated state"
+              "1 classes",
+              "5 functions",
+              "0 routes"
             ],
             "empty": false,
-            "lines": 465,
+            "lines": 84,
             "label": "before request"
           },
           "after": {
-            "kind": "data",
-            "mood": "structured live state",
-            "accent": "#a88cf5",
-            "palette": [
-              "#9caeaa",
-              "#6fb8ff",
-              "#ef718a",
-              "#f3c75f",
-              "#e0a43a"
-            ],
+            "kind": "service",
+            "mood": "backend service flow",
+            "accent": "#6fb8ff",
+            "palette": [],
             "signals": [
-              "432 fields",
-              "659 lines",
-              "generated state"
+              "1 classes",
+              "11 functions",
+              "0 routes"
             ],
             "empty": false,
-            "lines": 659,
+            "lines": 204,
             "label": "after request"
           }
         }
       },
       {
-        "path": "frontend/src/api/backendApi.ts",
+        "path": "backend/apps/accounts/views.py",
         "status": "modified",
-        "department": "Frontend",
-        "additions": 6,
-        "deletions": 1,
-        "kind": "automation",
-        "mood": "logic flow",
-        "accent": "#f3c75f",
+        "department": "Backend",
+        "additions": 26,
+        "deletions": 15,
+        "kind": "service",
+        "mood": "backend service flow",
+        "accent": "#6fb8ff",
         "palette": [],
         "signals": [
-          "54 functions",
-          "27 async steps",
-          "19 modules"
+          "8 classes",
+          "9 functions",
+          "0 routes"
         ],
         "snapshot": {
           "mode": "changed",
-          "focus": "901 lines before · 906 lines after",
+          "focus": "210 lines before · 221 lines after",
           "before": {
-            "kind": "automation",
-            "mood": "logic flow",
-            "accent": "#f3c75f",
+            "kind": "service",
+            "mood": "backend service flow",
+            "accent": "#6fb8ff",
             "palette": [],
             "signals": [
-              "53 functions",
-              "26 async steps",
-              "18 modules"
+              "8 classes",
+              "9 functions",
+              "0 routes"
             ],
             "empty": false,
-            "lines": 901,
+            "lines": 210,
             "label": "before request"
           },
           "after": {
-            "kind": "automation",
-            "mood": "logic flow",
-            "accent": "#f3c75f",
+            "kind": "service",
+            "mood": "backend service flow",
+            "accent": "#6fb8ff",
             "palette": [],
             "signals": [
-              "54 functions",
-              "27 async steps",
-              "19 modules"
+              "8 classes",
+              "9 functions",
+              "0 routes"
             ],
             "empty": false,
-            "lines": 906,
+            "lines": 221,
+            "label": "after request"
+          }
+        }
+      },
+      {
+        "path": "frontend/public/workscape-data.json",
+        "status": "modified",
+        "department": "Workscape",
+        "additions": 82,
+        "deletions": 143,
+        "kind": "data",
+        "mood": "structured live state",
+        "accent": "#a88cf5",
+        "palette": [
+          "#6fb8ff",
+          "#52d6c5",
+          "#e0a43a",
+          "#4f8cc9",
+          "#d06b50"
+        ],
+        "signals": [
+          "372 fields",
+          "567 lines",
+          "generated state"
+        ],
+        "snapshot": {
+          "mode": "changed",
+          "focus": "628 lines before · 567 lines after",
+          "before": {
+            "kind": "data",
+            "mood": "structured live state",
+            "accent": "#a88cf5",
+            "palette": [
+              "#a88cf5",
+              "#9caeaa",
+              "#6fb8ff",
+              "#ef718a",
+              "#f3c75f"
+            ],
+            "signals": [
+              "400 fields",
+              "628 lines",
+              "generated state"
+            ],
+            "empty": false,
+            "lines": 628,
+            "label": "before request"
+          },
+          "after": {
+            "kind": "data",
+            "mood": "structured live state",
+            "accent": "#a88cf5",
+            "palette": [
+              "#6fb8ff",
+              "#52d6c5",
+              "#e0a43a",
+              "#4f8cc9",
+              "#d06b50"
+            ],
+            "signals": [
+              "372 fields",
+              "567 lines",
+              "generated state"
+            ],
+            "empty": false,
+            "lines": 567,
             "label": "after request"
           }
         }
@@ -187,35 +235,21 @@
         "path": "frontend/src/app/AppRoot.tsx",
         "status": "modified",
         "department": "Frontend",
-        "additions": 60,
-        "deletions": 24,
+        "additions": 38,
+        "deletions": 3,
         "kind": "interface",
         "mood": "interactive interface",
         "accent": "#52d6c5",
         "palette": [],
         "signals": [
           "1 components",
-          "7 hooks",
+          "8 hooks",
           "0 interactions"
         ],
         "snapshot": {
           "mode": "changed",
-          "focus": "197 lines before · 233 lines after",
+          "focus": "233 lines before · 268 lines after",
           "before": {
-            "kind": "interface",
-            "mood": "interactive interface",
-            "accent": "#52d6c5",
-            "palette": [],
-            "signals": [
-              "1 components",
-              "7 hooks",
-              "0 interactions"
-            ],
-            "empty": false,
-            "lines": 197,
-            "label": "before request"
-          },
-          "after": {
             "kind": "interface",
             "mood": "interactive interface",
             "accent": "#52d6c5",
@@ -227,6 +261,20 @@
             ],
             "empty": false,
             "lines": 233,
+            "label": "before request"
+          },
+          "after": {
+            "kind": "interface",
+            "mood": "interactive interface",
+            "accent": "#52d6c5",
+            "palette": [],
+            "signals": [
+              "1 components",
+              "8 hooks",
+              "0 interactions"
+            ],
+            "empty": false,
+            "lines": 268,
             "label": "after request"
           }
         }
@@ -235,8 +283,8 @@
         "path": "frontend/src/components/layout/AppShell.tsx",
         "status": "modified",
         "department": "Frontend",
-        "additions": 5,
-        "deletions": 19,
+        "additions": 19,
+        "deletions": 5,
         "kind": "interface",
         "mood": "interactive interface",
         "accent": "#52d6c5",
@@ -244,26 +292,12 @@
         "signals": [
           "6 components",
           "0 hooks",
-          "14 interactions"
+          "17 interactions"
         ],
         "snapshot": {
           "mode": "changed",
-          "focus": "96 lines before · 82 lines after",
+          "focus": "82 lines before · 96 lines after",
           "before": {
-            "kind": "interface",
-            "mood": "interactive interface",
-            "accent": "#52d6c5",
-            "palette": [],
-            "signals": [
-              "7 components",
-              "0 hooks",
-              "18 interactions"
-            ],
-            "empty": false,
-            "lines": 96,
-            "label": "before request"
-          },
-          "after": {
             "kind": "interface",
             "mood": "interactive interface",
             "accent": "#52d6c5",
@@ -275,6 +309,20 @@
             ],
             "empty": false,
             "lines": 82,
+            "label": "before request"
+          },
+          "after": {
+            "kind": "interface",
+            "mood": "interactive interface",
+            "accent": "#52d6c5",
+            "palette": [],
+            "signals": [
+              "6 components",
+              "0 hooks",
+              "17 interactions"
+            ],
+            "empty": false,
+            "lines": 96,
             "label": "after request"
           }
         }
@@ -282,16 +330,22 @@
     ],
     "departments": [
       {
+        "name": "Backend",
+        "files": 2,
+        "additions": 147,
+        "deletions": 16
+      },
+      {
         "name": "Frontend",
-        "files": 3,
-        "additions": 71,
-        "deletions": 44
+        "files": 2,
+        "additions": 57,
+        "deletions": 8
       },
       {
         "name": "Workscape",
         "files": 1,
-        "additions": 247,
-        "deletions": 53
+        "additions": 82,
+        "deletions": 143
       }
     ],
     "stableAnchors": [
@@ -322,6 +376,11 @@
       },
       {
         "path": "frontend/src/pages/RouteScreens.tsx",
+        "department": "Frontend",
+        "status": "unchanged"
+      },
+      {
+        "path": "frontend/src/api/backendApi.ts",
         "department": "Frontend",
         "status": "unchanged"
       },
@@ -586,7 +645,7 @@
     {
       "extension": "py",
       "files": 3513,
-      "lines": 874427
+      "lines": 874558
     },
     {
       "extension": "js",
@@ -616,7 +675,7 @@
     {
       "extension": "tsx",
       "files": 39,
-      "lines": 1807
+      "lines": 1856
     },
     {
       "extension": "ts",

@@ -16,6 +16,7 @@ from rest_framework.views import APIView
 from apps.common.models import ActiveState
 from apps.common.permissions import IsAdminRole
 
+from .models import UserRole
 from .serializers import GoogleLoginSerializer, LoginSerializer, RegisterSerializer, UserSerializer
 
 
@@ -28,26 +29,36 @@ def google_error_redirect(message):
 
 
 def user_from_google_claims(claims, role):
-    email = claims.get("email", "").strip().lower()
-    if not email or not claims.get("email_verified"):
+    email = User.objects.normalize_email(claims.get("email", "")).strip().lower()
+    email_verified = claims.get("email_verified") is True
+    if not email or not email_verified:
         return None, False, Response({"detail": "Google account email is not verified."}, status=status.HTTP_400_BAD_REQUEST)
 
-    user, created = User.objects.get_or_create(
+    user = User.objects.filter(email__iexact=email).first()
+    if user:
+        if user.status != ActiveState.ACTIVE:
+            return None, False, Response({"detail": "This account is not active."}, status=status.HTTP_403_FORBIDDEN)
+        if not user.is_email_verified:
+            user.is_email_verified = True
+            user.save(update_fields=["is_email_verified", "updated_at"])
+        return user, False, None
+
+    if role not in {UserRole.STUDENT, UserRole.AGENT}:
+        return None, False, Response({"detail": "Google signup role must be student or agent."}, status=status.HTTP_400_BAD_REQUEST)
+
+    user = User(
         email=email,
-        defaults={
-            "username": "",
-            "first_name": claims.get("given_name", ""),
-            "last_name": claims.get("family_name", ""),
-            "role": role,
-            "is_email_verified": True,
-        },
+        username="",
+        first_name=claims.get("given_name", ""),
+        last_name=claims.get("family_name", ""),
+        role=role,
+        is_email_verified=email_verified,
     )
-    if not created and user.status != ActiveState.ACTIVE:
+    user.set_unusable_password()
+    user.save()
+    if user.status != ActiveState.ACTIVE:
         return None, False, Response({"detail": "This account is not active."}, status=status.HTTP_403_FORBIDDEN)
-    if not user.is_email_verified:
-        user.is_email_verified = True
-        user.save(update_fields=["is_email_verified", "updated_at"])
-    return user, created, None
+    return user, True, None
 
 
 @method_decorator(csrf_exempt, name="dispatch")

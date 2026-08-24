@@ -21,10 +21,13 @@ export function AppRoot() {
   const [notificationsOpen, setNotificationsOpen] = useState(false)
   const [listingNextPage, setListingNextPage] = useState<string | null>(null)
   const [listingTotal, setListingTotal] = useState<number | null>(null)
+  const [currentUser, setCurrentUser] = useState<BackendAuthUser | null>(null)
+  const [checkingAuth, setCheckingAuth] = useState(true)
   const refreshRequestId = useRef(0)
 
   const role: Role = path.startsWith('/agent') ? 'agent' : path.startsWith('/admin') ? 'admin' : path.startsWith('/student') ? 'student' : 'public'
   const workspaceRole = role === 'student' || role === 'agent' || role === 'admin' ? role : null
+  const authPage = path === '/login' || path === '/signup'
 
   function dashboardPath(nextRole: Role) {
     return nextRole === 'agent' ? '/agent/dashboard' : nextRole === 'admin' ? '/admin/dashboard' : '/student/dashboard'
@@ -97,8 +100,9 @@ export function AppRoot() {
 
   async function openWorkspaceForUser(user: BackendAuthUser) {
     const nextRole = user.role.toLowerCase() as Role
-    await refreshFromBackend(nextRole)
+    setCurrentUser(user)
     go(dashboardPath(nextRole))
+    await refreshFromBackend(nextRole)
   }
 
   async function loginWithPassword(email: string, password: string) {
@@ -135,6 +139,7 @@ export function AppRoot() {
     } catch (error) {
       console.error('Logout failed', error)
     } finally {
+      setCurrentUser(null)
       setDb(createEmptyDatabase())
       setBusy(false)
       go('/login')
@@ -145,10 +150,12 @@ export function AppRoot() {
     let active = true
     async function loadRoute() {
       if (workspaceRole) {
+        setCheckingAuth(true)
         try {
           const user = await getCurrentBackendUser()
           if (!active) return
           const actualRole = user.role.toLowerCase() as Role
+          setCurrentUser(user)
           if (actualRole !== workspaceRole) {
             go(dashboardPath(actualRole))
             return
@@ -156,11 +163,38 @@ export function AppRoot() {
           await refreshFromBackend(actualRole)
         } catch {
           if (!active) return
+          setCurrentUser(null)
           go('/login')
+        } finally {
+          if (active) setCheckingAuth(false)
         }
         return
       }
 
+      if (authPage) {
+        setCheckingAuth(true)
+        try {
+          const user = await getCurrentBackendUser()
+          if (!active) return
+          setCurrentUser(user)
+          go(dashboardPath(user.role.toLowerCase() as Role))
+        } catch {
+          if (!active) return
+          setCurrentUser(null)
+        } finally {
+          if (active) setCheckingAuth(false)
+        }
+        return
+      }
+
+      setCheckingAuth(false)
+      getCurrentBackendUser()
+        .then((user) => {
+          if (active) setCurrentUser(user)
+        })
+        .catch(() => {
+          if (active) setCurrentUser(null)
+        })
       if (path === '/') {
         loadListingPage('public')
         return
@@ -180,7 +214,7 @@ export function AppRoot() {
     return () => {
       active = false
     }
-  }, [role, workspaceRole, path])
+  }, [authPage, role, workspaceRole, path])
 
   const go = (next: string) => {
     setMenuOpen(false)
@@ -211,11 +245,12 @@ export function AppRoot() {
   const app = { db, path, navigate: go, mutate, setModal, busy, refreshFromBackend, loadListingPage, loadMoreListings, loadLocations, loginWithPassword, registerWithPassword, loginWithGoogle, listingNextPage, listingTotal }
 
   if (path === '/workscape') return <Suspense fallback={<div className="page"><LoaderCircle /></div>}><Workscape navigate={go} /></Suspense>
+  if (workspaceRole && checkingAuth && !currentUser) return <div className="page"><LoaderCircle className="spin" /></div>
 
   return (
     <div className={`app role-${role}`}>
       {role === 'public' ? (
-        <PublicHeader path={path} navigate={go} db={db} notificationsOpen={notificationsOpen} setNotificationsOpen={setNotificationsOpen} />
+        <PublicHeader path={path} navigate={go} db={db} notificationsOpen={notificationsOpen} setNotificationsOpen={setNotificationsOpen} currentUser={currentUser} onLogout={logout} />
       ) : (
         <AppShellHeader role={role} path={path} navigate={go} db={db} menuOpen={menuOpen} setMenuOpen={setMenuOpen} notificationsOpen={notificationsOpen} setNotificationsOpen={setNotificationsOpen} onLogout={logout} />
       )}

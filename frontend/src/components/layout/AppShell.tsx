@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { Bell, Building2, ChevronDown, Flag, LayoutDashboard, LogOut, MapPin, Menu, Plus, Settings, ShieldCheck, UserRound, Users } from 'lucide-react'
-import type { Database, Role } from '../../api/mockApi'
+import type { Database, Role, User } from '../../api/mockApi'
 import { initials } from '../../lib/uiHelpers'
 import './AppShell.css'
 
@@ -8,18 +8,32 @@ export function Brand({ navigate }: { navigate: (path: string) => void }) {
   return <button className="brand" onClick={() => navigate('/')}><span>AM</span><strong>AgentMS</strong></button>
 }
 
-export function PublicHeader({ path, navigate, db, notificationsOpen, setNotificationsOpen }: { path: string; navigate: (p: string) => void; db: Database; notificationsOpen: boolean; setNotificationsOpen: (v: boolean) => void }) {
+function dashboardPath(role: User['role']) {
+  return role === 'Agent' ? '/agent/dashboard' : role === 'Admin' ? '/admin/dashboard' : '/student/dashboard'
+}
+
+export function PublicHeader({ path, navigate, db, notificationsOpen, setNotificationsOpen, currentUser, onLogout }: { path: string; navigate: (p: string) => void; db: Database; notificationsOpen: boolean; setNotificationsOpen: (v: boolean) => void; currentUser: User | null; onLogout: () => void }) {
   return (
     <header className="topbar public-topbar">
       <Brand navigate={navigate} />
       <nav className="topnav" aria-label="Public navigation">
         <NavButton active={path === '/'} onClick={() => navigate('/')}>Discover</NavButton>
         <NavButton active={path.startsWith('/listings')} onClick={() => navigate('/listings')}>Browse rooms</NavButton>
+        {currentUser && <NavButton active={false} onClick={() => navigate(dashboardPath(currentUser.role))}>Dashboard</NavButton>}
       </nav>
       <div className="top-actions">
-        <NotificationButton role="student" db={db} open={notificationsOpen} setOpen={setNotificationsOpen} />
-        <button className="btn ghost desktop-only" onClick={() => navigate('/login')}>Log in</button>
-        <button className="btn primary" onClick={() => navigate('/signup')}>Create account</button>
+        <NotificationButton role={currentUser ? currentUser.role.toLowerCase() as Role : 'student'} db={db} open={notificationsOpen} setOpen={setNotificationsOpen} />
+        {currentUser ? (
+          <>
+            <button className="btn primary" onClick={() => navigate(dashboardPath(currentUser.role))}><LayoutDashboard size={16} />Dashboard</button>
+            <button className="icon-btn" aria-label="Log out" onClick={onLogout}><LogOut /></button>
+          </>
+        ) : (
+          <>
+            <button className="btn ghost desktop-only" onClick={() => navigate('/login')}>Log in</button>
+            <button className="btn primary" onClick={() => navigate('/signup')}>Create account</button>
+          </>
+        )}
       </div>
     </header>
   )
