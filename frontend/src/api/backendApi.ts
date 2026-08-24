@@ -14,7 +14,18 @@ import {
 } from './mockApi'
 
 const RAW_API_BASE = import.meta.env.VITE_API_BASE_URL ?? '/api'
-export const API_BASE = RAW_API_BASE.replace(/\/$/, '')
+
+function normalizeApiBase(value: string) {
+  const trimmed = value.trim().replace(/\/+$/, '') || '/api'
+  return trimmed.replace(/(\/api)+$/, '/api')
+}
+
+function normalizeApiPath(path: string) {
+  const normalized = path.startsWith('/') ? path : `/${path}`
+  return normalized.replace(/^(\/api)+(?=\/|$)/, '')
+}
+
+export const API_BASE = normalizeApiBase(RAW_API_BASE)
 const API_ORIGIN = /^https?:\/\//.test(API_BASE) ? new URL(API_BASE).origin : window.location.origin
 const DEMO_AUTH_ENABLED = import.meta.env.VITE_USE_DEMO_AUTH !== 'false'
 const BACKEND_RETRY_MS = 10_000
@@ -279,7 +290,7 @@ function apiPathFromUrl(value: string) {
 }
 
 export function apiUrl(path: string) {
-  return `${API_BASE}${path}`
+  return `${API_BASE}${normalizeApiPath(path)}`
 }
 
 async function apiFetch<T>(path: string, role: Role, init: RequestInit = {}): Promise<T> {
