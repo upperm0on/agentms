@@ -27,7 +27,7 @@ function normalizeApiPath(path: string) {
 
 export const API_BASE = normalizeApiBase(RAW_API_BASE)
 const API_ORIGIN = /^https?:\/\//.test(API_BASE) ? new URL(API_BASE).origin : window.location.origin
-const DEMO_AUTH_ENABLED = import.meta.env.VITE_USE_DEMO_AUTH !== 'false'
+const DEMO_AUTH_ENABLED = import.meta.env.VITE_USE_DEMO_AUTH === 'true'
 const BACKEND_RETRY_MS = 10_000
 const FRONTEND_DATABASE_CACHE_MS = 60_000
 const FRONTEND_LISTINGS_CACHE_MS = 300_000
@@ -634,6 +634,11 @@ async function fetchCurrentUser(role: Role) {
   } catch {
     return null
   }
+}
+
+export async function getCurrentBackendUser() {
+  const user = await apiFetch<ApiUser>('/auth/me/', 'public')
+  return mapUser(user)
 }
 
 export async function loadBackendDatabase(role: Role, filters: ListingFilters = {}): Promise<Database> {

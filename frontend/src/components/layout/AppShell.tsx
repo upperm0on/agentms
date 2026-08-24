@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { Bell, Building2, ChevronDown, Eye, Flag, LayoutDashboard, LogOut, MapPin, Menu, Plus, RefreshCw, Settings, ShieldCheck, UserRound, Users } from 'lucide-react'
+import { Bell, Building2, ChevronDown, Flag, LayoutDashboard, LogOut, MapPin, Menu, Plus, Settings, ShieldCheck, UserRound, Users } from 'lucide-react'
 import type { Database, Role } from '../../api/mockApi'
 import { initials } from '../../lib/uiHelpers'
 import './AppShell.css'
@@ -25,7 +25,7 @@ export function PublicHeader({ path, navigate, db, notificationsOpen, setNotific
   )
 }
 
-export function AppShellHeader({ role, path, navigate, db, menuOpen, setMenuOpen, notificationsOpen, setNotificationsOpen }: { role: Role; path: string; navigate: (p: string) => void; db: Database; menuOpen: boolean; setMenuOpen: (v: boolean) => void; notificationsOpen: boolean; setNotificationsOpen: (v: boolean) => void }) {
+export function AppShellHeader({ role, path, navigate, db, menuOpen, setMenuOpen, notificationsOpen, setNotificationsOpen, onLogout }: { role: Role; path: string; navigate: (p: string) => void; db: Database; menuOpen: boolean; setMenuOpen: (v: boolean) => void; notificationsOpen: boolean; setNotificationsOpen: (v: boolean) => void; onLogout: () => void }) {
   const studentNav = [['/student/dashboard', 'Home'], ['/listings', 'Find rooms'], ['/student/saved', 'Saved'], ['/student/inquiries', 'Inquiries']]
   const activeUser = role === 'student' ? db.profile.name : role === 'agent' ? db.agents[0]?.name : db.users.find((user) => user.role === 'Admin')?.name
   const displayName = activeUser || (role === 'admin' ? 'Admin user' : role === 'agent' ? 'Agent user' : 'Student user')
@@ -41,23 +41,9 @@ export function AppShellHeader({ role, path, navigate, db, menuOpen, setMenuOpen
           <div className="desktop-only"><strong>{displayName}</strong><small>{role}</small></div>
           <ChevronDown size={15} className="desktop-only" />
         </button>
+        <button className="icon-btn" aria-label="Log out" onClick={onLogout}><LogOut /></button>
       </div>
     </header>
-  )
-}
-
-export function PrototypeRail({ role, navigate, restoreDemo }: { role: Role; navigate: (p: string) => void; restoreDemo: () => void }) {
-  return (
-    <div className="prototype-rail">
-      <span>Workspace data</span>
-      <div className="segmented">
-        <button className={role === 'student' ? 'active' : ''} onClick={() => navigate('/student/dashboard')}>Student</button>
-        <button className={role === 'agent' ? 'active' : ''} onClick={() => navigate('/agent/dashboard')}>Agent</button>
-        <button className={role === 'admin' ? 'active' : ''} onClick={() => navigate('/admin/dashboard')}>Admin</button>
-      </div>
-      <button className="rail-workscape" onClick={() => navigate('/workscape')}><Eye size={13} /> Workscape</button>
-      <button className="rail-reset" onClick={restoreDemo}><RefreshCw size={13} /> Reload data</button>
-    </div>
   )
 }
 
@@ -78,14 +64,14 @@ const adminNav = [
   ['/admin/dashboard', 'Overview', LayoutDashboard], ['/admin/agents', 'Agents', ShieldCheck], ['/admin/listings', 'Listings', Building2], ['/admin/reports', 'Reports', Flag], ['/admin/locations', 'Locations', MapPin], ['/admin/users', 'Users', Users],
 ] as const
 
-export function Sidebar({ role, path, navigate, open }: { role: 'agent' | 'admin'; path: string; navigate: (p: string) => void; open: boolean }) {
+export function Sidebar({ role, path, navigate, open, onLogout }: { role: 'agent' | 'admin'; path: string; navigate: (p: string) => void; open: boolean; onLogout: () => void }) {
   const nav = role === 'agent' ? agentNav : adminNav
   return (
     <aside className={`sidebar ${open ? 'open' : ''}`}>
       {role === 'admin' && <div className="sidebar-title"><span>Admin operations</span><strong>Trust & moderation</strong></div>}
       <nav>{nav.map(([href, label, Icon]) => <button key={href} className={path === href || (href.endsWith('listings') && path.includes('/listings/')) || (href.endsWith('agents') && path.includes('/agents/')) ? 'active' : ''} onClick={() => navigate(href)}><Icon size={18} />{label}</button>)}</nav>
       {role === 'agent' && <button className="btn primary sidebar-action" onClick={() => navigate('/agent/listings/new')}><Plus size={17} />New listing</button>}
-      <div className="sidebar-foot"><button onClick={() => navigate('/')}><LogOut size={17} />Exit workspace</button></div>
+      <div className="sidebar-foot"><button onClick={onLogout}><LogOut size={17} />Log out</button></div>
     </aside>
   )
 }

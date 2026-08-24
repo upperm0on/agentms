@@ -1,11 +1,11 @@
 import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { CheckCircle2, LoaderCircle } from 'lucide-react'
 import { createEmptyDatabase, type Database, type Role } from '../api/mockApi'
-import { loadBackendDatabase, loadBackendListingDetail, loadBackendListingsPage, loadBackendLocations, loginBackend, loginWithGoogleBackend, persistBackendMutation, registerBackend, type BackendAuthUser, type ListingFilters } from '../api/backendApi'
+import { getCurrentBackendUser, loadBackendDatabase, loadBackendListingDetail, loadBackendListingsPage, loadBackendLocations, loginBackend, loginWithGoogleBackend, logoutBackend, persistBackendMutation, registerBackend, type BackendAuthUser, type ListingFilters } from '../api/backendApi'
 import { usePath } from './navigation'
 import type { ModalState } from './types'
 import { Router } from '../routes/Router'
-import { AppShellHeader, PrototypeRail, PublicHeader, Sidebar } from '../components/layout/AppShell'
+import { AppShellHeader, PublicHeader, Sidebar } from '../components/layout/AppShell'
 import { Modal } from '../components/overlays/Modal'
 import '../styles/app.css'
 
@@ -24,7 +24,11 @@ export function AppRoot() {
   const refreshRequestId = useRef(0)
 
   const role: Role = path.startsWith('/agent') ? 'agent' : path.startsWith('/admin') ? 'admin' : path.startsWith('/student') ? 'student' : 'public'
-  const effectiveRole: Role = role === 'public' ? 'student' : role
+  const workspaceRole = role === 'student' || role === 'agent' || role === 'admin' ? role : null
+
+  function dashboardPath(nextRole: Role) {
+    return nextRole === 'agent' ? '/agent/dashboard' : nextRole === 'admin' ? '/admin/dashboard' : '/student/dashboard'
+  }
 
   async function refreshFromBackend(nextRole = role, filters: ListingFilters = {}) {
     const requestId = ++refreshRequestId.current
@@ -94,7 +98,7 @@ export function AppRoot() {
   async function openWorkspaceForUser(user: BackendAuthUser) {
     const nextRole = user.role.toLowerCase() as Role
     await refreshFromBackend(nextRole)
-    go(nextRole === 'agent' ? '/agent/dashboard' : nextRole === 'admin' ? '/admin/dashboard' : '/student/dashboard')
+    go(dashboardPath(nextRole))
   }
 
   async function loginWithPassword(email: string, password: string) {
@@ -124,21 +128,59 @@ export function AppRoot() {
     }
   }
 
+  async function logout() {
+    setBusy(true)
+    try {
+      await logoutBackend()
+    } catch (error) {
+      console.error('Logout failed', error)
+    } finally {
+      setDb(createEmptyDatabase())
+      setBusy(false)
+      go('/login')
+    }
+  }
+
   useEffect(() => {
-    const listingDetailMatch = path.match(/^\/listings\/([^/]+)$/)
-    if (listingDetailMatch) {
-      refreshListingDetail(listingDetailMatch[1])
-      return
+    let active = true
+    async function loadRoute() {
+      if (workspaceRole) {
+        try {
+          const user = await getCurrentBackendUser()
+          if (!active) return
+          const actualRole = user.role.toLowerCase() as Role
+          if (actualRole !== workspaceRole) {
+            go(dashboardPath(actualRole))
+            return
+          }
+          await refreshFromBackend(actualRole)
+        } catch {
+          if (!active) return
+          go('/login')
+        }
+        return
+      }
+
+      if (path === '/') {
+        loadListingPage('public')
+        return
+      }
+      if (path === '/listings') return
+      if (path === '/workscape') return
+      if (path === '/login' || path === '/signup' || path === '/forgot-password' || path === '/reset-password' || path.startsWith('/verify-email')) return
+
+      const listingDetailMatch = path.match(/^\/listings\/([^/]+)$/)
+      if (listingDetailMatch) {
+        refreshListingDetail(listingDetailMatch[1])
+        return
+      }
+      refreshFromBackend(role)
     }
-    if (path === '/') {
-      loadListingPage('public')
-      return
+    loadRoute()
+    return () => {
+      active = false
     }
-    if (path === '/listings') return
-    if (path === '/workscape') return
-    if (path === '/login' || path === '/signup' || path === '/forgot-password' || path === '/reset-password' || path.startsWith('/verify-email')) return
-    refreshFromBackend(role)
-  }, [role, path])
+  }, [role, workspaceRole, path])
 
   const go = (next: string) => {
     setMenuOpen(false)
@@ -166,11 +208,6 @@ export function AppRoot() {
     window.setTimeout(() => setToast(''), 3200)
   }
 
-  function restoreDemo() {
-    refreshFromBackend(role)
-    setToast('Backend data reloaded')
-  }
-
   const app = { db, path, navigate: go, mutate, setModal, busy, refreshFromBackend, loadListingPage, loadMoreListings, loadLocations, loginWithPassword, registerWithPassword, loginWithGoogle, listingNextPage, listingTotal }
 
   if (path === '/workscape') return <Suspense fallback={<div className="page"><LoaderCircle /></div>}><Workscape navigate={go} /></Suspense>
@@ -180,11 +217,10 @@ export function AppRoot() {
       {role === 'public' ? (
         <PublicHeader path={path} navigate={go} db={db} notificationsOpen={notificationsOpen} setNotificationsOpen={setNotificationsOpen} />
       ) : (
-        <AppShellHeader role={role} path={path} navigate={go} db={db} menuOpen={menuOpen} setMenuOpen={setMenuOpen} notificationsOpen={notificationsOpen} setNotificationsOpen={setNotificationsOpen} />
+        <AppShellHeader role={role} path={path} navigate={go} db={db} menuOpen={menuOpen} setMenuOpen={setMenuOpen} notificationsOpen={notificationsOpen} setNotificationsOpen={setNotificationsOpen} onLogout={logout} />
       )}
-      <PrototypeRail role={effectiveRole} navigate={go} restoreDemo={restoreDemo} />
       <main className={role === 'agent' || role === 'admin' ? 'with-sidebar' : ''}>
-        {(role === 'agent' || role === 'admin') && <Sidebar role={role} path={path} navigate={navigate} open={menuOpen} />}
+        {(role === 'agent' || role === 'admin') && <Sidebar role={role} path={path} navigate={navigate} open={menuOpen} onLogout={logout} />}
         <div className={role === 'agent' || role === 'admin' ? 'workspace' : ''}>
           <Router {...app} />
         </div>
