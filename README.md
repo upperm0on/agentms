@@ -62,8 +62,14 @@ python -m venv red
 red/bin/pip install -r backend/requirements.txt
 red/bin/python backend/manage.py migrate
 red/bin/python backend/manage.py seed_demo_data
+red/bin/python backend/manage.py seed_legacy_agents
 red/bin/python backend/manage.py runserver 127.0.0.1:8001
 ```
+
+`seed_legacy_agents` is an optional, rerunnable inventory seed. It creates 10 namespaced
+agent accounts and assigns the 46 room groups in `prev/hostel/media/room_images` across
+them, preserving all valid room photos. It creates required location, amenity, property,
+and listing records without deleting existing data.
 
 The current development database is SQLite. It lives at:
 
