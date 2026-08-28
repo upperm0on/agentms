@@ -8,7 +8,7 @@ import { PublicAgentPage } from '../features/public/PublicAgentPage'
 import { AuthPage } from '../features/auth/AuthPage'
 import { StudentDashboard, StudentInquiries, StudentProfile, StudentSaved } from '../features/student'
 import { AgentDashboard, AgentListings, AgentProfile, AgentSettings, AgentVerification, ListingFormPage } from '../features/agent'
-import { AdminAgentDetail, AdminAgents, AdminDashboard, AdminListings, AdminLocations, AdminReports, AdminUsers } from '../features/admin'
+import { AdminAgentDetail, AdminAgents, AdminDashboard, AdminInquiries, AdminListings, AdminLocations, AdminReports, AdminUsers } from '../features/admin'
 
 export function Router(props: AppProps) {
   const { path } = props
@@ -16,7 +16,7 @@ export function Router(props: AppProps) {
   if (path === '/listings') return <ListingsPage {...props} />
   if (/^\/listings\/[^/]+$/.test(path)) return <ListingDetailPage {...props} id={path.split('/')[2]} />
   if (/^\/agents\/[^/]+$/.test(path)) return <PublicAgentPage {...props} id={path.split('/')[2]} />
-  if (path === '/login' || path === '/signup' || path === '/forgot-password' || path === '/reset-password' || path.startsWith('/verify-email')) return <AuthPage {...props} />
+  if (path === '/login' || path === '/signup' || path === '/forgot-password' || path === '/reset-password' || path.startsWith('/verify-email')) return <AuthPage key={path} {...props} />
   if (path === '/student/dashboard') return <StudentDashboard {...props} />
   if (path === '/student/inquiries') return <StudentInquiries {...props} />
   if (path === '/student/saved') return <StudentSaved {...props} />
@@ -32,6 +32,7 @@ export function Router(props: AppProps) {
   if (path === '/admin/agents') return <AdminAgents {...props} />
   if (/^\/admin\/agents\/[^/]+$/.test(path)) return <AdminAgentDetail {...props} id={path.split('/')[3]} />
   if (path === '/admin/listings') return <AdminListings {...props} />
+  if (path === '/admin/inquiries') return <AdminInquiries {...props} />
   if (path === '/admin/reports') return <AdminReports {...props} />
   if (path === '/admin/locations') return <AdminLocations {...props} />
   if (path === '/admin/users') return <AdminUsers {...props} />

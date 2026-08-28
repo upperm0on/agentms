@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type FormEvent } from 'react'
+import { useState, type FormEvent } from 'react'
 import { ArrowLeft, CheckCircle2, LoaderCircle, Mail, ShieldCheck } from 'lucide-react'
 import type { AppProps } from '../../app/types'
 import { Brand } from '../../components/layout/AppShell'
@@ -23,18 +23,12 @@ const authErrorText: Record<string, string> = {
 export function AuthPage(props: AppProps) {
   const { path, navigate, busy } = props
   const [role, setRole] = useState<'Student' | 'Agent'>('Student')
+  const authError = new URLSearchParams(window.location.search).get('auth_error') ?? ''
   const [sent, setSent] = useState(false)
-  const [error, setError] = useState('')
+  const [error, setError] = useState(authError ? authErrorText[authError] ?? 'Google login failed. Try again.' : '')
   const [statusText, setStatusText] = useState('')
   const title = path === '/login' ? 'Welcome back' : path === '/signup' ? 'Create your AgentMS account' : path === '/forgot-password' ? 'Reset your password' : path.startsWith('/verify-email') ? 'Email verified' : 'Choose a new password'
   const showAccountForm = path === '/login' || path === '/signup'
-  const authError = useMemo(() => new URLSearchParams(window.location.search).get('auth_error') ?? '', [path])
-
-  useEffect(() => {
-    setSent(false)
-    setStatusText('')
-    setError(authError ? authErrorText[authError] ?? 'Google login failed. Try again.' : '')
-  }, [authError, path])
 
   function startGoogleLogin() {
     setError('')

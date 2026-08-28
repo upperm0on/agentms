@@ -99,10 +99,11 @@ type ApiAgent = {
   phone: string
   whatsapp_number: string
   verification_status: string
+  verification_notes: string
   operating_area_details?: ApiArea[]
   response_rate: string
   listing_freshness_score: string
-  documents?: { title: string }[]
+  documents?: { id: string; title: string; file: string }[]
   created_at: string
 }
 
@@ -163,6 +164,25 @@ type ApiReport = {
   details: string
   severity: string
   status: string
+  resolution_notes: string
+  created_at: string
+}
+
+type ApiAdminLocation = {
+  id: string
+  campus: string
+  abbreviation: string
+  city: string
+  area: string
+  region: string
+  active: boolean
+}
+
+type ApiAuditLog = {
+  id: string
+  action: string
+  entity_type: string
+  metadata: Record<string, unknown>
   created_at: string
 }
 
@@ -316,7 +336,13 @@ async function apiFetch<T>(path: string, role: Role, init: RequestInit = {}): Pr
       let detail = `${method} ${path} failed with ${response.status}`
       try {
         const data = await response.clone().json()
-        if (typeof data?.detail === 'string') detail = data.detail
+        if (typeof data?.detail === 'string') {
+          detail = data.detail
+        } else if (data && typeof data === 'object') {
+          const validationMessages = Object.entries(data)
+            .flatMap(([field, messages]) => (Array.isArray(messages) ? messages : [messages]).map((message) => `${label(field)}: ${String(message)}`))
+          if (validationMessages.length) detail = validationMessages.join(' ')
+        }
       } catch {
         detail = `${method} ${path} failed with ${response.status}`
       }
@@ -525,6 +551,10 @@ function mapArea(area: ApiArea): Location {
   }
 }
 
+function mapAdminLocation(location: ApiAdminLocation): Location {
+  return location
+}
+
 function mapAgent(agent: ApiAgent): Agent {
   return {
     id: agent.id,
@@ -536,10 +566,15 @@ function mapAgent(agent: ApiAgent): Agent {
     bio: agent.bio,
     areas: agent.operating_area_details?.map((area) => area.name) ?? [],
     verification: label(agent.verification_status) as Agent['verification'],
+    verificationNotes: agent.verification_notes ?? '',
     responseRate: Number(agent.response_rate),
     freshnessScore: Number(agent.listing_freshness_score),
     joined: dateLabel(agent.created_at),
-    documents: agent.documents?.map((document) => document.title) ?? [],
+    documents: agent.documents?.map((document) => ({
+      id: document.id,
+      title: document.title,
+      file: mediaUrl(document.file),
+    })) ?? [],
   }
 }
 
@@ -611,7 +646,22 @@ function mapReport(report: ApiReport): Report {
     severity: label(report.severity) as Report['severity'],
     status: label(report.status) as Report['status'],
     reporter: report.reported_by_detail?.name ?? 'Anonymous',
+    resolutionNotes: report.resolution_notes ?? '',
     createdAt: dateLabel(report.created_at),
+  }
+}
+
+function mapAuditLog(log: ApiAuditLog) {
+  const status = typeof log.metadata.status === 'string'
+    ? ` · ${label(log.metadata.status)}`
+    : typeof log.metadata.moderation_status === 'string'
+      ? ` · ${label(log.metadata.moderation_status)}`
+      : ''
+  return {
+    id: log.id,
+    title: label(log.action),
+    meta: `${label(log.entity_type)}${status} · ${dateLabel(log.created_at)}`,
+    entityType: log.entity_type,
   }
 }
 
@@ -652,13 +702,15 @@ export async function loadBackendDatabase(role: Role, filters: ListingFilters = 
   const useLocalListingFilters = shouldFilterListingsLocally(role)
   const listingsPath = role === 'admin' ? '/admin/listings/' : `/listings/${useLocalListingFilters ? '' : listingQuery(filters)}`
   let listingsApi: ApiListing[]
-  let areasApi: ApiArea[]
+  let areasApi: ApiArea[] | ApiAdminLocation[]
   let meApi: ApiUser | null
-  let agentMeApi: ApiAgent | null = null
+  let agentMeApi: ApiAgent | null
   try {
     ;[listingsApi, areasApi, meApi, agentMeApi] = await Promise.all([
       apiListings(listingsPath, apiRole, useLocalListingFilters ? role : undefined),
-      apiList<ApiArea>('/locations/areas/', 'public'),
+      role === 'admin'
+        ? apiList<ApiAdminLocation>('/admin/locations/', role)
+        : apiList<ApiArea>('/locations/areas/', 'public'),
       fetchCurrentUser(apiRole),
       role === 'agent' ? apiFetch<ApiAgent>('/agents/me/', role).catch(() => null) : Promise.resolve(null),
     ])
@@ -673,12 +725,13 @@ export async function loadBackendDatabase(role: Role, filters: ListingFilters = 
   listingsApi.forEach((listing) => agentMap.set(listing.agent_detail.id, mapAgent(listing.agent_detail)))
   if (agentMeApi) agentMap.set(agentMeApi.id, mapAgent(agentMeApi))
 
-  const [adminAgents, adminReports, inquiriesApi, notificationsApi, savedApi] = await Promise.all([
+  const [adminAgents, adminReports, inquiriesApi, notificationsApi, savedApi, auditLogsApi] = await Promise.all([
     role === 'admin' ? apiList<ApiAgent>('/admin/agents/', role).catch(() => []) : Promise.resolve([]),
     role === 'admin' ? apiList<ApiReport>('/admin/reports/', role).catch(() => []) : Promise.resolve([]),
-    role === 'agent' ? apiList<ApiInquiry>('/inquiries/agent/', role).catch(() => []) : role === 'student' ? apiList<ApiInquiry>('/inquiries/student/', role).catch(() => []) : Promise.resolve([]),
+    role === 'admin' ? apiList<ApiInquiry>('/admin/inquiries/', role).catch(() => []) : role === 'agent' ? apiList<ApiInquiry>('/inquiries/agent/', role).catch(() => []) : role === 'student' ? apiList<ApiInquiry>('/inquiries/student/', role).catch(() => []) : Promise.resolve([]),
     role !== 'public' ? apiList<ApiNotification>('/notifications/', role).catch(() => []) : Promise.resolve([]),
     role === 'student' ? apiList<{ listing: string }>('/listings/saved/', role).catch(() => []) : Promise.resolve([]),
+    role === 'admin' ? apiList<ApiAuditLog>('/admin/audit-logs/', role).catch(() => []) : Promise.resolve([]),
   ])
   const adminUsers = role === 'admin' ? await apiList<ApiUser>('/admin/users/', role).catch(() => []) : []
 
@@ -694,15 +747,20 @@ export async function loadBackendDatabase(role: Role, filters: ListingFilters = 
     inquiries: inquiriesApi.map(mapInquiry),
     agents: Array.from(agentMap.values()),
     reports: role === 'admin' ? adminReports.map(mapReport) : [],
-    locations: areasApi.map(mapArea),
+    locations: role === 'admin'
+      ? (areasApi as ApiAdminLocation[]).map(mapAdminLocation)
+      : (areasApi as ApiArea[]).map(mapArea),
     users,
     notifications: notificationsApi.map(mapNotification),
+    adminActivity: auditLogsApi.slice(0, 8).map(mapAuditLog),
     profile: meApi ? {
       name: meApi.name,
       email: meApi.email,
       phone: meApi.phone,
       whatsapp: meApi.phone,
-      campus: areasApi[0]?.campus_name ?? '',
+      campus: role === 'admin'
+        ? (areasApi[0] as ApiAdminLocation | undefined)?.campus ?? ''
+        : (areasApi[0] as ApiArea | undefined)?.campus_name ?? '',
     } : fallback.profile,
   }
   if (useLocalListingFilters) {
@@ -784,7 +842,7 @@ export async function loadBackendListingDetail(id: string, role: Role = 'public'
   }
 }
 
-export async function persistBackendMutation(before: Database, after: Database, role: Role) {
+export async function persistBackendMutation(before: Database, after: Database, role: Role, options: { note?: string } = {}) {
   const createdInquiry = after.inquiries.find((item) => !before.inquiries.some((existing) => existing.id === item.id))
   if (createdInquiry) {
     await apiFetch(`/inquiries/listings/${createdInquiry.listingId}/`, 'student', {
@@ -808,6 +866,16 @@ export async function persistBackendMutation(before: Database, after: Database, 
         details: createdReport.details,
         severity: createdReport.severity.toLowerCase(),
       }),
+    })
+    invalidateBackendDatabaseCache()
+    return
+  }
+
+  const createdLocation = after.locations.find((item) => !before.locations.some((existing) => existing.id === item.id))
+  if (createdLocation && role === 'admin') {
+    await apiFetch('/admin/locations/', 'admin', {
+      method: 'POST',
+      body: JSON.stringify(createdLocation),
     })
     invalidateBackendDatabaseCache()
     return
@@ -850,7 +918,8 @@ export async function persistBackendMutation(before: Database, after: Database, 
         method: 'PATCH',
         body: JSON.stringify({
           moderation_status: apiModeration(listing.moderation),
-          note: 'Updated from AgentMS frontend.',
+          listing_status: listing.status.toLowerCase(),
+          note: options.note ?? '',
         }),
       })
       invalidateBackendDatabaseCache()
@@ -880,7 +949,7 @@ export async function persistBackendMutation(before: Database, after: Database, 
         method: 'PATCH',
         body: JSON.stringify({
           verification_status: apiVerification(agent.verification),
-          verification_notes: 'Updated from AgentMS frontend.',
+          verification_notes: options.note ?? '',
         }),
       })
       invalidateBackendDatabaseCache()
@@ -895,8 +964,33 @@ export async function persistBackendMutation(before: Database, after: Database, 
         method: 'PATCH',
         body: JSON.stringify({
           status: apiReportStatus(report.status),
-          resolution_notes: 'Updated from AgentMS frontend.',
+          resolution_notes: options.note ?? report.resolutionNotes,
         }),
+      })
+      invalidateBackendDatabaseCache()
+      return
+    }
+  }
+
+
+  for (const location of after.locations) {
+    const previous = before.locations.find((item) => item.id === location.id)
+    if (previous && JSON.stringify(previous) !== JSON.stringify(location) && role === 'admin') {
+      await apiFetch(`/admin/locations/${location.id}/`, 'admin', {
+        method: 'PATCH',
+        body: JSON.stringify(location),
+      })
+      invalidateBackendDatabaseCache()
+      return
+    }
+  }
+
+  for (const user of after.users) {
+    const previous = before.users.find((item) => item.id === user.id)
+    if (previous && previous.status !== user.status && role === 'admin') {
+      await apiFetch(`/admin/users/${user.id}/status/`, 'admin', {
+        method: 'PATCH',
+        body: JSON.stringify({ status: user.status.toLowerCase() }),
       })
       invalidateBackendDatabaseCache()
       return

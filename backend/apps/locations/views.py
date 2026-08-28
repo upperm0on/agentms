@@ -2,10 +2,12 @@ from django.core.cache import cache
 from rest_framework import permissions, viewsets
 from rest_framework.response import Response
 
-from apps.common.cache import cache_timeout, response_cache_key
+from apps.common.cache import bump_cache_version, cache_timeout, response_cache_key
 
 from .models import Area, Campus, Region
-from .serializers import AreaSerializer, CampusSerializer, RegionSerializer
+from apps.common.permissions import IsAdminRole
+
+from .serializers import AdminLocationSerializer, AreaSerializer, CampusSerializer, RegionSerializer
 
 
 class CachedReferenceViewSet(viewsets.ReadOnlyModelViewSet):
@@ -57,3 +59,30 @@ class AreaViewSet(CachedReferenceViewSet):
     queryset = Area.objects.select_related("campus", "campus__region").filter(is_active=True)
     serializer_class = AreaSerializer
     permission_classes = [permissions.AllowAny]
+
+
+class AdminLocationViewSet(viewsets.ModelViewSet):
+    queryset = Area.objects.select_related("campus", "campus__region").all()
+    serializer_class = AdminLocationSerializer
+    permission_classes = [IsAdminRole]
+    http_method_names = ["get", "post", "patch", "head", "options"]
+
+    def _record_change(self, action, area):
+        from apps.moderation.services import record_audit
+
+        record_audit(
+            actor=self.request.user,
+            action=action,
+            entity_type="location",
+            entity_id=area.id,
+            metadata={"campus": area.campus.name, "area": area.name, "active": area.is_active},
+        )
+        bump_cache_version("reference-data")
+
+    def perform_create(self, serializer):
+        area = serializer.save()
+        self._record_change("location_created", area)
+
+    def perform_update(self, serializer):
+        area = serializer.save()
+        self._record_change("location_updated", area)

@@ -1,8 +1,14 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
+from apps.common.models import ActiveState
+
 
 User = get_user_model()
+
+
+class AdminUserStatusSerializer(serializers.Serializer):
+    status = serializers.ChoiceField(choices=ActiveState.choices)
 
 
 class UserSerializer(serializers.ModelSerializer):

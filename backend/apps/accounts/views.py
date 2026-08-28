@@ -9,15 +9,15 @@ import requests
 from urllib.parse import urlencode
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework import permissions, status, viewsets
+from rest_framework import decorators, permissions, status, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from apps.common.models import ActiveState
-from apps.common.permissions import IsAdminRole
+from apps.common.permissions import IsActiveUser, IsAdminRole
 
 from .models import UserRole
-from .serializers import GoogleLoginSerializer, LoginSerializer, RegisterSerializer, UserSerializer
+from .serializers import AdminUserStatusSerializer, GoogleLoginSerializer, LoginSerializer, RegisterSerializer, UserSerializer
 
 
 User = get_user_model()
@@ -208,7 +208,7 @@ class LogoutView(APIView):
 
 
 class MeView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsActiveUser]
 
     def get(self, request):
         return Response(UserSerializer(request.user).data)
@@ -218,3 +218,30 @@ class AdminUserViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = User.objects.order_by("-created_at")
     serializer_class = UserSerializer
     permission_classes = [IsAdminRole]
+
+    @decorators.action(detail=True, methods=["patch"], url_path="status")
+    def update_status(self, request, pk=None):
+        user = self.get_object()
+        serializer = AdminUserStatusSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        next_status = serializer.validated_data["status"]
+
+        if user == request.user and next_status == ActiveState.SUSPENDED:
+            return Response({"detail": "You cannot suspend your own account."}, status=status.HTTP_400_BAD_REQUEST)
+        if user.role == UserRole.ADMIN and next_status == ActiveState.SUSPENDED:
+            active_admins = User.objects.filter(role=UserRole.ADMIN, status=ActiveState.ACTIVE).exclude(pk=user.pk)
+            if not active_admins.exists():
+                return Response({"detail": "At least one active admin account is required."}, status=status.HTTP_400_BAD_REQUEST)
+
+        user.status = next_status
+        user.save(update_fields=["status", "updated_at"])
+        from apps.moderation.services import record_audit
+
+        record_audit(
+            actor=request.user,
+            action="user_status_update",
+            entity_type="user",
+            entity_id=user.id,
+            metadata={"status": next_status},
+        )
+        return Response(UserSerializer(user).data)

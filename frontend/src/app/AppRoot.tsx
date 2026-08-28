@@ -98,6 +98,12 @@ export function AppRoot() {
     return locations
   }
 
+  function go(next: string) {
+    setMenuOpen(false)
+    setNotificationsOpen(false)
+    navigate(next)
+  }
+
   async function openWorkspaceForUser(user: BackendAuthUser) {
     const nextRole = user.role.toLowerCase() as Role
     setCurrentUser(user)
@@ -216,30 +222,25 @@ export function AppRoot() {
     }
   }, [authPage, role, workspaceRole, path])
 
-  const go = (next: string) => {
-    setMenuOpen(false)
-    setNotificationsOpen(false)
-    navigate(next)
-  }
-
-  async function mutate(message: string, update: (draft: Database) => void) {
+  async function mutate(message: string, update: (draft: Database) => void, options: { note?: string } = {}) {
     setBusy(true)
     const before = structuredClone(db)
     const draft = structuredClone(db)
     update(draft)
     setDb(draft)
     try {
-      await persistBackendMutation(before, draft, role)
+      await persistBackendMutation(before, draft, role, options)
       await refreshFromBackend(role)
+      setToast(message)
     } catch (error) {
       console.error('Backend mutation failed', error)
       setDb(before)
-      setToast('Backend update failed; changes were not applied')
+      setToast(error instanceof Error ? error.message : 'Backend update failed; changes were not applied')
+    } finally {
+      setBusy(false)
+      setModal(null)
+      window.setTimeout(() => setToast(''), 3200)
     }
-    setBusy(false)
-    setModal(null)
-    if (!toast) setToast(message)
-    window.setTimeout(() => setToast(''), 3200)
   }
 
   const app = { db, path, navigate: go, mutate, setModal, busy, refreshFromBackend, loadListingPage, loadMoreListings, loadLocations, loginWithPassword, registerWithPassword, loginWithGoogle, listingNextPage, listingTotal }

@@ -7,7 +7,7 @@ from apps.agents.models import AgentProfile
 from apps.inquiries.models import Inquiry, InquiryStatus
 from apps.listings.models import Amenity, AvailabilityStatus, Listing, ListingStatus, PricePeriod, Property, RoomType
 from apps.locations.models import Area, Campus, Region
-from apps.moderation.models import ListingReport, ModerationAction
+from apps.moderation.models import AuditLog, ListingReport, ModerationAction
 from apps.notifications.models import Notification
 
 
@@ -350,3 +350,131 @@ class AgentMSAPITestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         titles = [item["title"] for item in response.data["results"]]
         self.assertEqual(titles, ["Sunlit single room"])
+
+    def test_admin_listing_moderation_persists_state_note_and_audit(self):
+        self.client.force_authenticate(self.admin)
+
+        response = self.client.patch(
+            f"/api/admin/listings/{self.listing.id}/moderation/",
+            {
+                "moderation_status": "flagged",
+                "listing_status": "unpublished",
+                "note": "The price needs confirmation.",
+            },
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.listing.refresh_from_db()
+        self.assertEqual(self.listing.moderation_status, "flagged")
+        self.assertEqual(self.listing.status, ListingStatus.UNPUBLISHED)
+        self.assertTrue(
+            ModerationAction.objects.filter(
+                entity_id=self.listing.id,
+                note="The price needs confirmation.",
+            ).exists()
+        )
+        self.assertTrue(AuditLog.objects.filter(action="listing_moderation_update", entity_id=self.listing.id).exists())
+
+    def test_admin_can_suspend_and_reactivate_user(self):
+        login_response = self.client.post(
+            "/api/auth/login/",
+            {"email": self.student.email, "password": "password123"},
+            format="json",
+        )
+        self.assertEqual(login_response.status_code, status.HTTP_200_OK)
+        initial_me = self.client.get("/api/auth/me/")
+        self.assertEqual(initial_me.status_code, status.HTTP_200_OK)
+
+        admin_client = self.client_class()
+        admin_client.force_authenticate(self.admin)
+
+        suspend_response = admin_client.patch(
+            f"/api/admin/users/{self.student.id}/status/",
+            {"status": "suspended"},
+            format="json",
+        )
+        suspended_me = self.client.get("/api/auth/me/")
+        reactivate_response = admin_client.patch(
+            f"/api/admin/users/{self.student.id}/status/",
+            {"status": "active"},
+            format="json",
+        )
+
+        self.assertEqual(suspend_response.status_code, status.HTTP_200_OK)
+        self.assertEqual(suspended_me.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(reactivate_response.status_code, status.HTTP_200_OK)
+        self.student.refresh_from_db()
+        self.assertEqual(self.student.status, "active")
+        self.assertEqual(AuditLog.objects.filter(action="user_status_update", entity_id=self.student.id).count(), 2)
+
+    def test_admin_cannot_suspend_own_account(self):
+        self.client.force_authenticate(self.admin)
+
+        response = self.client.patch(
+            f"/api/admin/users/{self.admin.id}/status/",
+            {"status": "suspended"},
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.admin.refresh_from_db()
+        self.assertEqual(self.admin.status, "active")
+
+    def test_admin_can_create_edit_and_archive_location(self):
+        self.client.force_authenticate(self.admin)
+        create_response = self.client.post(
+            "/api/admin/locations/",
+            {
+                "campus": "University of Ghana",
+                "abbreviation": "UG",
+                "city": "Accra",
+                "area": "Legon",
+                "region": "Greater Accra",
+                "active": True,
+            },
+            format="json",
+        )
+
+        self.assertEqual(create_response.status_code, status.HTTP_201_CREATED)
+        location_id = create_response.data["id"]
+        update_response = self.client.patch(
+            f"/api/admin/locations/{location_id}/",
+            {
+                "campus": "University of Ghana",
+                "abbreviation": "UG",
+                "city": "Accra",
+                "area": "East Legon",
+                "region": "Greater Accra",
+                "active": False,
+            },
+            format="json",
+        )
+
+        self.assertEqual(update_response.status_code, status.HTTP_200_OK)
+        area = Area.objects.get(pk=location_id)
+        self.assertEqual(area.name, "East Legon")
+        self.assertFalse(area.is_active)
+        admin_list = self.client.get("/api/admin/locations/")
+        public_list = self.client.get("/api/locations/areas/")
+        self.assertIn(location_id, [str(item["id"]) for item in admin_list.data["results"]])
+        self.assertNotIn(location_id, [str(item["id"]) for item in public_list.data["results"]])
+
+    def test_admin_can_inspect_inquiries_but_student_cannot_use_admin_endpoint(self):
+        Inquiry.objects.create(
+            student=self.student,
+            listing=self.listing,
+            agent=self.agent,
+            message="Can I view this room tomorrow?",
+            student_phone=self.student.phone,
+            preferred_contact_method="whatsapp",
+        )
+        self.client.force_authenticate(self.admin)
+        admin_response = self.client.get("/api/admin/inquiries/")
+        self.client.force_authenticate(self.student)
+        student_response = self.client.get("/api/admin/inquiries/")
+
+        self.assertEqual(admin_response.status_code, status.HTTP_200_OK)
+        self.assertEqual(admin_response.data["count"], 1)
+        self.assertEqual(admin_response.data["results"][0]["student_detail"]["email"], self.student.email)
+        self.assertEqual(student_response.status_code, status.HTTP_403_FORBIDDEN)

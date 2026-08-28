@@ -1,7 +1,7 @@
 from django.utils import timezone
 
 from apps.agents.models import AgentProfile
-from apps.listings.models import Listing
+from apps.listings.models import Listing, ListingStatus
 from apps.notifications.services import create_notification
 
 from .models import AuditLog, ListingReport, ModerationAction
@@ -35,9 +35,16 @@ def create_listing_report(*, listing: Listing, reported_by, reason: str, details
     return report
 
 
-def moderate_listing(*, listing: Listing, actor, moderation_status: str, note: str = "") -> Listing:
+def moderate_listing(*, listing: Listing, actor, moderation_status: str, listing_status: str | None = None, note: str = "") -> Listing:
     listing.moderation_status = moderation_status
-    listing.save(update_fields=["moderation_status", "updated_at"])
+    update_fields = ["moderation_status", "updated_at"]
+    if listing_status:
+        listing.status = listing_status
+        update_fields.append("status")
+        if listing_status == ListingStatus.PUBLISHED and listing.published_at is None:
+            listing.published_at = timezone.now()
+            update_fields.append("published_at")
+    listing.save(update_fields=update_fields)
     ModerationAction.objects.create(
         actor=actor,
         entity_type="listing",
@@ -45,7 +52,13 @@ def moderate_listing(*, listing: Listing, actor, moderation_status: str, note: s
         action=f"listing_{moderation_status}",
         note=note,
     )
-    record_audit(actor=actor, action="listing_moderation_update", entity_type="listing", entity_id=listing.id, metadata={"status": moderation_status})
+    record_audit(
+        actor=actor,
+        action="listing_moderation_update",
+        entity_type="listing",
+        entity_id=listing.id,
+        metadata={"moderation_status": moderation_status, "listing_status": listing.status, "note": note},
+    )
     return listing
 
 
@@ -62,6 +75,13 @@ def update_report_status(*, report: ListingReport, actor, status: str, resolutio
         action=f"report_{status}",
         note=resolution_notes,
     )
+    record_audit(
+        actor=actor,
+        action="report_status_update",
+        entity_type="report",
+        entity_id=report.id,
+        metadata={"status": status, "note": resolution_notes},
+    )
     return report
 
 
@@ -75,6 +95,13 @@ def update_agent_verification(*, agent: AgentProfile, actor, verification_status
         entity_id=agent.id,
         action=f"agent_{verification_status}",
         note=note,
+    )
+    record_audit(
+        actor=actor,
+        action="agent_verification_update",
+        entity_type="agent",
+        entity_id=agent.id,
+        metadata={"status": verification_status, "note": note},
     )
     create_notification(
         recipient=agent.user,

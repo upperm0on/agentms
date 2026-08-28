@@ -8,7 +8,14 @@ from apps.listings.models import Listing
 from apps.listings.serializers import ListingSerializer
 
 from .models import AuditLog, ListingReport, ModerationAction
-from .serializers import AuditLogSerializer, ListingReportSerializer, ModerationActionSerializer
+from .serializers import (
+    AdminAgentVerificationSerializer,
+    AdminListingModerationSerializer,
+    AdminReportUpdateSerializer,
+    AuditLogSerializer,
+    ListingReportSerializer,
+    ModerationActionSerializer,
+)
 from .services import create_listing_report, moderate_listing, update_agent_verification, update_report_status
 
 
@@ -47,11 +54,17 @@ class AdminReportViewSet(viewsets.ModelViewSet):
 
     def partial_update(self, request, *args, **kwargs):
         report = self.get_object()
+        update_serializer = AdminReportUpdateSerializer(
+            data={
+                "status": request.data.get("status", report.status),
+                "resolution_notes": request.data.get("resolution_notes", report.resolution_notes),
+            }
+        )
+        update_serializer.is_valid(raise_exception=True)
         report = update_report_status(
             report=report,
             actor=request.user,
-            status=request.data.get("status", report.status),
-            resolution_notes=request.data.get("resolution_notes", report.resolution_notes),
+            **update_serializer.validated_data,
         )
         return response.Response(self.get_serializer(report).data)
 
@@ -61,11 +74,13 @@ class AdminAgentVerificationView(views.APIView):
 
     def patch(self, request, pk):
         agent = AgentProfile.objects.get(pk=pk)
+        serializer = AdminAgentVerificationSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
         agent = update_agent_verification(
             agent=agent,
             actor=request.user,
-            verification_status=request.data["verification_status"],
-            note=request.data.get("verification_notes", ""),
+            verification_status=serializer.validated_data["verification_status"],
+            note=serializer.validated_data.get("verification_notes", ""),
         )
         return response.Response(AgentProfileSerializer(agent, context={"request": request}).data)
 
@@ -75,11 +90,14 @@ class AdminListingModerationView(views.APIView):
 
     def patch(self, request, pk):
         listing = Listing.objects.get(pk=pk)
+        serializer = AdminListingModerationSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
         listing = moderate_listing(
             listing=listing,
             actor=request.user,
-            moderation_status=request.data["moderation_status"],
-            note=request.data.get("note", ""),
+            moderation_status=serializer.validated_data["moderation_status"],
+            listing_status=serializer.validated_data.get("listing_status"),
+            note=serializer.validated_data.get("note", ""),
         )
         bump_cache_version("public-listings")
         return response.Response(ListingSerializer(listing, context={"request": request}).data)

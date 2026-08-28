@@ -62,7 +62,8 @@ export type Agent = {
   responseRate: number
   freshnessScore: number
   joined: string
-  documents: string[]
+  verificationNotes: string
+  documents: { id: string; title: string; file: string }[]
 }
 
 export type Report = {
@@ -74,6 +75,7 @@ export type Report = {
   severity: 'Low' | 'Medium' | 'High'
   status: 'Open' | 'Reviewing' | 'Resolved' | 'Dismissed'
   reporter: string
+  resolutionNotes: string
   createdAt: string
 }
 
@@ -107,6 +109,13 @@ export type Notification = {
   audience: 'student' | 'agent' | 'admin'
 }
 
+export type AdminActivity = {
+  id: string
+  title: string
+  meta: string
+  entityType: string
+}
+
 export type Database = {
   listings: Listing[]
   inquiries: Inquiry[]
@@ -115,6 +124,7 @@ export type Database = {
   locations: Location[]
   users: User[]
   notifications: Notification[]
+  adminActivity: AdminActivity[]
   profile: { name: string; email: string; phone: string; whatsapp: string; campus: string }
   preferences: { inquiryUpdates: boolean; savedChanges: boolean; emailDigest: boolean; staleReminders: boolean }
 }
@@ -128,6 +138,7 @@ export function createEmptyDatabase(): Database {
     locations: [],
     users: [],
     notifications: [],
+    adminActivity: [],
     profile: { name: '', email: '', phone: '', whatsapp: '', campus: '' },
     preferences: { inquiryUpdates: false, savedChanges: false, emailDigest: false, staleReminders: false },
   }

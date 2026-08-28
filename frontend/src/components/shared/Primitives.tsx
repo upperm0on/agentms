@@ -14,24 +14,22 @@ export function DetailSection({ title, children }: { title: string; children: Re
 export function Badge({ tone = 'neutral', children }: { tone?: Tone; children: ReactNode }) { return <span className={`badge ${tone}`}>{children}</span> }
 export type SignalKind = 'availability' | 'freshness' | 'verified'
 
-export function signalIconFor(kind: SignalKind, value: string) {
-  if (kind === 'verified') return ShieldCheck
-  if (value === 'Available' || value === 'Confirmed today') return CheckCircle2
-  if (value === 'Limited' || value === 'Confirmed this week') return Clock3
-  if (value === 'Full' || value === 'Unavailable' || value === 'Stale') return CircleAlert
-  return RefreshCw
+function SignalIcon({ kind, value, size }: { kind: SignalKind; value: string; size: number }) {
+  if (kind === 'verified') return <ShieldCheck size={size} />
+  if (value === 'Available' || value === 'Confirmed today') return <CheckCircle2 size={size} />
+  if (value === 'Limited' || value === 'Confirmed this week') return <Clock3 size={size} />
+  if (value === 'Full' || value === 'Unavailable' || value === 'Stale') return <CircleAlert size={size} />
+  return <RefreshCw size={size} />
 }
 
 export function SignalTag({ kind, value, active, explain = true, floating }: { kind: SignalKind; value: string; active?: boolean; explain?: boolean; floating?: boolean }) {
   const normalized = value.toLowerCase().replace(/\s+/g, '-')
-  const Icon = signalIconFor(kind, value)
-  return <span className={`signal-tag icon-only ${explain ? 'has-tip' : ''} ${kind} ${normalized} ${floating ? 'floating' : ''} ${active ? 'tip-active' : ''}`} data-tip={explain ? value : undefined} aria-label={value} tabIndex={explain ? 0 : -1}><Icon size={14} /></span>
+  return <span className={`signal-tag icon-only ${explain ? 'has-tip' : ''} ${kind} ${normalized} ${floating ? 'floating' : ''} ${active ? 'tip-active' : ''}`} data-tip={explain ? value : undefined} aria-label={value} tabIndex={explain ? 0 : -1}><SignalIcon kind={kind} value={value} size={14} /></span>
 }
 export function SignalDetail({ kind, value }: { kind: SignalKind; value: string }) {
   const normalized = value.toLowerCase().replace(/\s+/g, '-')
-  const Icon = signalIconFor(kind, value)
   const title = kind === 'availability' ? 'Availability' : kind === 'freshness' ? 'Freshness' : 'Trust'
-  return <div className={`detail-signal ${kind} ${normalized}`}><span><Icon size={18} /></span><div><strong>{value}</strong><small>{title}</small></div></div>
+  return <div className={`detail-signal ${kind} ${normalized}`}><span><SignalIcon kind={kind} value={value} size={18} /></span><div><strong>{value}</strong><small>{title}</small></div></div>
 }
 export function Fact({ label, value, icon }: { label: string; value: string; icon?: ReactNode }) { return <div className={`fact ${icon ? 'with-icon' : ''}`}>{icon && <i>{icon}</i>}<span>{label}</span><strong>{value}</strong></div> }
 export function Metric({ label, value, detail, tone = 'neutral', icon }: { label: string; value: string; detail: string; tone?: Tone; icon?: ReactNode }) { return <div className={`metric ${tone}`}>{icon && <i className="metric-icon">{icon}</i>}<span>{label}</span><strong>{value}</strong><small>{detail}</small></div> }

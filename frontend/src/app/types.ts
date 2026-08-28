@@ -13,7 +13,7 @@ export type AppProps = {
   db: Database
   path: string
   navigate: (path: string) => void
-  mutate: (message: string, update: (draft: Database) => void) => Promise<void>
+  mutate: (message: string, update: (draft: Database) => void, options?: { note?: string }) => Promise<void>
   setModal: (modal: ModalState) => void
   busy: boolean
   refreshFromBackend: (role?: Role, filters?: ListingFilters) => Promise<Database | null>

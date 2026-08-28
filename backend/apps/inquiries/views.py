@@ -1,8 +1,8 @@
-from rest_framework import generics, permissions, status
+from rest_framework import generics, permissions, status, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from apps.common.permissions import IsAgent, IsStudent
+from apps.common.permissions import IsAdminRole, IsAgent, IsStudent
 from apps.listings.models import Listing
 
 from .models import Inquiry
@@ -58,3 +58,17 @@ class AgentInquiryDetailView(APIView):
             inquiry.agent_notes = request.data["agent_notes"]
             inquiry.save(update_fields=["agent_notes", "updated_at"])
         return Response(InquirySerializer(inquiry, context={"request": request}).data)
+
+
+class AdminInquiryViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Inquiry.objects.select_related(
+        "student",
+        "agent",
+        "agent__user",
+        "listing",
+        "listing__property",
+        "listing__property__area",
+        "listing__property__area__campus",
+    )
+    serializer_class = InquirySerializer
+    permission_classes = [IsAdminRole]

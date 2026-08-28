@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { Bell, Building2, ChevronDown, Flag, LayoutDashboard, LogOut, MapPin, Menu, Plus, Settings, ShieldCheck, UserRound, Users } from 'lucide-react'
+import { Bell, Building2, ChevronDown, Flag, LayoutDashboard, LogOut, MapPin, Menu, MessageSquareText, Plus, Settings, ShieldCheck, UserRound, Users } from 'lucide-react'
 import type { Database, Role, User } from '../../api/mockApi'
 import { initials } from '../../lib/uiHelpers'
 import './AppShell.css'
@@ -75,7 +75,7 @@ const agentNav = [
   ['/agent/dashboard', 'Overview', LayoutDashboard], ['/agent/listings', 'Listings', Building2], ['/agent/profile', 'Public profile', UserRound], ['/agent/verification', 'Verification', ShieldCheck], ['/agent/settings', 'Settings', Settings],
 ] as const
 const adminNav = [
-  ['/admin/dashboard', 'Overview', LayoutDashboard], ['/admin/agents', 'Agents', ShieldCheck], ['/admin/listings', 'Listings', Building2], ['/admin/reports', 'Reports', Flag], ['/admin/locations', 'Locations', MapPin], ['/admin/users', 'Users', Users],
+  ['/admin/dashboard', 'Overview', LayoutDashboard], ['/admin/agents', 'Agents', ShieldCheck], ['/admin/listings', 'Listings', Building2], ['/admin/inquiries', 'Inquiries', MessageSquareText], ['/admin/reports', 'Reports', Flag], ['/admin/locations', 'Locations', MapPin], ['/admin/users', 'Users', Users],
 ] as const
 
 export function Sidebar({ role, path, navigate, open, onLogout }: { role: 'agent' | 'admin'; path: string; navigate: (p: string) => void; open: boolean; onLogout: () => void }) {
