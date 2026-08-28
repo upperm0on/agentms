@@ -19,6 +19,14 @@ class User(AbstractUser):
     username = models.CharField(max_length=150, blank=True)
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=32, blank=True)
+    whatsapp_number = models.CharField(max_length=32, blank=True)
+    primary_campus = models.ForeignKey(
+        "locations.Campus",
+        null=True,
+        blank=True,
+        on_delete=models.PROTECT,
+        related_name="students",
+    )
     role = models.CharField(max_length=16, choices=UserRole.choices, default=UserRole.STUDENT)
     is_email_verified = models.BooleanField(default=False)
     status = models.CharField(max_length=16, choices=ActiveState.choices, default=ActiveState.ACTIVE)

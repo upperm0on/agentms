@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from apps.accounts.serializers import UserSerializer
+from apps.locations.models import Area
 from apps.locations.serializers import AreaSerializer
 
 from .models import AgentDocument, AgentProfile, VerificationRequest
@@ -17,6 +18,15 @@ class AgentProfileSerializer(serializers.ModelSerializer):
     user_detail = UserSerializer(source="user", read_only=True)
     operating_area_details = AreaSerializer(source="operating_areas", many=True, read_only=True)
     documents = AgentDocumentSerializer(many=True, read_only=True)
+    operating_areas = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=Area.objects.filter(
+            is_active=True,
+            campus__is_active=True,
+            campus__region__is_active=True,
+        ),
+        required=False,
+    )
 
     class Meta:
         model = AgentProfile
@@ -42,6 +52,7 @@ class AgentProfileSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = [
             "id",
+            "user",
             "verification_status",
             "verification_notes",
             "response_rate",

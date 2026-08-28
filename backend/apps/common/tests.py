@@ -478,3 +478,99 @@ class AgentMSAPITestCase(APITestCase):
         self.assertEqual(admin_response.data["count"], 1)
         self.assertEqual(admin_response.data["results"][0]["student_detail"]["email"], self.student.email)
         self.assertEqual(student_response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_student_profile_persists_primary_campus_from_reference_data(self):
+        self.client.force_authenticate(self.student)
+
+        response = self.client.patch(
+            "/api/auth/me/",
+            {
+                "phone": "+233200000111",
+                "whatsapp_number": "+233200000222",
+                "primary_campus": str(self.campus.id),
+            },
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.student.refresh_from_db()
+        self.assertEqual(self.student.primary_campus, self.campus)
+        self.assertEqual(self.student.whatsapp_number, "+233200000222")
+        self.assertEqual(response.data["primary_campus_detail"]["name"], "KNUST")
+
+    def test_agent_profile_accepts_active_admin_areas_and_rejects_archived_ones(self):
+        archived_area = Area.objects.create(campus=self.campus, name="Bomso", is_active=False)
+        self.client.force_authenticate(self.agent_user)
+
+        accepted = self.client.patch(
+            "/api/agents/me/",
+            {"operating_areas": [str(self.area.id)]},
+            format="json",
+        )
+        rejected = self.client.patch(
+            "/api/agents/me/",
+            {"operating_areas": [str(archived_area.id)]},
+            format="json",
+        )
+
+        self.assertEqual(accepted.status_code, status.HTTP_200_OK)
+        self.assertEqual(rejected.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(list(self.agent.operating_areas.values_list("id", flat=True)), [self.area.id])
+
+    def test_admin_campus_rename_propagates_to_students_agents_and_listings(self):
+        self.student.primary_campus = self.campus
+        self.student.save(update_fields=["primary_campus", "updated_at"])
+        self.client.force_authenticate(self.admin)
+
+        response = self.client.patch(
+            f"/api/admin/locations/{self.area.id}/",
+            {"campus": "Kwame Nkrumah University of Science and Technology"},
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.student.refresh_from_db()
+        self.agent.refresh_from_db()
+        self.listing.refresh_from_db()
+        expected = "Kwame Nkrumah University of Science and Technology"
+        self.assertEqual(self.student.primary_campus.name, expected)
+        self.assertEqual(self.agent.operating_areas.get().campus.name, expected)
+        self.assertEqual(self.listing.property.area.campus.name, expected)
+
+    def test_agent_creates_listing_against_an_admin_managed_area(self):
+        self.client.force_authenticate(self.agent_user)
+        property_response = self.client.post(
+            "/api/listings/properties/",
+            {
+                "name": "Canonical Court",
+                "area": str(self.area.id),
+                "property_type": "hostel",
+                "gender_policy": "mixed",
+            },
+            format="json",
+        )
+        listing_response = self.client.post(
+            "/api/listings/",
+            {
+                "property": property_response.data["id"],
+                "title": "Canonical campus room",
+                "description": "A room tied to the admin-managed location directory.",
+                "status": "draft",
+                "moderation_status": "approved",
+                "availability_status": "available",
+                "room_type": "single",
+                "gender_restriction": "mixed",
+                "capacity": 1,
+                "available_slots": 1,
+                "price_amount": "3500.00",
+                "price_period": "academic_year",
+            },
+            format="json",
+        )
+
+        self.assertEqual(property_response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(listing_response.status_code, status.HTTP_201_CREATED)
+        created = Listing.objects.get(pk=listing_response.data["id"])
+        self.assertEqual(created.agent, self.agent)
+        self.assertEqual(created.property.area, self.area)
+        self.assertEqual(created.moderation_status, "pending")

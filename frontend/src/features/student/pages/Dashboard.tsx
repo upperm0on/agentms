@@ -10,7 +10,7 @@ export function StudentDashboard(props: AppProps) {
   const firstName = studentName.split(' ')[0] || 'there'
   const active = props.db.inquiries.filter((i) => !i.status.startsWith('Closed') && (!studentName || i.student === studentName))
   const saved = props.db.listings.filter((l) => l.saved)
-  const campusMatches = props.db.listings.filter((l) => l.status === 'Published' && l.moderation === 'Approved' && l.campus === props.db.profile.campus)
+  const campusMatches = props.db.listings.filter((l) => l.status === 'Published' && l.moderation === 'Approved' && l.campusId === props.db.profile.campusId)
   const freshMatches = campusMatches.filter((l) => l.freshness === 'Confirmed today' || l.freshness === 'Confirmed this week').length
 
   return (

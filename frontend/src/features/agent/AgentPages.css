@@ -32,3 +32,46 @@
 .listing-editor .field input, .listing-editor .field select, .listing-editor .field textarea { width: 100%; min-width: 0; }
 @media (max-width: 1000px) { .narrow-page { max-width: 100%; }.listing-editor .editor-layout { grid-template-columns: 150px minmax(0, 1fr); }.engagement-panel .performance-bars > button { grid-template-columns: minmax(110px, 1fr) minmax(0, 1fr) 74px; } }
 @media (max-width: 760px) { .agent-overview .metric strong { font-size: 34px; }.agent-panels { grid-template-columns: 1fr; }.engagement-panel .performance-bars > button { grid-template-columns: 1fr; gap: 7px; }.profile-actions { justify-content: stretch; }.profile-actions .btn { width: 100%; }.listing-editor .editor-layout { grid-template-columns: 1fr; }.listing-editor .editor-steps { grid-template-columns: repeat(5, minmax(46px, 1fr)); }.listing-editor .form-grid { grid-template-columns: 1fr; }.settings-list > div { grid-template-columns: 32px minmax(0,1fr); gap: 9px; padding: 12px 0; }.settings-list .btn { grid-column: 2; justify-self: start; } }
+.location-choice-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.location-choice-group {
+  border: 1px solid #dfe8e2;
+  border-radius: 6px;
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  min-width: 0;
+  padding: 12px;
+}
+
+.location-choice-group legend {
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 0 4px;
+}
+
+.location-choice {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+  min-width: 0;
+}
+
+.location-choice input[type='checkbox'] {
+  accent-color: var(--teal);
+  flex: 0 0 16px;
+  height: 16px;
+  margin: 0;
+  min-height: 16px;
+  padding: 0;
+  width: 16px;
+}
+
+.location-choice span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}

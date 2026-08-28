@@ -7,6 +7,8 @@ export type Listing = {
   title: string
   property: string
   propertyId?: string
+  campusId?: string
+  areaId?: string
   campus: string
   area: string
   price: number
@@ -58,6 +60,7 @@ export type Agent = {
   whatsapp: string
   bio: string
   areas: string[]
+  areaIds: string[]
   verification: 'Unsubmitted' | 'Pending' | 'Verified' | 'Rejected' | 'Suspended'
   responseRate: number
   freshnessScore: number
@@ -81,6 +84,7 @@ export type Report = {
 
 export type Location = {
   id: string
+  campusId?: string
   campus: string
   abbreviation: string
   city: string
@@ -125,7 +129,7 @@ export type Database = {
   users: User[]
   notifications: Notification[]
   adminActivity: AdminActivity[]
-  profile: { name: string; email: string; phone: string; whatsapp: string; campus: string }
+  profile: { name: string; email: string; phone: string; whatsapp: string; campus: string; campusId: string }
   preferences: { inquiryUpdates: boolean; savedChanges: boolean; emailDigest: boolean; staleReminders: boolean }
 }
 
@@ -139,7 +143,7 @@ export function createEmptyDatabase(): Database {
     users: [],
     notifications: [],
     adminActivity: [],
-    profile: { name: '', email: '', phone: '', whatsapp: '', campus: '' },
+    profile: { name: '', email: '', phone: '', whatsapp: '', campus: '', campusId: '' },
     preferences: { inquiryUpdates: false, savedChanges: false, emailDigest: false, staleReminders: false },
   }
 }

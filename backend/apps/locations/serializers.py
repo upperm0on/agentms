@@ -66,30 +66,42 @@ class AdminLocationSerializer(serializers.Serializer):
 
     def validate(self, attrs):
         for field in ("campus", "city", "area", "region"):
+            if field not in attrs:
+                continue
             attrs[field] = attrs[field].strip()
             if not attrs[field]:
                 raise serializers.ValidationError({field: "This field cannot be blank."})
-        attrs["abbreviation"] = attrs.get("abbreviation", "").strip()
+        if "abbreviation" in attrs:
+            attrs["abbreviation"] = attrs["abbreviation"].strip()
         return attrs
 
     @staticmethod
-    def _reference_records(data):
+    def _reference_records(data, current_campus=None):
         region = Region.objects.filter(name__iexact=data["region"]).first()
         if region is None:
-            region = Region.objects.create(name=data["region"], is_active=True)
+            if current_campus is not None:
+                region = current_campus.region
+                region.name = data["region"]
+                region.is_active = True
+                region.save(update_fields=["name", "is_active", "updated_at"])
+            else:
+                region = Region.objects.create(name=data["region"], is_active=True)
         elif not region.is_active:
             region.is_active = True
             region.save(update_fields=["is_active", "updated_at"])
 
         campus = Campus.objects.filter(region=region, name__iexact=data["campus"]).first()
         if campus is None:
-            campus = Campus.objects.create(
-                region=region,
-                name=data["campus"],
-                abbreviation=data["abbreviation"],
-                city=data["city"],
-                is_active=True,
-            )
+            if current_campus is not None:
+                campus = current_campus
+                campus.region = region
+                campus.name = data["campus"]
+            else:
+                campus = Campus(region=region, name=data["campus"])
+            campus.abbreviation = data["abbreviation"]
+            campus.city = data["city"]
+            campus.is_active = True
+            campus.save()
         else:
             campus.abbreviation = data["abbreviation"]
             campus.city = data["city"]
@@ -116,7 +128,7 @@ class AdminLocationSerializer(serializers.Serializer):
             "active": instance.is_active,
             **validated_data,
         }
-        campus = self._reference_records(data)
+        campus = self._reference_records(data, current_campus=instance.campus)
         duplicate = Area.objects.filter(campus=campus, name__iexact=data["area"]).exclude(pk=instance.pk)
         if duplicate.exists():
             raise serializers.ValidationError({"area": "This area already exists for the selected campus."})

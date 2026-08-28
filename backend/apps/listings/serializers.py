@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from apps.agents.serializers import AgentProfileSerializer
+from apps.locations.models import Area
 from apps.locations.serializers import AreaSerializer
 
 from .models import Amenity, Listing, ListingImage, ListingRule, Property, SavedListing
@@ -13,6 +14,13 @@ class AmenitySerializer(serializers.ModelSerializer):
 
 
 class PropertySerializer(serializers.ModelSerializer):
+    area = serializers.PrimaryKeyRelatedField(
+        queryset=Area.objects.filter(
+            is_active=True,
+            campus__is_active=True,
+            campus__region__is_active=True,
+        )
+    )
     area_detail = AreaSerializer(source="area", read_only=True)
     amenities_detail = AmenitySerializer(source="amenities", many=True, read_only=True)
 
@@ -35,6 +43,17 @@ class PropertySerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ["id", "created_by", "created_at", "updated_at"]
 
+    def create(self, validated_data):
+        amenities = validated_data.pop("amenities", [])
+        instance, _ = Property.objects.get_or_create(
+            area=validated_data["area"],
+            name=validated_data["name"],
+            defaults=validated_data,
+        )
+        if amenities:
+            instance.amenities.set(amenities)
+        return instance
+
 
 class ListingRuleSerializer(serializers.ModelSerializer):
     class Meta:
@@ -51,6 +70,14 @@ class ListingImageSerializer(serializers.ModelSerializer):
 
 
 class ListingSerializer(serializers.ModelSerializer):
+    agent = serializers.PrimaryKeyRelatedField(read_only=True)
+    property = serializers.PrimaryKeyRelatedField(
+        queryset=Property.objects.filter(
+            area__is_active=True,
+            area__campus__is_active=True,
+            area__campus__region__is_active=True,
+        )
+    )
     agent_detail = AgentProfileSerializer(source="agent", read_only=True)
     property_detail = PropertySerializer(source="property", read_only=True)
     amenities_detail = AmenitySerializer(source="amenities", many=True, read_only=True)
@@ -102,6 +129,7 @@ class ListingSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = [
             "id",
+            "moderation_status",
             "view_count",
             "inquiry_count",
             "published_at",

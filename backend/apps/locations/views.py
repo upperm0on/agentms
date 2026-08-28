@@ -50,13 +50,17 @@ class RegionViewSet(CachedReferenceViewSet):
 
 
 class CampusViewSet(CachedReferenceViewSet):
-    queryset = Campus.objects.select_related("region").filter(is_active=True)
+    queryset = Campus.objects.select_related("region").filter(is_active=True, region__is_active=True)
     serializer_class = CampusSerializer
     permission_classes = [permissions.AllowAny]
 
 
 class AreaViewSet(CachedReferenceViewSet):
-    queryset = Area.objects.select_related("campus", "campus__region").filter(is_active=True)
+    queryset = Area.objects.select_related("campus", "campus__region").filter(
+        is_active=True,
+        campus__is_active=True,
+        campus__region__is_active=True,
+    )
     serializer_class = AreaSerializer
     permission_classes = [permissions.AllowAny]
 

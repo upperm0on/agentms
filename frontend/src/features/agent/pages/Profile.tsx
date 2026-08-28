@@ -9,6 +9,18 @@ import '../AgentPages.css'
 
 function AgentProfileForm({ current, props }: { current: Agent; props: AppProps }) {
   const [agent, setAgent] = useState(current)
+  const locationsByCampus = Object.entries(props.db.locations.filter((location) => location.active).reduce<Record<string, typeof props.db.locations>>((groups, location) => {
+    groups[location.campus] = [...(groups[location.campus] ?? []), location]
+    return groups
+  }, {}))
+  function toggleArea(areaId: string, areaLabel: string) {
+    const selected = agent.areaIds.includes(areaId)
+    setAgent({
+      ...agent,
+      areaIds: selected ? agent.areaIds.filter((id) => id !== areaId) : [...agent.areaIds, areaId],
+      areas: selected ? agent.areas.filter((name) => name !== areaLabel) : [...agent.areas, areaLabel],
+    })
+  }
   return (
     <div className="page">
       <div className="profile-actions"><button className="btn secondary" onClick={() => props.navigate(`/agents/${agent.id}`)}><Eye size={17} />View public page</button></div>
@@ -22,7 +34,7 @@ function AgentProfileForm({ current, props }: { current: Agent; props: AppProps 
               <Field label="Phone"><input value={agent.phone} onChange={(event) => setAgent({ ...agent, phone: event.target.value })} /></Field>
               <Field label="WhatsApp"><input value={agent.whatsapp} onChange={(event) => setAgent({ ...agent, whatsapp: event.target.value })} /></Field>
               <Field label="About your work" wide><textarea value={agent.bio} onChange={(event) => setAgent({ ...agent, bio: event.target.value })} rows={5} /></Field>
-              <Field label="Operating areas" wide><input value={agent.areas.join(', ')} onChange={(event) => setAgent({ ...agent, areas: event.target.value.split(',').map((item) => item.trim()) })} /></Field>
+              <Field label="Operating areas" wide><div className="location-choice-grid">{locationsByCampus.map(([campus, locations]) => <fieldset className="location-choice-group" key={campus}><legend>{campus}</legend>{locations.map((location) => <label className="location-choice" key={location.id}><input type="checkbox" checked={agent.areaIds.includes(location.id)} onChange={() => toggleArea(location.id, `${location.area} · ${location.campus}`)} /><span>{location.area}</span></label>)}</fieldset>)}</div></Field>
             </div>
           </FormSection>
           <div className="form-actions"><button className="btn primary">Save changes</button></div>

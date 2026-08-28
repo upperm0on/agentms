@@ -74,6 +74,9 @@ type ApiUser = {
   last_name: string
   name: string
   phone: string
+  whatsapp_number: string
+  primary_campus: string | null
+  primary_campus_detail: { id: string; name: string } | null
   role: 'student' | 'agent' | 'admin'
   is_email_verified: boolean
   status: 'active' | 'suspended'
@@ -82,6 +85,7 @@ type ApiUser = {
 
 type ApiArea = {
   id: string
+  campus: string
   campus_name: string
   campus_abbreviation: string
   city: string
@@ -138,6 +142,10 @@ type ApiListing = {
   last_confirmed_at: string | null
   created_at: string
   updated_at: string
+}
+
+type ApiProperty = {
+  id: string
 }
 
 type ApiInquiry = {
@@ -527,6 +535,68 @@ function apiVerification(status: Agent['verification']) {
   return status.toLowerCase()
 }
 
+function apiRoomType(value: string) {
+  const roomTypes: Record<string, string> = {
+    'Single': 'single',
+    'Single room': 'single',
+    '2 in room': 'two_in_room',
+    'Two in room': 'two_in_room',
+    '3 in room': 'three_in_room',
+    'Three in room': 'three_in_room',
+    '4 in room': 'four_in_room',
+    'Four in room': 'four_in_room',
+    'Private apartment': 'apartment',
+    'Apartment': 'apartment',
+    'Studio': 'studio',
+  }
+  return roomTypes[value] ?? value.toLowerCase().replaceAll(' ', '_')
+}
+
+function apiGender(value: string) {
+  const genders: Record<string, string> = {
+    'Any gender': 'unknown',
+    'Female only': 'female',
+    'Male only': 'male',
+    'Mixed': 'mixed',
+  }
+  return genders[value] ?? value.toLowerCase()
+}
+
+function listingPayload(listing: Listing, propertyId: string) {
+  return {
+    property: propertyId,
+    title: listing.title,
+    description: listing.description,
+    status: listing.status.toLowerCase(),
+    availability_status: listing.availability.toLowerCase(),
+    moderation_status: listing.moderation.toLowerCase(),
+    room_type: apiRoomType(listing.occupancy),
+    gender_restriction: apiGender(listing.gender),
+    capacity: listing.capacity,
+    available_slots: listing.slots,
+    price_amount: listing.price,
+    price_period: listing.period.toLowerCase().replaceAll(' ', '_'),
+  }
+}
+
+async function resolveListingProperty(listing: Listing, previous?: Listing) {
+  if (listing.propertyId && previous && previous.areaId === listing.areaId && previous.property === listing.property) {
+    return listing.propertyId
+  }
+  if (!listing.areaId) throw new Error('Select an admin-managed area before saving the listing.')
+  if (!listing.property.trim()) throw new Error('Enter a property name before saving the listing.')
+  const property = await apiFetch<ApiProperty>('/listings/properties/', 'agent', {
+    method: 'POST',
+    body: JSON.stringify({
+      name: listing.property.trim(),
+      area: listing.areaId,
+      property_type: 'hostel',
+      gender_policy: apiGender(listing.gender),
+    }),
+  })
+  return property.id
+}
+
 function mapUser(user: ApiUser): User {
   return {
     id: user.id,
@@ -542,6 +612,7 @@ function mapUser(user: ApiUser): User {
 function mapArea(area: ApiArea): Location {
   return {
     id: area.id,
+    campusId: area.campus,
     campus: area.campus_name,
     abbreviation: area.campus_abbreviation,
     city: area.city,
@@ -564,7 +635,8 @@ function mapAgent(agent: ApiAgent): Agent {
     phone: agent.phone,
     whatsapp: agent.whatsapp_number || agent.phone,
     bio: agent.bio,
-    areas: agent.operating_area_details?.map((area) => area.name) ?? [],
+    areas: agent.operating_area_details?.map((area) => `${area.name} · ${area.campus_name}`) ?? [],
+    areaIds: agent.operating_area_details?.map((area) => area.id) ?? [],
     verification: label(agent.verification_status) as Agent['verification'],
     verificationNotes: agent.verification_notes ?? '',
     responseRate: Number(agent.response_rate),
@@ -591,6 +663,8 @@ function mapListing(listing: ApiListing): Listing {
     title: listing.title,
     property: listing.property_detail.name,
     propertyId: listing.property,
+    campusId: area.campus,
+    areaId: area.id,
     campus: area.campus_name,
     area: area.name,
     price: Number(listing.price_amount),
@@ -757,10 +831,9 @@ export async function loadBackendDatabase(role: Role, filters: ListingFilters = 
       name: meApi.name,
       email: meApi.email,
       phone: meApi.phone,
-      whatsapp: meApi.phone,
-      campus: role === 'admin'
-        ? (areasApi[0] as ApiAdminLocation | undefined)?.campus ?? ''
-        : (areasApi[0] as ApiArea | undefined)?.campus_name ?? '',
+      whatsapp: meApi.whatsapp_number || meApi.phone,
+      campus: meApi.primary_campus_detail?.name ?? '',
+      campusId: meApi.primary_campus ?? '',
     } : fallback.profile,
   }
   if (useLocalListingFilters) {
@@ -819,8 +892,9 @@ export async function loadBackendListingsPage(role: Role = 'public', filters: Li
         name: meApi.name,
         email: meApi.email,
         phone: meApi.phone,
-        whatsapp: meApi.phone,
-        campus: '',
+        whatsapp: meApi.whatsapp_number || meApi.phone,
+        campus: meApi.primary_campus_detail?.name ?? '',
+        campusId: meApi.primary_campus ?? '',
       } : fallback.profile,
     }
     const payload = { database, next: page.next ?? null, count: page.count ?? null }
@@ -843,6 +917,23 @@ export async function loadBackendListingDetail(id: string, role: Role = 'public'
 }
 
 export async function persistBackendMutation(before: Database, after: Database, role: Role, options: { note?: string } = {}) {
+  if (role === 'student' && JSON.stringify(before.profile) !== JSON.stringify(after.profile)) {
+    const names = after.profile.name.trim().split(/\s+/)
+    await apiFetch('/auth/me/', 'student', {
+      method: 'PATCH',
+      body: JSON.stringify({
+        first_name: names.shift() ?? '',
+        last_name: names.join(' '),
+        email: after.profile.email,
+        phone: after.profile.phone,
+        whatsapp_number: after.profile.whatsapp,
+        primary_campus: after.profile.campusId || null,
+      }),
+    })
+    invalidateBackendDatabaseCache()
+    return
+  }
+
   const createdInquiry = after.inquiries.find((item) => !before.inquiries.some((existing) => existing.id === item.id))
   if (createdInquiry) {
     await apiFetch(`/inquiries/listings/${createdInquiry.listingId}/`, 'student', {
@@ -881,9 +972,57 @@ export async function persistBackendMutation(before: Database, after: Database, 
     return
   }
 
+  const createdListing = after.listings.find((item) => !before.listings.some((existing) => existing.id === item.id))
+  if (createdListing && role === 'agent') {
+    const propertyId = await resolveListingProperty(createdListing)
+    const savedListing = await apiFetch<ApiListing>('/listings/', 'agent', {
+      method: 'POST',
+      body: JSON.stringify(listingPayload(createdListing, propertyId)),
+    })
+    await apiFetch(`/listings/${savedListing.id}/refresh-availability/`, 'agent', {
+      method: 'POST',
+      body: JSON.stringify({
+        availability_status: createdListing.availability.toLowerCase(),
+        available_slots: createdListing.slots,
+      }),
+    })
+    if (createdListing.status === 'Published') {
+      await apiFetch(`/listings/${savedListing.id}/publish/`, 'agent', { method: 'POST' })
+    }
+    invalidateBackendDatabaseCache()
+    return
+  }
+
   for (const listing of after.listings) {
     const previous = before.listings.find((item) => item.id === listing.id)
     if (!previous) continue
+    const listingContentChanged = [
+      'title', 'property', 'areaId', 'price', 'period', 'occupancy', 'gender',
+      'capacity', 'slots', 'description', 'availability', 'status',
+    ].some((key) => previous[key as keyof Listing] !== listing[key as keyof Listing])
+    if (listingContentChanged && role === 'agent') {
+      const propertyId = await resolveListingProperty(listing, previous)
+      await apiFetch(`/listings/${listing.id}/`, 'agent', {
+        method: 'PATCH',
+        body: JSON.stringify(listingPayload(listing, propertyId)),
+      })
+      if (previous.availability !== listing.availability || previous.slots !== listing.slots) {
+        await apiFetch(`/listings/${listing.id}/refresh-availability/`, 'agent', {
+          method: 'POST',
+          body: JSON.stringify({
+            availability_status: listing.availability.toLowerCase(),
+            available_slots: listing.slots,
+          }),
+        })
+      }
+      if (previous.status !== listing.status && listing.status === 'Published') {
+        await apiFetch(`/listings/${listing.id}/publish/`, 'agent', { method: 'POST' })
+      } else if (previous.status !== listing.status && listing.status === 'Unpublished') {
+        await apiFetch(`/listings/${listing.id}/unpublish/`, 'agent', { method: 'POST' })
+      }
+      invalidateBackendDatabaseCache()
+      return
+    }
     if (previous.saved !== listing.saved && listing.saved) {
       await apiFetch('/listings/saved/', 'student', {
         method: 'POST',
@@ -944,6 +1083,21 @@ export async function persistBackendMutation(before: Database, after: Database, 
 
   for (const agent of after.agents) {
     const previous = before.agents.find((item) => item.id === agent.id)
+    if (previous && role === 'agent' && JSON.stringify(previous) !== JSON.stringify(agent)) {
+      await apiFetch('/agents/me/', 'agent', {
+        method: 'PATCH',
+        body: JSON.stringify({
+          display_name: agent.name,
+          business_name: agent.business,
+          phone: agent.phone,
+          whatsapp_number: agent.whatsapp,
+          bio: agent.bio,
+          operating_areas: agent.areaIds,
+        }),
+      })
+      invalidateBackendDatabaseCache()
+      return
+    }
     if (previous && previous.verification !== agent.verification) {
       await apiFetch(`/admin/agents/${agent.id}/verification/`, 'admin', {
         method: 'PATCH',
